@@ -9,6 +9,7 @@ import { Box, Stack, Link, Card, Button, Divider, Typography, CardHeader } from 
 // utils
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../../pages/Constant1';
 import { mockImgCover } from '../../../utils/mockImages';
 //
 import Scrollbar from '../../Scrollbar';
@@ -62,7 +63,7 @@ function NewsItem({ news }) {
 export default function NewsUpdate() {
   const [newupdate, setnewupdate] = useState([]);
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/GetNewRequest').then((Response) => {
+    axios.get('${}/GetNewRequest').then((Response) => {
       setnewupdate(Response.data);
     });
   });

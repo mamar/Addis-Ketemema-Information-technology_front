@@ -9,6 +9,7 @@ import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
+import { API_URL } from '../../../pages/Constant1';
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +44,7 @@ const TOTAL = 234;
 export default function TotalPhotocopy() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/CountPhotocopy').then((Response) => {
+    axios.get(`${API_URL}/CountPhotocopy`).then((Response) => {
       setcount(Response.data);
     });
   });

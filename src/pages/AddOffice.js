@@ -9,7 +9,7 @@ import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
 import AuthSocial from '../components/authentication/AuthSocial';
 import { Officeform } from '../components/authentication/office';
-import { Constant } from './Constant';
+import { Constant } from './Constant1';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({

@@ -15,6 +15,7 @@ import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import { API_URL } from '../../../pages/Constant1';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +43,7 @@ export default function Editprofileform() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .patch(`127.0.0.1:8080/Updateusers/${users.user[0].username}`, {
+        .patch(`${API_URL}/Updateusers/${users.user[0].username}`, {
           office_id: data.office_id,
           user_fullname: data.user_fullname,
           Position: data.Position,
@@ -64,7 +65,7 @@ export default function Editprofileform() {
   });
   const [officelist, setofficelist] = useState([]);
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/GetOffice').then((Response) => {
+    axios.get(`${API_URL}/GetOffice`).then((Response) => {
       setofficelist(Response.data);
     });
   });

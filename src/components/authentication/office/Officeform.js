@@ -24,6 +24,7 @@ import axios from 'axios';
 import { width } from '@mui/system';
 // material
 import { styled } from '@mui/material/styles';
+import { API_URL } from '../../../pages/Constant1';
 // layouts
 // components
 // ----------------------------------------------------------------------
@@ -47,7 +48,7 @@ export default function Officeform() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post('http://127.0.0.1:8080/AddOffice', {
+        .post(`${API_URL}/AddOffice`, {
           office_name: data.office_name,
           floor_no: data.floor_no,
           phone: data.phone

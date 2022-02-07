@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import SensorsIcon from '@mui/icons-material/Sensors';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
+import { API_URL } from '../../../pages/Constant1';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +43,7 @@ const TOTAL = 234;
 export default function TotalNetwork() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/CountNetwork').then((Response) => {
+    axios.get('${}/CountNetwork').then((Response) => {
       setcount(Response.data);
     });
   });

@@ -15,6 +15,7 @@ import {
   OutlinedInput,
   InputAdornment
 } from '@mui/material';
+import { API_URL } from '../../../pages/Constant1';
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +49,7 @@ OfficeListToolbar.propTypes = {
 
 export default function OfficeListToolbar({ numSelected, filterName, onFilterName }) {
   const deleteoffice = (officeid) => {
-    axios.delete(`http://127.0.0.1:8080/DeleteOffice/${officeid}`).then((response) => {
+    axios.delete(`${API_URL}/DeleteOffice/${officeid}`).then((response) => {
       alert('Deleted Successfully');
     });
   };

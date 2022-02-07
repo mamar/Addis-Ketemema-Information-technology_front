@@ -15,6 +15,7 @@ import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import { API_URL } from '../../../pages/Constant1';
 
 // ----------------------------------------------------------------------
 
@@ -55,7 +56,7 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post('http://127.0.0.1:8080/Register', {
+        .post(`${API_URL}/Register`, {
           office_id: data.office_id,
           username: data.username,
           ROLES: data.ROLES,
@@ -84,7 +85,7 @@ export default function RegisterForm() {
   });
   const [officelist, setofficelist] = useState([]);
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/GetOffice').then((Response) => {
+    axios.get(`${API_URL}/GetOffice`).then((Response) => {
       setofficelist(Response.data);
     });
   });

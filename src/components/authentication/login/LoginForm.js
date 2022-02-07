@@ -21,6 +21,7 @@ import {
   FormControlLabel
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { API_URL } from '../../../pages/Constant1';
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
@@ -48,7 +49,7 @@ export default function LoginForm() {
     validationSchema: LoginSchema,
     onSubmit: (data) => {
       axios
-        .post('http://127.0.0.1:8080/Login', {
+        .post(`${API_URL}/Login`, {
           username: data.username,
           password: data.password
         })

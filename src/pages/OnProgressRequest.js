@@ -27,6 +27,7 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
+import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'userid', label: 'username', alignRight: false },
@@ -86,7 +87,7 @@ export default function OnProgressRequest() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/Onprogress').then((Response) => {
+    axios.get(`${API_URL}/Onprogress`).then((Response) => {
       SetRequestList(Response.data);
     });
   });

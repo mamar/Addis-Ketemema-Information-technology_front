@@ -7,6 +7,7 @@ import { Card, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { fShortenNumber } from '../../../utils/formatNumber';
+import { API_URL } from '../../../pages/Constant1';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -40,7 +41,7 @@ const TOTAL = 1352831;
 export default function TotalSolutionOffered() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/CountSolutionOffered').then((Response) => {
+    axios.get(`${API_URL}/CountSolutionOffered`).then((Response) => {
       setcount(Response.data);
     });
   });

@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import SensorsIcon from '@mui/icons-material/Sensors';
 // utils
+import { API_URL } from '../../../pages/Constant1';
 import { fShortenNumber } from '../../../utils/formatNumber';
 
 // ----------------------------------------------------------------------
@@ -39,10 +40,11 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 const TOTAL = 234;
 
+
 export default function TotalOthers() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/CountOthers').then((Response) => {
+    axios.get(`${API_URL}/CountOthers`).then((Response) => {
       setcount(Response.data);
     });
   });
