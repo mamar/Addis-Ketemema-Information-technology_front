@@ -37,6 +37,7 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
 import USERLIST from '../_mocks_/user';
 import Register from './Register';
+import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -95,12 +96,12 @@ export default function User() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const Deletuser = (userid) => {
-    axios.delete(`http://127.0.0.1:8080/Deleteusers/${userid}`).then((response) => {
+    axios.delete(`${API_URL}/Deleteusers/${userid}`).then((response) => {
       alert('Deleted Successfully');
     });
   };
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/Getusers').then((Response) => {
+    axios.get(`${API_URL}/Getusers`).then((Response) => {
       SetuserList(Response.data);
     });
   });

@@ -38,6 +38,7 @@ import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
 import Officeform from '../components/authentication/office/Officeform';
+import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'officename', label: 'office_name', alignRight: false },
@@ -91,12 +92,12 @@ export default function Office() {
   const [isOpen, setIsOpen] = useState(false);
 
   const deleteoffice = (officeid) => {
-    axios.delete(`http://127.0.0.1:8080/DeleteOffice/${officeid}`).then((response) => {
+    axios.delete(`${API_URL}/DeleteOffice/${officeid}`).then((response) => {
       alert('Deleted Successfully');
     });
   };
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/GetOffice').then((Response) => {
+    axios.get(`${API_URL}/GetOffice`).then((Response) => {
       setofficelist(Response.data);
     });
   });

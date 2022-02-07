@@ -31,6 +31,7 @@ import { mockImgAvatar } from '../../utils/mockImages';
 // components
 import Scrollbar from '../../components/Scrollbar';
 import MenuPopover from '../../components/MenuPopover';
+import { API_URL } from '../../pages/Constant1';
 
 // ----------------------------------------------------------------------
 
@@ -172,7 +173,7 @@ export default function NotificationsPopover() {
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/GetNewRequest').then((Response) => {
+    axios.get(`${API_URL}/GetNewRequest`).then((Response) => {
       // setNotifications(Response.data);
     });
   });

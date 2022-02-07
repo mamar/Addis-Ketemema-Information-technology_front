@@ -27,7 +27,7 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
-import { Constant } from './Constant1';
+import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'requesterusername', label: 'requested by', alignRight: false },
@@ -87,7 +87,7 @@ export default function AllRequest() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [requestList, SetRequestList] = useState([]);
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/GetAllRequest').then((Response) => {
+    axios.get(`${API_URL}/GetAllRequest`).then((Response) => {
       SetRequestList(Response.data);
     });
   });

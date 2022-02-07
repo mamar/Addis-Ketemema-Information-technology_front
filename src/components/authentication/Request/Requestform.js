@@ -9,13 +9,14 @@ import axios from 'axios';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { API_URL } from '../../../pages/Constant1';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
   const [officelist, setofficelist] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
   useEffect(() => {
-    axios.get('http://127.0.0.1:8080/GetOffice').then((Response) => {
+    axios.get(`${API_URL}/GetOffice`).then((Response) => {
       setofficelist(Response.data);
     });
   });
@@ -40,7 +41,7 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${'http://127.0.0.1:8080/AddRequest/'}${users.user[0].username}`, {
+        .post(`${API_URL}/AddRequest/}${users.user[0].username}`, {
           division: data.division,
           floor_no: data.floor_no,
           office_no: data.office_no,

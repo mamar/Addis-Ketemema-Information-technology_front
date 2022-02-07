@@ -35,6 +35,7 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
+import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'office_name', label: 'office', alignRight: false },
@@ -95,14 +96,12 @@ export default function AssignedRequest() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    axios
-      .get(`http://127.0.0.1:8080/GetProgressTask/${users.user[0].username}`)
-      .then((Response) => {
-        SetRequestList(Response.data);
-      });
+    axios.get(`${API_URL}/GetProgressTask/${users.user[0].username}`).then((Response) => {
+      SetRequestList(Response.data);
+    });
   });
   const finishTask = (taskid) => {
-    axios.put(`http://127.0.0.1:8080/finishTask/${taskid}`).then((response) => {
+    axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
       if (response.data.Message === 'Error') {
         alert('Server Error');
       }

@@ -27,6 +27,7 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
+import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'office_name', label: 'office', alignRight: false },
@@ -89,17 +90,15 @@ export default function SolutionofferedRequest() {
   // eslint-disable-next-line camelcase
   const deleteoffice = (office_id) => {
     // eslint-disable-next-line camelcase
-    axios.delete(`http://127.0.0.1:8080/DeleteOffice/${office_id}`).then((response) => {
+    axios.delete(`${API_URL}/DeleteOffice/${office_id}`).then((response) => {
       alert('Deleted Successfully');
     });
   };
   useEffect(() => {
-    axios
-      .get(`http://127.0.0.1:8080/finishedTasksbyUser/${users.user[0].username}`)
-      .then((Response) => {
-        SetRequestList(Response.data);
-        console.log(Response.data);
-      });
+    axios.get(`${API_URL}/finishedTasksbyUser/${users.user[0].username}`).then((Response) => {
+      SetRequestList(Response.data);
+      console.log(Response.data);
+    });
   });
   const request = [...Array(24)].map((_, index) => ({
     request_id: requestList.request_id,
