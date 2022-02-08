@@ -266,6 +266,9 @@ export default function Satisfaction() {
                           <TableCell align="left">{row.Date}</TableCell>
                           <TableCell align="left">{row.assignedDate}</TableCell>
                           <TableCell align="left">{row.finsihedDate}</TableCell>
+                          if({row.status}==='finished' || {row.status}==='New' )
+                          <TableCell align="left">{row.satisfaction}</TableCell>
+                          if({row.status}==='')
                           <TextField align="left">{row.satisfaction}</TextField>
                           <TableCell align="left">{row.status}</TableCell>
                           <TableCell align="right">
