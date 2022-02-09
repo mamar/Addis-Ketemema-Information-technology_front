@@ -1,4 +1,4 @@
-import { Navigate, useRoutes, Route } from 'react-router-dom';
+import { Navigate, useRoutes, useNavigate, Route } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
@@ -21,9 +21,28 @@ import AddOffice from './pages/AddOffice';
 import Performance from './pages/Performance';
 import Editprofile from './pages/Editprofile';
 import Satisfaction from './pages/Satisfaction';
+import App from './App';
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const Admin = JSON.parse(localStorage.getItem('userinfo'));
+  const user = () => {
+    if (Admin.user[0].ROLES === 'Admin') {
+      Navigate('/dashboard', { replace: true });
+    }
+  };
+  const ShopGuardRoute = ({ component: Component, ...props }) => (
+    <Route
+      {...props}
+      render={(routeProps) => {
+        const item = JSON.parse(localStorage.getItem('userinfo'));
+
+        // Do all your conditional tests here
+        return user !== null ? <Component {...routeProps} /> : <Navigate to="/login" />;
+      }}
+    />
+  );
+
   return useRoutes([
     {
       path: '/dashboard',

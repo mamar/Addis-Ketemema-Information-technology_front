@@ -82,102 +82,114 @@ const NOTIFICATIONS = [
     isUnRead: false
   }
 ];
-
-function renderContent(notification) {
-  const title = (
-    <Typography variant="subtitle2">
-      {notification.title}
-      <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-        &nbsp; {noCase(notification.description)}
-      </Typography>
-    </Typography>
-  );
-
-  if (notification.type === 'order_placed') {
-    return {
-      avatar: <img alt={notification.title} src="/static/icons/ic_notification_package.svg" />,
-      title
-    };
-  }
-  if (notification.type === 'order_shipped') {
-    return {
-      avatar: <img alt={notification.title} src="/static/icons/ic_notification_shipping.svg" />,
-      title
-    };
-  }
-  if (notification.type === 'mail') {
-    return {
-      avatar: <img alt={notification.title} src="/static/icons/ic_notification_mail.svg" />,
-      title
-    };
-  }
-  if (notification.type === 'chat_message') {
-    return {
-      avatar: <img alt={notification.title} src="/static/icons/ic_notification_chat.svg" />,
-      title
-    };
-  }
-  return {
-    avatar: <img alt={notification.title} src={notification.avatar} />,
-    title
-  };
-}
-
-NotificationItem.propTypes = {
-  notification: PropTypes.object.isRequired
-};
-
-function NotificationItem({ notification }) {
-  const { avatar, title } = renderContent(notification);
-
-  return (
-    <ListItemButton
-      to="#"
-      disableGutters
-      component={RouterLink}
-      sx={{
-        py: 1.5,
-        px: 2.5,
-        mt: '1px',
-        ...(notification.isUnRead && {
-          bgcolor: 'action.selected'
-        })
-      }}
-    >
-      <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }}>{avatar}</Avatar>
-      </ListItemAvatar>
-      <ListItemText
-        primary={title}
-        secondary={
-          <Typography
-            variant="caption"
-            sx={{
-              mt: 0.5,
-              display: 'flex',
-              alignItems: 'center',
-              color: 'text.disabled'
-            }}
-          >
-            <Box component={Icon} icon={clockFill} sx={{ mr: 0.5, width: 16, height: 16 }} />
-            {formatDistanceToNow(new Date(notification.createdAt))}
-          </Typography>
-        }
-      />
-    </ListItemButton>
-  );
-}
-
 export default function NotificationsPopover() {
+  function renderContent(notification) {
+    const title = (
+      <Typography variant="subtitle2">
+        {notification.title}
+        <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
+          &nbsp; {noCase(notification.request_type)}
+        </Typography>
+      </Typography>
+    );
+
+    if (notification.type === 'Computer') {
+      return {
+        avatar: <img alt={notification.title} src="/static/icons/ic_notification_package.svg" />,
+        title
+      };
+    }
+    if (notification.type === 'Printer') {
+      return {
+        avatar: <img alt={notification.title} src="/static/icons/ic_notification_shipping.svg" />,
+        title
+      };
+    }
+    if (notification.type === 'Network') {
+      return {
+        avatar: <img alt={notification.title} src="/static/icons/ic_notification_mail.svg" />,
+        title
+      };
+    }
+    if (notification.type === 'Photocopy') {
+      return {
+        avatar: <img alt={notification.title} src="/static/icons/ic_notification_chat.svg" />,
+        title
+      };
+    }
+    if (notification.type === 'Software') {
+      return {
+        avatar: <img alt={notification.title} src="/static/icons/ic_notification_chat.svg" />,
+        title
+      };
+    }
+    if (notification.type === 'Others') {
+      return {
+        avatar: <img alt={notification.title} src="/static/icons/ic_notification_chat.svg" />,
+        title
+      };
+    }
+    return {
+      avatar: <img alt={notification.title} src={notification.avatar} />,
+      title
+    };
+  }
+
+  NotificationItem.propTypes = {
+    notification: PropTypes.object.isRequired
+  };
+
+  function NotificationItem({ notification }) {
+    const { avatar, title } = renderContent(notification);
+
+    return (
+      <ListItemButton
+        to="#"
+        disableGutters
+        component={RouterLink}
+        sx={{
+          py: 1.5,
+          px: 2.5,
+          mt: '1px',
+          ...(notification.isUnRead && {
+            bgcolor: 'action.selected'
+          })
+        }}
+      >
+        <ListItemAvatar>
+          <Avatar sx={{ bgcolor: 'background.neutral' }}>{avatar}</Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={title}
+          secondary={
+            <Typography
+              variant="caption"
+              sx={{
+                mt: 0.5,
+                display: 'flex',
+                alignItems: 'center',
+                color: 'text.disabled'
+              }}
+            >
+              <Box component={Icon} icon={clockFill} sx={{ mr: 0.5, width: 16, height: 16 }} />
+              {notification.problem_desc}
+              {notification.Date}
+            </Typography>
+          }
+        />
+      </ListItemButton>
+    );
+  }
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
+  const [requestnotification, setNewRequest] = useState([]);
   useEffect(() => {
     axios.get(`${API_URL}/GetNewRequest`).then((Response) => {
-      // setNotifications(Response.data);
+      setNewRequest(Response.data);
     });
   });
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  const totalUnRead = requestnotification.length;
 
   const handleOpen = () => {
     setOpen(true);
@@ -188,8 +200,8 @@ export default function NotificationsPopover() {
   };
 
   const handleMarkAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({
+    setNewRequest(
+      requestnotification.map((notification) => ({
         ...notification,
         isUnRead: false
       }))
@@ -224,7 +236,7 @@ export default function NotificationsPopover() {
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant="subtitle1">Notifications</Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              You have {totalUnRead} unread messages
+              {totalUnRead} New Requests
             </Typography>
           </Box>
 
@@ -248,8 +260,8 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {notifications.slice(0, 2).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
+            {requestnotification.slice(0, 2).map((notification) => (
+              <NotificationItem key={notification.request_id} notification={notification} />
             ))}
           </List>
 
@@ -261,8 +273,8 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {notifications.slice(2, 5).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
+            {requestnotification.slice(2, 5).map((notification) => (
+              <NotificationItem key={notification.request_id} notification={notification} />
             ))}
           </List>
         </Scrollbar>

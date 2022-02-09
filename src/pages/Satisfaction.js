@@ -26,7 +26,8 @@ import {
   IconButton,
   ListItemIcon,
   ListItemText,
-  TextField
+  TextField,
+  Box
 } from '@mui/material';
 // components
 import editFill from '@iconify/icons-eva/edit-fill';
@@ -99,6 +100,24 @@ export default function Satisfaction() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [satisfaction1, setsatisfaction] = useState([]);
+  const hundleSatisfaction = (taskid, satisfaction) => {
+    axios
+      .post(`${API_URL}/SendSatsfaction/${taskid}`, {
+        satisfaction: satisfaction1
+      })
+      .then((response) => {
+        if (response.Message === 'success') {
+          alert('Satisfaction Send Successfully');
+          console.log(satisfaction);
+        }
+        if (response.Message === 'error') {
+          alert('Server error');
+          console.log(response);
+          console.log(satisfaction);
+        }
+      });
+  };
   useEffect(() => {
     axios.get(`${API_URL}/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
@@ -108,6 +127,7 @@ export default function Satisfaction() {
     axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
       if (response.data.Message === 'Error') {
         alert('Server Error');
+        console.log(response);
       }
       if (response.data.Message === 'Success') {
         console.log(response);
@@ -241,7 +261,6 @@ export default function Satisfaction() {
                     .map((row) => {
                       const { status } = row;
                       const isItemSelected = selected.indexOf(status) !== -1;
-
                       return (
                         <TableRow
                           hover
@@ -266,11 +285,13 @@ export default function Satisfaction() {
                           <TableCell align="left">{row.Date}</TableCell>
                           <TableCell align="left">{row.assignedDate}</TableCell>
                           <TableCell align="left">{row.finsihedDate}</TableCell>
-                          if({row.status}==='finished' || {row.status}==='New' )
-                          <TableCell align="left">{row.satisfaction}</TableCell>
-                          if({row.status}==='')
-                          <TextField align="left">{row.satisfaction}</TextField>
                           <TableCell align="left">{row.status}</TableCell>
+
+                          <TextField
+                            align="left"
+                            onChange={(e) => setsatisfaction(e.target.value)}
+                          />
+
                           <TableCell align="right">
                             <IconButton ref={ref} onClick={() => setIsOpen(true)}>
                               <Icon icon={moreVerticalFill} width={20} height={20} />
@@ -288,7 +309,7 @@ export default function Satisfaction() {
                             >
                               <MenuItem
                                 sx={{ color: 'text.secondary' }}
-                                onClick={() => finishTask(row.request_id)}
+                                onClick={() => hundleSatisfaction(row.request_id)}
                               >
                                 <ListItemIcon>
                                   <Icon icon={trash2Outline} width={24} height={24} />
