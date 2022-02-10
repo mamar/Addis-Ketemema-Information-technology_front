@@ -29,10 +29,12 @@ import {
   TextField,
   Box
 } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
 // components
 import editFill from '@iconify/icons-eva/edit-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+import Select from '@mui/material/Select';
 import { MHidden } from '../components/@material-extend';
 import Page from '../components/Page';
 import Label from '../components/Label';
@@ -55,8 +57,8 @@ const TABLE_HEAD = [
   { id: 'Date', label: 'Request Date', alignRight: false },
   { id: 'assignedDate', label: 'AssignedDate', alignRight: false },
   { id: 'finisheDate', label: 'FinishedDate', alignRight: false },
-  { id: 'Satisfaction', label: 'Satisfaction', alignRight: false },
   { id: 'Status', label: 'Status', alignRight: false },
+  { id: 'Satisfaction', label: 'Satisfaction', alignRight: false },
   { id: '' }
 ];
 
@@ -102,20 +104,22 @@ export default function Satisfaction() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [satisfaction1, setsatisfaction] = useState([]);
-  const hundleSatisfaction = (taskid, satisfaction) => {
+  const hundleSatisfaction = (requestid) => {
     axios
-      .post(`${API_URL}/SendSatsfaction/${taskid}`, {
+      .patch(`${API_URL}/SendSatsfaction/${requestid}`, {
         satisfaction: satisfaction1
       })
       .then((response) => {
         if (response.Message === 'success') {
           alert('Satisfaction Send Successfully');
-          console.log(satisfaction);
+          window.location.reload();
+          console.log(satisfaction1);
         }
         if (response.Message === 'error') {
           alert('Server error');
           console.log(response);
-          console.log(satisfaction);
+          console.log(satisfaction1);
+          window.location.reload();
         }
       });
   };
@@ -213,7 +217,7 @@ export default function Satisfaction() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Assigned Request">
+    <Page title="Satisfaction">
       <EmployeAuth>
         <DashboardNavbar />
       </EmployeAuth>
@@ -235,6 +239,7 @@ export default function Satisfaction() {
           >
             Send Request
           </Button>
+          <TextField align="left" onChange={(e) => setsatisfaction(e.target.value)} />
         </Stack>
 
         <Card>
@@ -287,12 +292,7 @@ export default function Satisfaction() {
                           <TableCell align="left">{row.assignedDate}</TableCell>
                           <TableCell align="left">{row.finsihedDate}</TableCell>
                           <TableCell align="left">{row.status}</TableCell>
-
-                          <TextField
-                            align="left"
-                            onChange={(e) => setsatisfaction(e.target.value)}
-                          />
-
+                          <br />
                           <TableCell align="right">
                             <IconButton ref={ref} onClick={() => setIsOpen(true)}>
                               <Icon icon={moreVerticalFill} width={20} height={20} />
@@ -310,8 +310,7 @@ export default function Satisfaction() {
                             >
                               <MenuItem
                                 sx={{ color: 'text.secondary' }}
-                                component={RouterLink}
-                                to={`/AddSatisfaction/${row.request_id}`}
+                                onclick={hundleSatisfaction(row.request_id)}
                               >
                                 <ListItemIcon>
                                   <Icon icon={trash2Outline} width={24} height={24} />
