@@ -1,4 +1,4 @@
-import { filter } from 'lodash';
+import { add, filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
@@ -43,6 +43,7 @@ import SendRequest from './SendRequest';
 import EmployeAuth from '../layouts/EmployeAuth';
 import DashboardNavbar from '../layouts/dashboard/DashboardNavbar';
 import { API_URL } from './Constant1';
+import { AddSatisfaction } from '../components/authentication/Request';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'user_fullname', label: 'Assigned by', alignRight: false },
@@ -309,13 +310,14 @@ export default function Satisfaction() {
                             >
                               <MenuItem
                                 sx={{ color: 'text.secondary' }}
-                                onClick={() => hundleSatisfaction(row.request_id)}
+                                component={RouterLink}
+                                to={`/AddSatisfaction/${row.request_id}`}
                               >
                                 <ListItemIcon>
                                   <Icon icon={trash2Outline} width={24} height={24} />
                                 </ListItemIcon>
                                 <ListItemText
-                                  primary="Send"
+                                  primary="Satisfaction"
                                   primaryTypographyProps={{ variant: 'body2' }}
                                 />
                               </MenuItem>

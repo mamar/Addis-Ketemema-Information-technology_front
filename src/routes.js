@@ -1,5 +1,6 @@
 import { Navigate, useRoutes, useNavigate, Route } from 'react-router-dom';
 // layouts
+import { useState } from 'react';
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
@@ -22,26 +23,14 @@ import Performance from './pages/Performance';
 import Editprofile from './pages/Editprofile';
 import Satisfaction from './pages/Satisfaction';
 import App from './App';
+import { AddSatisfaction } from './components/authentication/Request';
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const Admin = JSON.parse(localStorage.getItem('userinfo'));
-  const user = () => {
-    if (Admin.user[0].ROLES === 'Admin') {
-      Navigate('/dashboard', { replace: true });
-    }
-  };
-  const ShopGuardRoute = ({ component: Component, ...props }) => (
-    <Route
-      {...props}
-      render={(routeProps) => {
-        const item = JSON.parse(localStorage.getItem('userinfo'));
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  const [Storage, setstorage] = useState(users);
 
-        // Do all your conditional tests here
-        return user !== null ? <Component {...routeProps} /> : <Navigate to="/login" />;
-      }}
-    />
-  );
+  const privateRoute = (children) => (Storage ? children : <Navigate to="/login" />);
 
   return useRoutes([
     {
@@ -49,8 +38,22 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to="/dashboard/app" replace /> },
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'Office', element: <Office /> },
+        {
+          path: 'app',
+          element: (
+            <privateRoute>
+              <DashboardApp />
+            </privateRoute>
+          )
+        },
+        {
+          path: 'Office',
+          element: (
+            <privateRoute>
+              <Office />
+            </privateRoute>
+          )
+        },
         { path: 'user', element: <User /> },
         { path: 'AllRequest', element: <AllRequest /> },
         { path: 'NewRequest', element: <NewRequest /> },
@@ -75,6 +78,7 @@ export default function Router() {
     { path: 'login', element: <Login /> },
     { path: 'SendRequest', element: <SendRequest /> },
     { path: 'EditProfile', element: <Editprofile /> },
-    { path: 'satisfaction', element: <Satisfaction /> }
+    { path: 'satisfaction', element: <Satisfaction /> },
+    { path: 'AddSatisfaction', element: <AddSatisfaction /> }
   ]);
 }
