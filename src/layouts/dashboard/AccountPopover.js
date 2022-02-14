@@ -42,6 +42,14 @@ export default function AccountPopover() {
   const navigate = useNavigate();
   const [userlist, setuserlist] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
+  const userhundle = () => {
+    if (users != null) {
+      return users.user[0].username;
+    }
+    if (users == null) {
+      return null;
+    }
+  };
   const handleLogout = (e) => {
     axios.get('http://localhost:8080/logout').then((response) => {
       navigate('/Login', { replace: true });
@@ -92,7 +100,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {users.user[0].username}
+            {userhundle}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             Welcome

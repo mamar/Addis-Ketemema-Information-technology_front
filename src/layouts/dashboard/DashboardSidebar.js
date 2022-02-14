@@ -44,6 +44,14 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const users = JSON.parse(localStorage.getItem('userinfo'));
+  const userhundle = () => {
+    if (users != null) {
+      return users.user[0].user_fullname;
+    }
+    if (users == null) {
+      return null;
+    }
+  };
   useEffect(() => {
     if (isOpenSidebar) {
       onCloseSidebar();
@@ -70,7 +78,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {users.user[0].user_fullname}
+                {userhundle}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {account.role}

@@ -24,34 +24,36 @@ import Editprofile from './pages/Editprofile';
 import Satisfaction from './pages/Satisfaction';
 import App from './App';
 import SendSatisfaction from './pages/SendSatisfaction';
+import PrivateRoute from './components/authentication/Redirect/PrivateRoute';
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const [Storage, setstorage] = useState(users);
-  const privateRoute = (children) => (Storage ? children : <Navigate to="/login" />);
-
   return useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: (
+        <PrivateRoute>
+          <DashboardLayout />
+        </PrivateRoute>
+      ),
       children: [
-        { element: <Navigate to="/dashboard/app" replace /> },
         {
-          path: 'app',
           element: (
-            <privateRoute>
-              <DashboardApp />
-            </privateRoute>
+            <PrivateRoute>
+              <Navigate to="/dashboard/app" replace />
+            </PrivateRoute>
           )
         },
         {
+          path: 'app',
+          element: <DashboardApp />
+        },
+        {
           path: 'Office',
-          element: (
-            <privateRoute>
-              <Office />
-            </privateRoute>
-          )
+          element: <Office />
         },
         { path: 'user', element: <User /> },
         { path: 'AllRequest', element: <AllRequest /> },
@@ -65,7 +67,11 @@ export default function Router() {
     },
     {
       path: '/',
-      element: <LogoOnlyLayout />,
+      element: (
+        <PrivateRoute>
+          <LogoOnlyLayout />
+        </PrivateRoute>
+      ),
       children: [
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
@@ -74,10 +80,41 @@ export default function Router() {
       ]
     },
     { path: '*', element: <Navigate to="/404" replace /> },
-    { path: 'login', element: <Login /> },
-    { path: 'SendRequest', element: <SendRequest /> },
-    { path: 'EditProfile', element: <Editprofile /> },
-    { path: 'satisfaction', element: <Satisfaction /> },
-    { path: 'AddSatisfaction/:request_id', element: <SendSatisfaction /> }
+    {
+      path: 'login',
+      element: <Login />
+    },
+    {
+      path: 'SendRequest',
+      element: (
+        <PrivateRoute>
+          <SendRequest />
+        </PrivateRoute>
+      )
+    },
+    {
+      path: 'EditProfile',
+      element: (
+        <PrivateRoute>
+          <Editprofile />
+        </PrivateRoute>
+      )
+    },
+    {
+      path: 'satisfaction',
+      element: (
+        <PrivateRoute>
+          <Satisfaction />
+        </PrivateRoute>
+      )
+    },
+    {
+      path: 'AddSatisfaction/:request_id',
+      element: (
+        <PrivateRoute>
+          <SendSatisfaction />
+        </PrivateRoute>
+      )
+    }
   ]);
 }
