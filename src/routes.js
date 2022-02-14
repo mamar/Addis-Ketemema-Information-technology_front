@@ -23,13 +23,12 @@ import Performance from './pages/Performance';
 import Editprofile from './pages/Editprofile';
 import Satisfaction from './pages/Satisfaction';
 import App from './App';
-import { AddSatisfaction } from './components/authentication/Request';
+import SendSatisfaction from './pages/SendSatisfaction';
 // ----------------------------------------------------------------------
 
 export default function Router() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const [Storage, setstorage] = useState(users);
-
   const privateRoute = (children) => (Storage ? children : <Navigate to="/login" />);
 
   return useRoutes([
@@ -79,6 +78,6 @@ export default function Router() {
     { path: 'SendRequest', element: <SendRequest /> },
     { path: 'EditProfile', element: <Editprofile /> },
     { path: 'satisfaction', element: <Satisfaction /> },
-    { path: 'AddSatisfaction', element: <AddSatisfaction /> }
+    { path: 'AddSatisfaction/:request_id', element: <SendSatisfaction /> }
   ]);
 }

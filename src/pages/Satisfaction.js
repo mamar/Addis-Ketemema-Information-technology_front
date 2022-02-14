@@ -104,25 +104,6 @@ export default function Satisfaction() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [satisfaction1, setsatisfaction] = useState([]);
-  const hundleSatisfaction = (requestid) => {
-    axios
-      .patch(`${API_URL}/SendSatsfaction/${requestid}`, {
-        satisfaction: satisfaction1
-      })
-      .then((response) => {
-        if (response.Message === 'success') {
-          alert('Satisfaction Send Successfully');
-          window.location.reload();
-          console.log(satisfaction1);
-        }
-        if (response.Message === 'error') {
-          alert('Server error');
-          console.log(response);
-          console.log(satisfaction1);
-          window.location.reload();
-        }
-      });
-  };
   useEffect(() => {
     axios.get(`${API_URL}/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
@@ -310,7 +291,8 @@ export default function Satisfaction() {
                             >
                               <MenuItem
                                 sx={{ color: 'text.secondary' }}
-                                onclick={hundleSatisfaction(row.request_id)}
+                                component={RouterLink}
+                                to={`/AddSatisfaction/${row.request_id}`}
                               >
                                 <ListItemIcon>
                                   <Icon icon={trash2Outline} width={24} height={24} />
