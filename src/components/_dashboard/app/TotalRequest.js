@@ -35,9 +35,6 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
-const TOTAL = 714000;
-
 export default function TotalRequest() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {

@@ -48,6 +48,7 @@ const TABLE_HEAD = [
   { id: 'Position', label: 'Position', alignRight: false },
   { id: 'Roles', label: 'Roles', alignRight: false },
   { id: 'office_name', label: 'office_name', alignRight: false },
+  { id: 'status1', label: 'status', alignRight: false },
   { id: '' }
 ];
 
@@ -95,6 +96,26 @@ export default function User() {
   const [userlist, SetuserList] = useState([]);
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const blockuser = (userid) => {
+    axios.put(`${API_URL}/blockuser/${userid}`).then((response) => {
+      if (response.Message === 'blocked') {
+        alert('user Blocked ');
+      }
+      if (response.Message === 'allready blocked') {
+        alert('Warning allready blocked');
+      }
+    });
+  };
+  const unblockuser = (userid) => {
+    axios.put(`${API_URL}/unblockuser/${userid}`).then((response) => {
+      if (response.Message === 'ublocked') {
+        alert('user Unblocked ');
+      }
+      if (response.Message === 'repition') {
+        alert('Warning allready unblocked');
+      }
+    });
+  };
   const Deletuser = (userid) => {
     axios.delete(`${API_URL}/Deleteusers/${userid}`).then((response) => {
       alert('Deleted Successfully');
@@ -102,7 +123,11 @@ export default function User() {
   };
   useEffect(() => {
     axios.get(`${API_URL}/Getusers`).then((Response) => {
-      SetuserList(Response.data);
+      if (Response.data === 'error') {
+        alert('Server Error');
+      } else {
+        SetuserList(Response.data);
+      }
     });
   });
   const users = [...Array(24)].map((_, index) => ({
@@ -113,7 +138,8 @@ export default function User() {
     age: userlist.age,
     Gender: userlist.age,
     Position: userlist.Position,
-    ROLES: userlist.ROLES
+    ROLES: userlist.ROLES,
+    status: userlist.status
   }));
 
   const handleRequestSort = (event, property) => {
@@ -178,7 +204,7 @@ export default function User() {
           <Button
             variant="contained"
             component={RouterLink}
-            to="/Register"
+            to="/dashboard/Register"
             startIcon={<Icon icon={plusFill} />}
           >
             New User
@@ -208,7 +234,7 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { userfullname, username, Gender, age, Position, ROLES } = row;
+                      const { userfullname, username, Gender, age, Position, ROLES, status } = row;
                       const isItemSelected = selected.indexOf(userfullname) !== -1;
 
                       return (
@@ -233,6 +259,7 @@ export default function User() {
                           <TableCell align="left">{row.Position}</TableCell>
                           <TableCell align="left">{row.ROLES}</TableCell>
                           <TableCell align="left">{row.office_name}</TableCell>
+                          <TableCell align="left">{row.status}</TableCell>
                           <TableCell align="right">
                             <IconButton ref={ref} onClick={() => setIsOpen(true)}>
                               <Icon icon={moreVerticalFill} width={20} height={20} />
@@ -262,15 +289,26 @@ export default function User() {
                               </MenuItem>
 
                               <MenuItem
-                                component={RouterLink}
-                                to="#"
+                                onClick={blockuser(row.userid)}
                                 sx={{ color: 'text.secondary' }}
                               >
                                 <ListItemIcon>
                                   <Icon icon={editFill} width={24} height={24} />
                                 </ListItemIcon>
                                 <ListItemText
-                                  primary="Edit"
+                                  primary="block"
+                                  primaryTypographyProps={{ variant: 'body2' }}
+                                />
+                              </MenuItem>
+                              <MenuItem
+                                onClick={unblockuser(row.userid)}
+                                sx={{ color: 'text.secondary' }}
+                              >
+                                <ListItemIcon>
+                                  <Icon icon={editFill} width={24} height={24} />
+                                </ListItemIcon>
+                                <ListItemText
+                                  primary="unblock"
                                   primaryTypographyProps={{ variant: 'body2' }}
                                 />
                               </MenuItem>

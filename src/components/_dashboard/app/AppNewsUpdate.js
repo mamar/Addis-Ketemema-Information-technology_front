@@ -3,11 +3,27 @@ import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { formatDistance } from 'date-fns';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import trash2Outline from '@iconify/icons-eva/trash-2-outline';
+import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import { Link as RouterLink } from 'react-router-dom';
 import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
 // material
-import { Box, Stack, Link, Card, Button, Divider, Typography, CardHeader } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Link,
+  Card,
+  Button,
+  Divider,
+  Typography,
+  CardHeader,
+  Menu,
+  MenuItem,
+  IconButton,
+  ListItemIcon,
+  ListItemText
+} from '@mui/material';
 // utils
 import { mockImgCover } from '../../../utils/mockImages';
 //
@@ -18,6 +34,20 @@ import { API_URL } from '../../../pages/Constant1';
 
 export default function AppNewsUpdate() {
   const [requestnotification, setNewRequest] = useState([]);
+  const ref = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  const AssignTask = (taskid, username) => {
+    axios.put(`${API_URL}/AssignTask/${taskid}/${username}`).then((response) => {
+      if (response.data.Message === 'Error') {
+        alert('Server Error');
+      }
+      if (response.data.Message === 'Success') {
+        console.log(response);
+        alert('You take the task Successfully');
+      }
+    });
+  };
   useEffect(() => {
     axios.get(`${API_URL}/GetNewRequest`).then((Response) => {
       setNewRequest(Response.data);
@@ -60,6 +90,35 @@ export default function AppNewsUpdate() {
               </Box>
               <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
                 {row.Date}
+              </Typography>
+              <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
+                <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+                  <Icon icon={moreVerticalFill} width={20} height={20} />
+                </IconButton>
+
+                <Menu
+                  open={isOpen}
+                  anchorEl={ref.current}
+                  onClose={() => setIsOpen(false)}
+                  PaperProps={{
+                    sx: { width: 200, maxWidth: '100%' }
+                  }}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <MenuItem
+                    sx={{ color: 'text.secondary' }}
+                    onClick={() => AssignTask(row.request_id, users.user[0].username)}
+                  >
+                    <ListItemIcon>
+                      <Icon icon={trash2Outline} width={24} height={24} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Assign Task"
+                      primaryTypographyProps={{ variant: 'body2' }}
+                    />
+                  </MenuItem>
+                </Menu>
               </Typography>
             </Stack>
           ))}

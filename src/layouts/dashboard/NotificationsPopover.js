@@ -186,7 +186,11 @@ export default function NotificationsPopover() {
   const [requestnotification, setNewRequest] = useState([]);
   useEffect(() => {
     axios.get(`${API_URL}/GetNewRequest`).then((Response) => {
-      setNewRequest(Response.data);
+      if (Response.data === 'error') {
+        alert('Server Error');
+      } else {
+        setNewRequest(Response.data);
+      }
     });
   });
   const totalUnRead = requestnotification.length;

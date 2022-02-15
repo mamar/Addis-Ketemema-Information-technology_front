@@ -273,6 +273,7 @@ export default function Satisfaction() {
                           <TableCell align="left">{row.assignedDate}</TableCell>
                           <TableCell align="left">{row.finsihedDate}</TableCell>
                           <TableCell align="left">{row.status}</TableCell>
+                          <TableCell align="left">{row.satisfaction}</TableCell>
                           <br />
                           <TableCell align="right">
                             <IconButton ref={ref} onClick={() => setIsOpen(true)}>
