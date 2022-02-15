@@ -13,6 +13,8 @@ import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '
 import MenuPopover from '../../components/MenuPopover';
 //
 import account from '../../_mocks_/account';
+import UserSorage from '../../components/authentication/userAuth/UserStorage';
+import UserFullname from '../../components/authentication/userAuth/UserFullname';
 
 // ----------------------------------------------------------------------
 
@@ -100,7 +102,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {userhundle}
+            <UserSorage />
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             Welcome

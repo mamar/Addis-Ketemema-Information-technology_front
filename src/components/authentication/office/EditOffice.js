@@ -1,84 +1,122 @@
 import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
+import { useState, forwardRef } from 'react';
+import { Icon } from '@iconify/react';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { useNavigate, useParams } from 'react-router-dom';
-
+import eyeFill from '@iconify/icons-eva/eye-fill';
+import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet-async';
 // material
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
+import {
+  Box,
+  Card,
+  Link,
+  Container,
+  Stack,
+  TextField,
+  IconButton,
+  InputAdornment,
+  TextareaAutosize
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import PropTypes from 'prop-types';
+import { width } from '@mui/system';
+// material
+import { styled } from '@mui/material/styles';
 import { API_URL } from '../../../pages/Constant1';
-
+// layouts
+// components
 // ----------------------------------------------------------------------
 
-export default function AddSatisfaction() {
+export default function EditOffice() {
   const navigate = useNavigate();
-  const requestid = JSON.parse(JSON.stringify(useParams()));
   const RegisterSchema = Yup.object().shape({
-    satisfaction: Yup.string().required('satisfaction is required')
+    office_name: Yup.string()
+      .min(8, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Office Name required'),
+    floor_no: Yup.string().required('Floor_no is required'),
+    phone: Yup.string().required('Phone is required')
   });
   const formik = useFormik({
     initialValues: {
-      satisfaction: ''
+      office_name: '',
+      floor_no: '',
+      phone: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .put(`${API_URL}/SendSatsfaction/${requestid.request_id}`, {
-          satisfaction: data.satisfaction
+        .post(`${API_URL}/AddOffice`, {
+          office_name: data.office_name,
+          floor_no: data.floor_no,
+          phone: data.phone
         })
         .then((Response) => {
-          if (Response.data.Message === 'success') {
-            alert('Satisfaction Sumbited Successfully');
-            window.location.reload();
-          }
-          if (Response.data.Message === 'error') {
-            alert('Server error');
-            window.location.reload();
-          }
+          console.log(Response);
         });
-      // navigate('/dashboard', { replace: true });
-      // navigate('/dashboard', { replace: true });
+      alert('office Added Successfully');
+      navigate('/dashboard', { replace: true });
     }
   });
 
+  const Page = forwardRef(({ children, title = '', ...other }, ref) => (
+    <Box ref={ref} {...other}>
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
+      {children}
+    </Box>
+  ));
+
+  Page.propTypes = {
+    children: PropTypes.node.isRequired,
+    title: PropTypes.string
+  };
+
   const { errors, values, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
+  const RootStyle = styled(Page)(({ theme }) => ({
+    [theme.breakpoints.up('md')]: {
+      display: 'flex'
+    }
+  }));
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
-          <InputLabel id="demo-simple-select-label">Problem Type</InputLabel>
-          <br />
-          <Select
-            labelId="demo-simple-select-label"
-            fullWidth
-            autoComplete="satisfaction"
+          <TextField
+            label="office_name"
+            placeholder="office_name "
+            value={values.office_name}
+            {...getFieldProps('office_name')}
+            error={Boolean(touched.office_name && errors.office_name)}
+            helperText={touched.office_name && errors.office_name}
+          />
+          <TextField
+            autoComplete="floor_no"
             type="text"
-            label="satisfaction "
-            placeholder="satisfaction"
-            value={values.satisfaction}
-            {...getFieldProps('satisfaction')}
-            error={Boolean(touched.satisfaction && errors.satisfaction)}
-            helperText={touched.satisfaction && errors.satisfaction}
-          >
-            <MenuItem value="95%">95%</MenuItem>
-            <MenuItem value="75%-95%">75%-95%</MenuItem>
-            <MenuItem value="50%-75%">50%-75%</MenuItem>
-            <MenuItem value="less than 50%"> less than 50%</MenuItem>
-          </Select>
-          <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-          >
-            Submit
+            label="floor_no "
+            placeholder="floor_no"
+            value={values.Gender}
+            {...getFieldProps('floor_no')}
+            error={Boolean(touched.floor_no && errors.floor_no)}
+            helperText={touched.floor_no && errors.floor_no}
+          />
+          <TextField
+            autoComplete="phone"
+            type="text"
+            label="phone "
+            placeholder="phone"
+            value={values.age}
+            {...getFieldProps('phone')}
+            error={Boolean(touched.phone && errors.phone)}
+            helperText={touched.phone && errors.phone}
+          />
+
+          <LoadingButton size="large" type="submit" variant="contained" loading={isSubmitting}>
+            Add
           </LoadingButton>
         </Stack>
       </Form>
