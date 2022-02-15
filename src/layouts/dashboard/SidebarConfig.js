@@ -58,7 +58,7 @@ const sidebarConfig = [
   },
   {
     title: 'register',
-    path: '/register',
+    path: '/dashboard/register',
     icon: getIcon(personAddFill)
   },
   {

@@ -62,7 +62,8 @@ export default function Router() {
         // { path: 'OnProgressRequest', element: <OnProgressRequest /> },
         { path: 'SolutionofferedRequest', element: <SolutionofferedRequest /> },
         { path: 'Performance', element: <Performance /> },
-        { path: 'addoffice', element: <AddOffice /> }
+        { path: 'addoffice', element: <AddOffice /> },
+        { path: 'register', element: <Register /> }
       ]
     },
     {
@@ -73,7 +74,6 @@ export default function Router() {
         </PrivateRoute>
       ),
       children: [
-        { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '/', element: <Navigate to="/dashboard" /> },
         { path: '*', element: <Navigate to="/404" /> }
