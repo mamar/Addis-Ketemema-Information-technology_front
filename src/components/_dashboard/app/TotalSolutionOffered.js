@@ -54,7 +54,7 @@ export default function TotalSolutionOffered() {
         <Typography variant="h3">{/* fShortenNumber( */ value.total}</Typography>
       ))}
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Solution Offered
+        መፍትሄ የተሰጣቸዉ
       </Typography>
     </RootStyle>
   );

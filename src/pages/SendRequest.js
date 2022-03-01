@@ -51,7 +51,7 @@ export default function SendRequest() {
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Welcome to information Cummunication Technology
+            እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
           <img alt="register" src="/static/illustrations/illustration_register.png" />
         </SectionStyle>
@@ -61,11 +61,9 @@ export default function SendRequest() {
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Send Your Request on here
+              የአገልግሉት መጠየቂያ ቅፅ
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              Please fill all mandatory fields
-            </Typography>
+            <Typography sx={{ color: 'text.secondary' }}>እባክዎ ጥያቄዎን በትክክል ይሙሉ!</Typography>
           </Box>
           <Button
             variant="contained"

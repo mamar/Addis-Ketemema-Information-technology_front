@@ -17,7 +17,7 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill)
   },
   {
-    title: 'Office',
+    title: 'ፅ/ቤት',
     path: '/dashboard/Office',
     icon: getIcon(fileTextFill)
   },
@@ -27,17 +27,17 @@ const sidebarConfig = [
     icon: getIcon(peopleFill)
   },
   {
-    title: 'AllRequest',
+    title: 'ሁሉም የተጠየቁ ስራዎች',
     path: '/dashboard/AllRequest',
     icon: getIcon(fileTextFill)
   },
   {
-    title: 'New Request',
+    title: 'አዲስ የተጠየቁ ስራዎች',
     path: '/dashboard/NewRequest',
     icon: getIcon(fileTextFill)
   },
   {
-    title: 'Assigned Request',
+    title: 'የተጀመሩ ስራዎች',
     path: '/dashboard/assignedRequest',
     icon: getIcon(fileTextFill)
   },
@@ -47,17 +47,17 @@ const sidebarConfig = [
     icon: getIcon(fileTextFill)
   }, */
   {
-    title: 'Soltion Offered Request',
+    title: 'መፍትሄ የተሰጣቸዉ ስራዎች',
     path: '/dashboard/SolutionofferedRequest',
     icon: getIcon(fileTextFill)
   },
   {
-    title: 'Performance',
+    title: 'አፈጻጸም',
     path: '/dashboard/Performance',
     icon: getIcon(fileTextFill)
   },
   {
-    title: 'register',
+    title: 'Register',
     path: '/dashboard/register',
     icon: getIcon(personAddFill)
   },

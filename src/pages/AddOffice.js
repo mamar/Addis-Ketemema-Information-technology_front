@@ -46,7 +46,7 @@ export default function AddOffice() {
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Welcome to information Cummunication Technology
+            እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
           <img alt="register" src="/static/illustrations/illustration_register.png" />
         </SectionStyle>
@@ -56,11 +56,9 @@ export default function AddOffice() {
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Add Office on here
+              ፅ/ቤት መሙያ ቅፅ
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              Please fill all mandatory fields
-            </Typography>
+            <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>
           </Box>
 
           <Officeform />

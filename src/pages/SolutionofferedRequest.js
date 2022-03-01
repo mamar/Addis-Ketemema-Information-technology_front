@@ -30,16 +30,17 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dash
 import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'office_name', label: 'office', alignRight: false },
-  { id: 'user_fullname', label: 'Requester', alignRight: false },
-  { id: 'division', label: 'division', alignRight: false },
-  { id: 'floor_no', label: 'floor_no', alignRight: false },
-  { id: 'office_no', label: 'office_no', alignRight: false },
-  { id: 'phone', label: 'phone', alignRight: false },
-  { id: 'request_type', label: 'request_type', alignRight: false },
-  { id: 'problem_desc', label: 'problem_desc', alignRight: false },
-  { id: 'Date', label: 'Assigned_Date', alignRight: false },
-  { id: 'finishedDate', label: 'finished_Date', alignRight: false },
+  { id: 'office_name', label: 'የፅ/ቤቱ ስም', alignRight: false },
+  { id: 'user_fullname', label: 'ጠያቂዉ', alignRight: false },
+  { id: 'division', label: 'ስራ ሂደት', alignRight: false },
+  { id: 'floor_no', label: 'አድራሻ', alignRight: false },
+  { id: 'office_no', label: 'ቢሮ ቁፅር', alignRight: false },
+  { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
+  { id: 'request_type', label: 'የአገልግሎቱ አይነት', alignRight: false },
+  { id: 'problem_desc', label: 'ስላጋጠመዉ አጭር መግለጫ', alignRight: false },
+  { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
+  { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: '' }
 ];
 
@@ -112,6 +113,7 @@ export default function SolutionofferedRequest() {
     request_type: requestList.request_type,
     problem_desc: requestList.problem_desc,
     Date: requestList.Date,
+    assignedDate: requestList.assignedDate,
     finishedDate: requestList.finishedDate
   }));
 
@@ -172,7 +174,7 @@ export default function SolutionofferedRequest() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Finished Tasks
+            ያለቁ ስራዎች
           </Typography>
           <Button
             variant="contained"
@@ -180,7 +182,7 @@ export default function SolutionofferedRequest() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            Finished Tasks
+            ያለቁ ስራዎች
           </Button>
         </Stack>
 
@@ -234,6 +236,7 @@ export default function SolutionofferedRequest() {
                           <TableCell align="left">{row.request_type}</TableCell>
                           <TableCell align="left">{row.problem_desc}</TableCell>
                           <TableCell align="left">{row.Date}</TableCell>
+                          <TableCell align="left">{row.assignedDate}</TableCell>
                           <TableCell align="left">{row.finishedDate}</TableCell>
                           <TableCell align="right">
                             <UserMoreMenu />

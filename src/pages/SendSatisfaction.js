@@ -50,7 +50,7 @@ export default function SendSatisfaction() {
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Add Satisfaction
+            እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
           <img alt="register" src="/static/illustrations/illustration_register.png" />
         </SectionStyle>
@@ -60,11 +60,9 @@ export default function SendSatisfaction() {
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Send You Satisfaction on here
+              የእርካታ መሙያ ቅፅ
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              Please fill the Satisfaction Field
-            </Typography>
+            <Typography sx={{ color: 'text.secondary' }}>እባክዎ እርካታዉን በትክክል ይሙሉ</Typography>
           </Box>
           <Button
             variant="contained"

@@ -51,7 +51,7 @@ export default function TotalRequest() {
         <Typography variant="h3">{/* fShortenNumber( */ value.total}</Typography>
       ))}
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Total Request
+        ጠቅላላ የተጠየቁ
       </Typography>
     </RootStyle>
   );

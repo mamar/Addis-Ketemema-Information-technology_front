@@ -48,17 +48,17 @@ import { API_URL } from './Constant1';
 import { AddSatisfaction } from '../components/authentication/Request';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'user_fullname', label: 'Assigned by', alignRight: false },
-  { id: 'Position', label: 'Position', alignRight: false },
-  { id: 'phone', label: 'phone', alignRight: false },
-  { id: 'Gender', label: 'Gender', alignRight: false },
-  { id: 'request_type', label: 'Request_type', alignRight: false },
-  { id: 'problem_desc', label: 'Problem_desc', alignRight: false },
-  { id: 'Date', label: 'Request Date', alignRight: false },
-  { id: 'assignedDate', label: 'AssignedDate', alignRight: false },
-  { id: 'finisheDate', label: 'FinishedDate', alignRight: false },
+  { id: 'user_fullname', label: 'IT ባለሙያ', alignRight: false },
+  { id: 'Position', label: 'የIT ባለሙያ መደብ', alignRight: false },
+  { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
+  { id: 'Gender', label: 'ፆታ', alignRight: false },
+  { id: 'request_type', label: 'የተጠየቀዉ የአገልግሎት አይነት', alignRight: false },
+  { id: 'problem_desc', label: 'ያጋጠመዉ ችግር', alignRight: false },
+  { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
+  { id: 'finisheDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'Status', label: 'Status', alignRight: false },
-  { id: 'Satisfaction', label: 'Satisfaction', alignRight: false },
+  { id: 'Satisfaction', label: 'እርካታ', alignRight: false },
   { id: '' }
 ];
 

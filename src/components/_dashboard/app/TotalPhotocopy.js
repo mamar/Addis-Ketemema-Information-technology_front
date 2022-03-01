@@ -57,7 +57,7 @@ export default function TotalPhotocopy() {
         <Typography variant="h3">{/* fShortenNumber( */ value.total}</Typography>
       ))}
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Photocopy
+        ፎቶኮፒ
       </Typography>
     </RootStyle>
   );

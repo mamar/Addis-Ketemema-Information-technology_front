@@ -56,7 +56,7 @@ export default function TotalNetwork() {
         <Typography variant="h3">{/* fShortenNumber( */ value.total}</Typography>
       ))}
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Network
+        ኔትወርክ
       </Typography>
     </RootStyle>
   );

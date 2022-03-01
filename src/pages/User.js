@@ -41,13 +41,13 @@ import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'user_fullname', label: 'user_fullname', alignRight: false },
-  { id: 'Username', label: 'Username', alignRight: false },
-  { id: 'gender', label: 'Gender', alignRight: false },
-  { id: 'Age', label: 'Age', alignRight: false },
-  { id: 'Position', label: 'Position', alignRight: false },
-  { id: 'Roles', label: 'Roles', alignRight: false },
-  { id: 'office_name', label: 'office_name', alignRight: false },
+  { id: 'user_fullname', label: 'ሙሉስም', alignRight: false },
+  { id: 'Username', label: 'መለያ ኮድ', alignRight: false },
+  { id: 'gender', label: 'ፆታ', alignRight: false },
+  { id: 'Age', label: 'እድሜ', alignRight: false },
+  { id: 'Position', label: 'የስራ ሂደት', alignRight: false },
+  { id: 'Roles', label: 'ሚና', alignRight: false },
+  { id: 'office_name', label: 'የፅ/ቤተ ስም', alignRight: false },
   { id: 'status1', label: 'status', alignRight: false },
   { id: '' }
 ];
@@ -199,7 +199,7 @@ export default function User() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            የስራተኞችና የባለሙያዎች ሙሉ መረጃ
           </Typography>
           <Button
             variant="contained"
@@ -207,7 +207,7 @@ export default function User() {
             to="/dashboard/Register"
             startIcon={<Icon icon={plusFill} />}
           >
-            New User
+            Add New User
           </Button>
         </Stack>
 

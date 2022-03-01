@@ -38,16 +38,16 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dash
 import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'office_name', label: 'office', alignRight: false },
-  { id: 'user_fullname', label: 'Requester', alignRight: false },
-  { id: 'division', label: 'division', alignRight: false },
-  { id: 'floor_no', label: 'floor_no', alignRight: false },
-  { id: 'office_no', label: 'office_no', alignRight: false },
-  { id: 'phone', label: 'phone', alignRight: false },
-  { id: 'request_type', label: 'request_type', alignRight: false },
-  { id: 'problem_desc', label: 'problem_desc', alignRight: false },
-  { id: 'Date', label: 'RequestDate', alignRight: false },
-  { id: 'assignedDate', label: 'AssignedDate', alignRight: false },
+  { id: 'office_name', label: 'የፅ/ቤቱ ስም', alignRight: false },
+  { id: 'user_fullname', label: 'የጠያቂዎ ስም', alignRight: false },
+  { id: 'division', label: 'የስራ ሂደት', alignRight: false },
+  { id: 'floor_no', label: 'አድራሻ', alignRight: false },
+  { id: 'office_no', label: 'ቢሮ ቁጥር', alignRight: false },
+  { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
+  { id: 'request_type', label: 'የጠያቂዉ ስም', alignRight: false },
+  { id: 'problem_desc', label: 'ስለችግሩ መግለጫ', alignRight: false },
+  { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
   { id: '' }
 ];
 
@@ -183,7 +183,7 @@ export default function AssignedRequest() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Work on Progress Request
+            የተጀመሩ ስራዎች
           </Typography>
           <Button
             variant="contained"
@@ -191,7 +191,7 @@ export default function AssignedRequest() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            Work on Progress Request
+            የተጀመሩ ስራዎች
           </Button>
         </Stack>
 

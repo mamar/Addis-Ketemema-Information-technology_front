@@ -41,9 +41,9 @@ import Officeform from '../components/authentication/office/Officeform';
 import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'officename', label: 'office_name', alignRight: false },
-  { id: 'floor_no', label: 'floor_no', alignRight: false },
-  { id: 'phone', label: 'phone', alignRight: false },
+  { id: 'officename', label: 'የፅ/ቤቱ ስም', alignRight: false },
+  { id: 'floor_no', label: 'ቢሮ ቁጥር', alignRight: false },
+  { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
   { id: '' }
 ];
 
@@ -165,7 +165,7 @@ export default function Office() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Office
+            ፅ/ቤት
           </Typography>
           <Button
             variant="contained"
@@ -173,7 +173,7 @@ export default function Office() {
             to="/dashboard/addoffice"
             startIcon={<Icon icon={plusFill} />}
           >
-            Office
+            ፅ/ቤት
           </Button>
         </Stack>
         <Card>

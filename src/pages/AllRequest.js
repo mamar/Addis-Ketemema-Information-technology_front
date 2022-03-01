@@ -30,17 +30,17 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dash
 import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'requesterusername', label: 'requested by', alignRight: false },
-  { id: 'workerusername', label: 'Assigned by', alignRight: false },
-  { id: 'division', label: 'division', alignRight: false },
-  { id: 'floor_no', label: 'floor_no', alignRight: false },
-  { id: 'office_no', label: 'office_no', alignRight: false },
-  { id: 'phone', label: 'phone', alignRight: false },
-  { id: 'request_type', label: 'request_type', alignRight: false },
-  { id: 'problem_desc', label: 'problem_desc', alignRight: false },
-  { id: 'requestDate', label: 'requestDate', alignRight: false },
-  { id: 'AssignedDate', label: 'AssignedDate', alignRight: false },
-  { id: 'finishedDate', label: 'finishedDate', alignRight: false },
+  { id: 'requesterusername', label: 'የጠያቂዉ ስም', alignRight: false },
+  { id: 'workerusername', label: 'የባለሙያዉ ስም', alignRight: false },
+  { id: 'division', label: 'የስራ ሂደት', alignRight: false },
+  { id: 'floor_no', label: 'አድራሻ', alignRight: false },
+  { id: 'office_no', label: 'ቢሮ ቁጥር', alignRight: false },
+  { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
+  { id: 'request_type', label: 'የአግልገሎቱ አይነት', alignRight: false },
+  { id: 'problem_desc', label: 'የችግሩ መግለጫ', alignRight: false },
+  { id: 'requestDate', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { id: 'AssignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
+  { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
   { id: '' }
 ];
@@ -161,8 +161,8 @@ export default function AllRequest() {
     <Page title="ICT">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            All Request
+          <Typography variant="contained" gutterBottom>
+            ሁሉም የተጠየቁ አገልግሎቶች
           </Typography>
           <Button
             variant="contained"
@@ -170,7 +170,7 @@ export default function AllRequest() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            All Request
+            ሁሉም የተጠየቁ አገልግሎቶች
           </Button>
         </Stack>
 
@@ -218,7 +218,6 @@ export default function AllRequest() {
                           <TableCell align="left">{row.requesterusername}</TableCell>
                           <TableCell align="left">{row.workerusername}</TableCell>
                           <TableCell align="left">{row.division}</TableCell>
-                          <TableCell align="left">{row.floor_no}</TableCell>
                           <TableCell align="left">{row.floor_no}</TableCell>
                           <TableCell align="left">{row.office_no}</TableCell>
                           <TableCell align="left">{row.phone}</TableCell>

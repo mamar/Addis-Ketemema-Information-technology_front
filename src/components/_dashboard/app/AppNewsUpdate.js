@@ -57,7 +57,7 @@ export default function AppNewsUpdate() {
 
   return (
     <Card>
-      <CardHeader title="News Requests" />
+      <CardHeader title="አዲስ የተጠየቁ አገልግሎቶች" />
 
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>

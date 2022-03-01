@@ -32,9 +32,21 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dash
 import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'userfullname', label: 'Employee Name', alignRight: false },
-  { id: 'Finished', label: 'Finished', alignRight: false },
-  { id: 'Assigned', label: 'Assigned', alignRight: false },
+  { id: 'userfullname', label: 'የባለሙያዉ ስም', alignRight: false },
+  { id: 'Finished', label: 'ያለቁ ስራዎች', alignRight: false },
+  { id: 'Assigned', label: 'ያላለቁ ስራዎች', alignRight: false },
+  { id: 'ComputerFinishde', label: 'ኮምፒዩተር ያለቁ', alignRight: false },
+  { id: 'ComputerProgress', label: 'ኮምፒዩተር የተጀመሩ', alignRight: false },
+  { id: 'PrinterFinished', label: 'ፕሪነተር ያለቁ', alignRight: false },
+  { id: 'PrinterProgress', label: 'ፕሪንተር የተጀመሩ', alignRight: false },
+  { id: 'PhotoCopyFinished', label: 'ፎቶኮፒ ያለቁ', alignRight: false },
+  { id: 'PhotoCopyProgress', label: 'ፎቶኮፒ የተጀመሩ', alignRight: false },
+  { id: 'NetworkFinished', label: 'ኔትወርክ ያለቁ', alignRight: false },
+  { id: 'NetworkProgress', label: 'ኔትወርክ የተጀመሩ', alignRight: false },
+  { id: 'SoftwareFinished', label: 'ሶፍትዌር ያለቁ', alignRight: false },
+  { id: 'SoftwareProgress', label: 'ሶፍትዌር የተጀመሩ', alignRight: false },
+  { id: 'OtherFinished', label: 'ሌሎች ያለቁ', alignRight: false },
+  { id: 'OtherProgress', label: 'ሌሎች ያላለቁ', alignRight: false },
   { id: '' }
 ];
 
@@ -81,6 +93,13 @@ export default function Performance() {
   const [performancelist, setperformancelist] = useState([]);
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const tableRef = useRef(null);
+
+  /* const { onDownload } = useDownloadExcel({
+    currentTableRef: tableRef.current,
+    filename: 'አፈፃፀም',
+    sheet: 'አፈፃፀም'
+  }); */
   useEffect(() => {
     axios.get(`${API_URL}/performance`).then((Response) => {
       setperformancelist(Response.data);
@@ -149,7 +168,7 @@ export default function Performance() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            IT Employers performance
+            የባለሙያዎች አፈፃፀም
           </Typography>
           <Button
             variant="contained"
@@ -157,7 +176,7 @@ export default function Performance() {
             to="/dashboard/Performance"
             startIcon={<Icon icon={plusFill} />}
           >
-            Performance
+            Export excel
           </Button>
         </Stack>
         <Card>
@@ -169,7 +188,7 @@ export default function Performance() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table ref={tableRef}>
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
@@ -204,6 +223,18 @@ export default function Performance() {
                           <TableCell align="left">{row.user_fullname}</TableCell>
                           <TableCell align="left">{row.Finished}</TableCell>
                           <TableCell align="left">{row.Assigned}</TableCell>
+                          <TableCell align="left">{row.ComputerFinishde}</TableCell>
+                          <TableCell align="left">{row.ComputerProgress}</TableCell>
+                          <TableCell align="left">{row.PrinterFinished}</TableCell>
+                          <TableCell align="left">{row.PrinterProgress}</TableCell>
+                          <TableCell align="left">{row.PhotoCopyFinished}</TableCell>
+                          <TableCell align="left">{row.PhotoCopyProgress}</TableCell>
+                          <TableCell align="left">{row.NetworkFinished}</TableCell>
+                          <TableCell align="left">{row.NetworkProgress}</TableCell>
+                          <TableCell align="left">{row.SoftwareFinished}</TableCell>
+                          <TableCell align="left">{row.SoftwareProgress}</TableCell>
+                          <TableCell align="left">{row.OtherFinished}</TableCell>
+                          <TableCell align="left">{row.OtherProgress}</TableCell>
                         </TableRow>
                       );
                     })}

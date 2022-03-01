@@ -38,15 +38,15 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dash
 import { API_URL } from './Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'office_name', label: 'office', alignRight: false },
-  { id: 'user_fullname', label: 'Requester', alignRight: false },
-  { id: 'division', label: 'division', alignRight: false },
-  { id: 'floor_no', label: 'floor_no', alignRight: false },
-  { id: 'office_no', label: 'office_no', alignRight: false },
-  { id: 'phone', label: 'phone', alignRight: false },
-  { id: 'request_type', label: 'request_type', alignRight: false },
-  { id: 'problem_desc', label: 'problem_desc', alignRight: false },
-  { Date: 'Date', label: 'Request Date', alignRight: false },
+  { id: 'office_name', label: 'ፅ/ቤት', alignRight: false },
+  { id: 'user_fullname', label: 'የጠያቂዉ ሙሉ ስም', alignRight: false },
+  { id: 'division', label: 'የስራ ሂደት', alignRight: false },
+  { id: 'floor_no', label: 'አድራሻ', alignRight: false },
+  { id: 'office_no', label: 'ቢሮ ቁጥር', alignRight: false },
+  { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
+  { id: 'request_type', label: 'የአገልግሎቱ አይነት', alignRight: false },
+  { id: 'problem_desc', label: 'የችግሩ መግለጫ', alignRight: false },
+  { Date: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
   { id: '' }
 ];
 
@@ -183,7 +183,7 @@ export default function NewRequest() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            New Request
+            አዲስ የተጠየቁ አገልግሎቶች
           </Typography>
           <Button
             variant="contained"
