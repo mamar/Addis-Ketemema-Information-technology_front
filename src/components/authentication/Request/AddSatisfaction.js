@@ -19,17 +19,20 @@ export default function AddSatisfaction() {
   const navigate = useNavigate();
   const requestid = JSON.parse(JSON.stringify(useParams()));
   const RegisterSchema = Yup.object().shape({
-    satisfaction: Yup.string().required('satisfaction is required')
+    satisfaction: Yup.string().required('satisfaction is required'),
+    comment: Yup.string().required('Comment is required')
   });
   const formik = useFormik({
     initialValues: {
-      satisfaction: ''
+      satisfaction: '',
+      comment: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
         .put(`${API_URL}/SendSatsfaction/${requestid.request_id}`, {
-          satisfaction: data.satisfaction
+          satisfaction: data.satisfaction,
+          comment: data.comment
         })
         .then((Response) => {
           if (Response.data.Message === 'success') {
@@ -59,18 +62,29 @@ export default function AddSatisfaction() {
             fullWidth
             autoComplete="satisfaction"
             type="text"
-            label="satisfaction "
-            placeholder="satisfaction"
+            label="እርካታ * "
+            placeholder="እርካታ *"
             value={values.satisfaction}
             {...getFieldProps('satisfaction')}
             error={Boolean(touched.satisfaction && errors.satisfaction)}
             helperText={touched.satisfaction && errors.satisfaction}
           >
-            <MenuItem value="95%">95%</MenuItem>
-            <MenuItem value="75%-95%">75%-95%</MenuItem>
-            <MenuItem value="50%-75%">50%-75%</MenuItem>
-            <MenuItem value="less than 50%"> less than 50%</MenuItem>
+            <MenuItem value="95">95%</MenuItem>
+            <MenuItem value="76">75%-95%</MenuItem>
+            <MenuItem value="55">50%-75%</MenuItem>
+            <MenuItem value="45"> less than 50%</MenuItem>
           </Select>
+          <TextField
+            fullWidth
+            autoComplete="comment"
+            type="text"
+            label="አስተያየት * "
+            placeholder="አስተያየት *"
+            value={values.comment}
+            {...getFieldProps('comment')}
+            error={Boolean(touched.comment && errors.comment)}
+            helperText={touched.comment && errors.comment}
+          />
           <LoadingButton
             fullWidth
             size="large"

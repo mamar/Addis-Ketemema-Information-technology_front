@@ -32,12 +32,9 @@ import { API_URL } from '../../../pages/Constant1';
 export default function Officeform() {
   const navigate = useNavigate();
   const RegisterSchema = Yup.object().shape({
-    office_name: Yup.string()
-      .min(8, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Office Name required'),
-    floor_no: Yup.string().required('Floor_no is required'),
-    phone: Yup.string().required('Phone is required')
+    office_name: Yup.string().min(8, 'Too Short!').max(50, 'Too Long!').required('required'),
+    floor_no: Yup.string().required(' required'),
+    phone: Yup.string().required('required')
   });
   const formik = useFormik({
     initialValues: {
@@ -87,8 +84,8 @@ export default function Officeform() {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextField
-            label="office_name"
-            placeholder="office_name "
+            label="የፅ/ቤቱ ስም *"
+            placeholder="የፅ/ቤቱ ስም *"
             value={values.office_name}
             {...getFieldProps('office_name')}
             error={Boolean(touched.office_name && errors.office_name)}
@@ -97,8 +94,8 @@ export default function Officeform() {
           <TextField
             autoComplete="floor_no"
             type="text"
-            label="floor_no "
-            placeholder="floor_no"
+            label="አድራሻ *"
+            placeholder="ድራሻ *"
             value={values.Gender}
             {...getFieldProps('floor_no')}
             error={Boolean(touched.floor_no && errors.floor_no)}
@@ -107,8 +104,8 @@ export default function Officeform() {
           <TextField
             autoComplete="phone"
             type="text"
-            label="phone "
-            placeholder="phone"
+            label="ስልክ ቁጥር * "
+            placeholder="ስልክ ቁጥር *"
             value={values.age}
             {...getFieldProps('phone')}
             error={Boolean(touched.phone && errors.phone)}

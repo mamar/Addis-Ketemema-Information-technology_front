@@ -22,12 +22,12 @@ export default function RegisterForm() {
   });
   const navigate = useNavigate();
   const RegisterSchema = Yup.object().shape({
-    division: Yup.string().required('division is required'),
-    floor_no: Yup.string().required('floor_no is required'),
-    office_no: Yup.string().required('office_no is required'),
-    phone: Yup.string().required('phone is required'),
-    request_type: Yup.string().required('Problem Type is is required'),
-    problem_desc: Yup.string().required('problem_desc is required')
+    division: Yup.string().required('required'),
+    floor_no: Yup.string().required(' required'),
+    office_no: Yup.string().required('required'),
+    phone: Yup.string().required(' required'),
+    request_type: Yup.string().required(' required'),
+    problem_desc: Yup.string().required('required')
   });
   const formik = useFormik({
     initialValues: {
@@ -74,8 +74,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="division"
             type="text"
-            label="division "
-            placeholder="division"
+            label="የስራ ሂደት * "
+            placeholder="የስራ ሂደት *"
             value={values.division}
             {...getFieldProps('division')}
             error={Boolean(touched.division && errors.division)}
@@ -85,8 +85,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="floor_no"
             type="text"
-            label="floor Number "
-            placeholder="floor Number"
+            label="አድራሻ * "
+            placeholder="አድራሻ *"
             value={values.floor_no}
             {...getFieldProps('floor_no')}
             error={Boolean(touched.floor_no && errors.floor_no)}
@@ -97,8 +97,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="office_no"
             type="text"
-            label="office Number "
-            placeholder="office Number"
+            label="ቢሮ ቁጥር "
+            placeholder="ቢሮ ቁጥር"
             value={values.office_no}
             {...getFieldProps('office_no')}
             error={Boolean(touched.office_no && errors.office_no)}
@@ -108,8 +108,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="phone"
             type="text"
-            label="Phone  Number "
-            placeholder="Phone Number"
+            label="ስልክ ቁጥር *"
+            placeholder="ስልክ ቁጥር *"
             value={values.phone}
             {...getFieldProps('phone')}
             error={Boolean(touched.phone && errors.phone)}
@@ -122,27 +122,27 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="request_type"
             type="text"
-            label="request_type "
-            placeholder="request_type"
+            label="የተጠየቀዉ የአገልግሎት አይነት *"
+            placeholder="የተጠየቀዉ የአገልግሎት አይነት *"
             value={values.request_type}
             {...getFieldProps('request_type')}
             error={Boolean(touched.request_type && errors.request_type)}
             helperText={touched.request_type && errors.request_type}
           >
-            <MenuItem value="Computer">Computer</MenuItem>
-            <MenuItem value="Printer">Printer</MenuItem>
-            <MenuItem value="Photocopy">Photocopy</MenuItem>
-            <MenuItem value="Network">Network</MenuItem>
-            <MenuItem value="Software">Software</MenuItem>
-            <MenuItem value="Others">Others</MenuItem>
+            <MenuItem value="Computer">ኮምፒዩተር</MenuItem>
+            <MenuItem value="Printer">ፕሪንተር</MenuItem>
+            <MenuItem value="Photocopy">ፎቶኮፒ</MenuItem>
+            <MenuItem value="Network">ኔትወርክ</MenuItem>
+            <MenuItem value="Software">ሶፍትዌር</MenuItem>
+            <MenuItem value="Others">ሌላ</MenuItem>
           </Select>
 
           <TextField
             fullWidth
             autoComplete="problem_desc"
             type="text"
-            label="Problem Description "
-            placeholder="Problem Description"
+            label="ስላጋጠመዉ ችግር አጭር መግለጫ *"
+            placeholder="ስላጋጠመዉ ችግር አጭር መግለጫ  *"
             value={values.problem_desc}
             {...getFieldProps('problem_desc')}
             error={Boolean(touched.problem_desc && errors.problem_desc)}

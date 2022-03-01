@@ -60,18 +60,18 @@ export default function LoginForm() {
               localStorage.setItem('userinfo', JSON.stringify(response.data));
               console.log(response.data.user[0].ROLES);
               navigate('/Satisfaction', { replace: true });
-              setloginstatus(response.data.user[0].username);
+              // setloginstatus(response.data.user[0].username);
             }
-          }
-          if (response.data.user[0].ROLES === 'Admin' || response.data.user[0].ROLES === 'IT') {
-            localStorage.setItem('userinfo', JSON.stringify(response.data));
-            navigate('/dashboard', { replace: true });
-            setloginstatus(response.data.user[0].username);
+            if (response.data.user[0].ROLES === 'Admin' || response.data.user[0].ROLES === 'IT') {
+              localStorage.setItem('userinfo', JSON.stringify(response.data));
+              navigate('/dashboard', { replace: true });
+              // setloginstatus(response.data.user[0].username);
+            }
           }
           if (response.data.auth === false) {
             alert('Wrong username or password');
             window.location.reload();
-            setloginerrors(response.data.Message);
+            // setloginerrors(response.data.Message);
           }
         });
     }

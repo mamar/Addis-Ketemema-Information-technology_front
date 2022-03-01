@@ -255,7 +255,7 @@ export default function User() {
                           <TableCell align="left">{row.user_fullname}</TableCell>
                           <TableCell align="left">{row.username}</TableCell>
                           <TableCell align="left">{row.Gender}</TableCell>
-                          <TableCell align="left">{row.aGe}</TableCell>
+                          <TableCell align="left">{row.Age}</TableCell>
                           <TableCell align="left">{row.Position}</TableCell>
                           <TableCell align="left">{row.ROLES}</TableCell>
                           <TableCell align="left">{row.office_name}</TableCell>
