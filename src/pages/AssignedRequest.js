@@ -2,6 +2,7 @@ import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
@@ -191,7 +192,14 @@ export default function AssignedRequest() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            የተጀመሩ ስራዎች
+            <ReactHTMLTableToExcel
+              variant="contained"
+              startIcon={<Icon icon={plusFill} />}
+              table="Assigned"
+              filename="የተጀመሩ ስራዎች"
+              sheet="የተጀመሩ ስራዎች"
+              buttonText="Export excel"
+            />
           </Button>
         </Stack>
 
@@ -204,7 +212,7 @@ export default function AssignedRequest() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table id="Assigned">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}

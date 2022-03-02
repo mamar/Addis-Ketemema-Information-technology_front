@@ -4,6 +4,7 @@ import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
 // material
@@ -176,7 +177,14 @@ export default function Performance() {
             to="/dashboard/Performance"
             startIcon={<Icon icon={plusFill} />}
           >
-            Export excel
+            <ReactHTMLTableToExcel
+              variant="contained"
+              startIcon={<Icon icon={plusFill} />}
+              table="performance"
+              filename="አፈፃፀም"
+              sheet="አፈፃፀም"
+              buttonText="Export excel"
+            />
           </Button>
         </Stack>
         <Card>
@@ -188,7 +196,7 @@ export default function Performance() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table ref={tableRef}>
+              <Table id="performance">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}

@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 // material
@@ -209,6 +210,14 @@ export default function User() {
           >
             Add New User
           </Button>
+          <ReactHTMLTableToExcel
+            variant="contained"
+            startIcon={<Icon icon={plusFill} />}
+            table="users"
+            filename="የባለሙያዎችና የሰራተኞች ሙሉ መረጃ"
+            sheet="የባለሙያዎችና የሰራተኞች ሙሉ መረጃ"
+            buttonText="Export excel"
+          />
         </Stack>
 
         <Card>
@@ -220,7 +229,7 @@ export default function User() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table id="users">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}

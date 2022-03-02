@@ -2,6 +2,7 @@ import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
@@ -175,6 +176,14 @@ export default function Office() {
           >
             ፅ/ቤት
           </Button>
+          <ReactHTMLTableToExcel
+            variant="contained"
+            startIcon={<Icon icon={plusFill} />}
+            table="office"
+            filename="ፅ/ቤት"
+            sheet="ፅ/ቤት"
+            buttonText="Export excel"
+          />
         </Stack>
         <Card>
           <UserListToolbar
@@ -185,7 +194,7 @@ export default function Office() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table id="office">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}

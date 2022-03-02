@@ -4,6 +4,7 @@ import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import axios from 'axios';
 // material
 import {
@@ -182,7 +183,14 @@ export default function SolutionofferedRequest() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            ያለቁ ስራዎች
+            <ReactHTMLTableToExcel
+              variant="contained"
+              startIcon={<Icon icon={plusFill} />}
+              table="solutionoffered"
+              filename="ያለቁ ስራዎች"
+              sheet="ያለቁ ስራዎች"
+              buttonText="Export excel"
+            />
           </Button>
         </Stack>
 
@@ -195,7 +203,7 @@ export default function SolutionofferedRequest() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table id="solutionoffered">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}

@@ -37,7 +37,7 @@ export default function AddSatisfaction() {
         .then((Response) => {
           if (Response.data.Message === 'success') {
             alert('Satisfaction Sumbited Successfully');
-            window.location.reload();
+            navigate('/Satisfaction', { replace: true });
           }
           if (Response.data.Message === 'error') {
             alert('Server error');

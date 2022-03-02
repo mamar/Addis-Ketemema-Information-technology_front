@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 // material
@@ -170,7 +171,14 @@ export default function AllRequest() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            ሁሉም የተጠየቁ አገልግሎቶች
+            <ReactHTMLTableToExcel
+              variant="contained"
+              startIcon={<Icon icon={plusFill} />}
+              table="allRequest"
+              filename="የተጠየቁ አገልግሎቶች በሙሉ"
+              sheet="የተጠየቁ አገልግሎቶች በሙሉ"
+              buttonText="Export excel"
+            />
           </Button>
         </Stack>
 
@@ -183,7 +191,7 @@ export default function AllRequest() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table id="allRequest">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
