@@ -133,7 +133,12 @@ export default function NewRequestsForRequester() {
   const [satisfaction1, setsatisfaction] = useState([]);
   useEffect(() => {
     axios.get(`${API_URL}/NewRequestsForRequester/${users.user[0].username}`).then((Response) => {
-      SetRequestList(Response.data);
+      if (Response.data.Message === 'error') {
+        alert('Server error');
+        window.location.reload();
+      } else {
+        SetRequestList(Response.data);
+      }
     });
   });
   const finishTask = (taskid) => {
