@@ -22,6 +22,11 @@ const sidebarConfig = [
     icon: getIcon(fileTextFill)
   },
   {
+    title: 'ስታንዳርድ',
+    path: '/dashboard/AddStandard',
+    icon: getIcon(fileTextFill)
+  },
+  {
     title: 'user',
     path: '/dashboard/user',
     icon: getIcon(peopleFill)

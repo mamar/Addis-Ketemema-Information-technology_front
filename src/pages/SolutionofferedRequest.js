@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { styled } from '@mui/material/styles';
 import axios from 'axios';
 // material
 import {
@@ -44,7 +45,29 @@ const TABLE_HEAD = [
   { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: '' }
 ];
+const RootStyle = styled(Page)(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    display: 'flex'
+  }
+}));
 
+const SectionStyle = styled(Card)(({ theme }) => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  margin: theme.spacing(2, 0, 2, 2)
+}));
+
+const ContentStyle = styled('div')(({ theme }) => ({
+  width: '100%',
+  margin: 'auto',
+  display: 'flex',
+  minHeight: '100vh',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  padding: theme.spacing(12, 0)
+}));
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
@@ -171,7 +194,7 @@ export default function SolutionofferedRequest() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Finished Tasks">
+    <Page title="መፍትሄ የተሰጣቸዉ ስራዎች">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

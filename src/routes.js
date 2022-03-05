@@ -25,7 +25,11 @@ import Satisfaction from './pages/Satisfaction';
 import App from './App';
 import SendSatisfaction from './pages/SendSatisfaction';
 import PrivateRoute from './components/authentication/Redirect/PrivateRoute';
-
+import FinishedTaskswithSatisfaction from './pages/FinishedTaskswithSatisfaction';
+import NewRequestsForRequester from './pages/NewRequestsForRequester';
+import ProgressTasksForRequester from './pages/ProgressTasksForRequester';
+import AddStandard from './pages/AddStandard';
+import UserStandard from './pages/UserStandard';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -63,7 +67,9 @@ export default function Router() {
         { path: 'SolutionofferedRequest', element: <SolutionofferedRequest /> },
         { path: 'Performance', element: <Performance /> },
         { path: 'addoffice', element: <AddOffice /> },
-        { path: 'register', element: <Register /> }
+        { path: 'register', element: <Register /> },
+        { path: 'AddStandard', element: <AddStandard /> },
+        { path: 'UserStandard', element: <UserStandard /> }
       ]
     },
     {
@@ -113,6 +119,31 @@ export default function Router() {
       element: (
         <PrivateRoute>
           <SendSatisfaction />
+        </PrivateRoute>
+      )
+    },
+
+    {
+      path: 'finishshedTasksSatisfaction',
+      element: (
+        <PrivateRoute>
+          <FinishedTaskswithSatisfaction />
+        </PrivateRoute>
+      )
+    },
+    {
+      path: 'NewRequestsFor',
+      element: (
+        <PrivateRoute>
+          <NewRequestsForRequester />
+        </PrivateRoute>
+      )
+    },
+    {
+      path: 'ProgressTasksFor',
+      element: (
+        <PrivateRoute>
+          <ProgressTasksForRequester />
         </PrivateRoute>
       )
     }

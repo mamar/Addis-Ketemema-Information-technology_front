@@ -180,7 +180,7 @@ export default function AssignedRequest() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Assigned Request">
+    <Page title="የተጀመሩ ስራዎች">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

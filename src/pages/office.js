@@ -162,7 +162,7 @@ export default function Office() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Office">
+    <Page title="ፅ/ቤት">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

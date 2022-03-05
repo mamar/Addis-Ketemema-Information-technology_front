@@ -4,15 +4,22 @@ import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
 // layouts
 import AuthLayout from '../layouts/AuthLayout';
-import EmployAuth from '../layouts/EmployeAuth';
 // components
 import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
 import { RegisterForm } from '../components/authentication/register';
 import AuthSocial from '../components/authentication/AuthSocial';
 import Editprofileform from '../components/authentication/register/Editprofileform';
+import DashboardNavbarForEmployee from '../layouts/dashboard/DashboardNavbarForEmployee';
+import EmpListDivider from './EmpListDivider';
+import EmployeAuth from '../layouts/EmployeAuth';
 // ----------------------------------------------------------------------
 
+const style = {
+  width: '100%',
+  maxWidth: 360,
+  bgcolor: 'background.paper'
+};
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex'
@@ -21,7 +28,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
-  maxWidth: 464,
+  maxWidth: 400,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -29,7 +36,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  maxwidth: 480,
   margin: 'auto',
   display: 'flex',
   minHeight: '100vh',
@@ -42,15 +49,16 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function Editprofile() {
   return (
-    <RootStyle title="Edit profile | Minimal-UI">
-      <AuthLayout>.</AuthLayout>
-
+    <RootStyle title="መረጃዎን ይቀይሩ">
+      <EmployeAuth>
+        <DashboardNavbarForEmployee />
+      </EmployeAuth>
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Welcome to information Cummunication Technology
+            እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
-          <img alt="register" src="/static/illustrations/illustration_register.png" />
+          <EmpListDivider />
         </SectionStyle>
       </MHidden>
 
@@ -58,7 +66,7 @@ export default function Editprofile() {
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Edit Your Profile.
+              መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
             </Typography>
           </Box>
 

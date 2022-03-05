@@ -32,29 +32,37 @@ import { API_URL } from '../../../pages/Constant1';
 export default function Officeform() {
   const navigate = useNavigate();
   const RegisterSchema = Yup.object().shape({
-    office_name: Yup.string().min(8, 'Too Short!').max(50, 'Too Long!').required('required'),
-    floor_no: Yup.string().required(' required'),
-    phone: Yup.string().required('required')
+    service: Yup.string().required('required'),
+    measurement: Yup.string().required(' required'),
+    time: Yup.string().required('required'),
+    price: Yup.string().required('required')
   });
   const formik = useFormik({
     initialValues: {
-      office_name: '',
-      floor_no: '',
-      phone: ''
+      service: '',
+      measurement: '',
+      time: '',
+      price: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/AddOffice`, {
-          office_name: data.office_name,
-          floor_no: data.floor_no,
-          phone: data.phone
+        .post(`${API_URL}/AddStandard`, {
+          service: data.service,
+          measurement: data.measurement,
+          time: data.time,
+          price: data.price
         })
         .then((Response) => {
-          console.log(Response);
+          if (Response.data.Message === 'error') {
+            alert('server error');
+            window.location.reload();
+          }
+          if (Response.data.Message === 'success') {
+            alert('Standard Add Successfully');
+            window.location.reload();
+          }
         });
-      alert('office Added Successfully');
-      window.location.reload();
     }
   });
 
@@ -84,32 +92,42 @@ export default function Officeform() {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextField
-            label="የፅ/ቤቱ ስም *"
-            placeholder="የፅ/ቤቱ ስም *"
-            value={values.office_name}
-            {...getFieldProps('office_name')}
-            error={Boolean(touched.office_name && errors.office_name)}
-            helperText={touched.office_name && errors.office_name}
+            label="የአገልግሎቱ አይነት *"
+            placeholder="የአገልግሎቱ አይነት *"
+            value={values.service}
+            {...getFieldProps('service')}
+            error={Boolean(touched.service && errors.service)}
+            helperText={touched.service && errors.service}
           />
           <TextField
-            autoComplete="floor_no"
+            autoComplete="measurement"
             type="text"
-            label="አድራሻ *"
-            placeholder="ድራሻ *"
-            value={values.Gender}
-            {...getFieldProps('floor_no')}
-            error={Boolean(touched.floor_no && errors.floor_no)}
-            helperText={touched.floor_no && errors.floor_no}
+            label="መለኪያ *"
+            placeholder="መለኪያ *"
+            value={values.measurement}
+            {...getFieldProps('measurement')}
+            error={Boolean(touched.measurement && errors.measurement)}
+            helperText={touched.measurement && errors.measurement}
           />
           <TextField
-            autoComplete="phone"
+            autoComplete="time"
             type="text"
-            label="ስልክ ቁጥር * "
-            placeholder="ስልክ ቁጥር *"
-            value={values.age}
-            {...getFieldProps('phone')}
-            error={Boolean(touched.phone && errors.phone)}
-            helperText={touched.phone && errors.phone}
+            label="ጊዜ* "
+            placeholder="ጊዜ*"
+            value={values.time}
+            {...getFieldProps('time')}
+            error={Boolean(touched.time && errors.time)}
+            helperText={touched.time && errors.time}
+          />
+          <TextField
+            autoComplete="price"
+            type="text"
+            label="ዋጋ* "
+            placeholder="ዋጋ*"
+            value={values.price}
+            {...getFieldProps('price')}
+            error={Boolean(touched.price && errors.price)}
+            helperText={touched.price && errors.price}
           />
 
           <LoadingButton size="large" type="submit" variant="contained" loading={isSubmitting}>

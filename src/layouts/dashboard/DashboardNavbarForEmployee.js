@@ -38,11 +38,11 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-DashboardNavbar.propTypes = {
+DashboardNavbarForEmployee.propTypes = {
   onOpenSidebar: PropTypes.func
 };
 
-export default function DashboardNavbar({ onOpenSidebar }) {
+export default function DashboardNavbarForEmployee({ onOpenSidebar }) {
   return (
     <RootStyle>
       <ToolbarStyle>
@@ -54,7 +54,6 @@ export default function DashboardNavbar({ onOpenSidebar }) {
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          <NotificationsPopover />
           <AccountPopover />
         </Stack>
       </ToolbarStyle>

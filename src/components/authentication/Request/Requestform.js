@@ -155,7 +155,7 @@ export default function RegisterForm() {
             variant="contained"
             loading={isSubmitting}
           >
-            Send
+            ይላኩ
           </LoadingButton>
         </Stack>
       </Form>

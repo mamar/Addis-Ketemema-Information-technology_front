@@ -180,7 +180,7 @@ export default function NewRequest() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Send Request">
+    <Page title="አዲስ የተጠየቁ ስራዎች">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

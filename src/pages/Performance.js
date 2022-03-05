@@ -165,7 +165,7 @@ export default function Performance() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Employee Performance">
+    <Page title="አፈጻጸም">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

@@ -42,10 +42,6 @@ export default function Page404() {
                 sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
               />
             </motion.div>
-
-            <Button to="/" size="large" variant="contained" component={RouterLink}>
-              Go to Home
-            </Button>
           </Box>
         </MotionContainer>
       </Container>

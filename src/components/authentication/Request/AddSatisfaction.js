@@ -19,8 +19,8 @@ export default function AddSatisfaction() {
   const navigate = useNavigate();
   const requestid = JSON.parse(JSON.stringify(useParams()));
   const RegisterSchema = Yup.object().shape({
-    satisfaction: Yup.string().required('satisfaction is required'),
-    comment: Yup.string().required('Comment is required')
+    satisfaction: Yup.string().required('required'),
+    comment: Yup.string().required('required')
   });
   const formik = useFormik({
     initialValues: {
@@ -55,9 +55,7 @@ export default function AddSatisfaction() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
-          <InputLabel id="demo-simple-select-label">Problem Type</InputLabel>
-          <br />
-          <Select
+          <TextField
             labelId="demo-simple-select-label"
             fullWidth
             autoComplete="satisfaction"
@@ -68,12 +66,7 @@ export default function AddSatisfaction() {
             {...getFieldProps('satisfaction')}
             error={Boolean(touched.satisfaction && errors.satisfaction)}
             helperText={touched.satisfaction && errors.satisfaction}
-          >
-            <MenuItem value="95">95%</MenuItem>
-            <MenuItem value="76">75%-95%</MenuItem>
-            <MenuItem value="55">50%-75%</MenuItem>
-            <MenuItem value="45"> less than 50%</MenuItem>
-          </Select>
+          />
           <TextField
             fullWidth
             autoComplete="comment"
@@ -92,7 +85,7 @@ export default function AddSatisfaction() {
             variant="contained"
             loading={isSubmitting}
           >
-            Submit
+            ይላኩ
           </LoadingButton>
         </Stack>
       </Form>

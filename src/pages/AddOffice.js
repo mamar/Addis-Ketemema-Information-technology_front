@@ -41,7 +41,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function AddOffice() {
   return (
-    <RootStyle title="Register | Minimal-UI">
+    <RootStyle title="Register">
       <AuthLayout>Information Technology</AuthLayout>
       <MHidden width="mdDown">
         <SectionStyle>

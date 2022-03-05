@@ -27,9 +27,9 @@ export default function Editprofileform() {
       .min(8, 'Too Short!')
       .max(50, 'Too Long!')
       .required('user_fullname required'),
-    Position: Yup.string().required('Position is required'),
-    Phone: Yup.string().required('Phone Number'),
-    office_id: Yup.string().required('Office name is Required')
+    Position: Yup.string().required(' required'),
+    Phone: Yup.string().required('required'),
+    office_id: Yup.string().required(' Required')
   });
   const [messagelist, setMessageList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
@@ -75,15 +75,15 @@ export default function Editprofileform() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
-          <InputLabel id="demo-simple-select-label">Select Office</InputLabel>
+          <InputLabel id="demo-simple-select-label">ፅ/ቤት</InputLabel>
           <br />
           <Select
             labelId="demo-simple-select-label"
             fullWidth
             autoComplete="office_id"
             type="text"
-            label="office_id "
-            placeholder="office_id"
+            label="ፅ/ቤት "
+            placeholder="ፅ/ቤት"
             value={values.office_id}
             {...getFieldProps('office_id')}
             error={Boolean(touched.office_id && errors.office_id)}
@@ -97,8 +97,8 @@ export default function Editprofileform() {
             <TextField
               fullWidth
               autoComplete="user_fullname"
-              label="Full Name"
-              placeholder="Full Name"
+              label="ሙሉ ስም"
+              placeholder="ሙሉ ስም"
               value={values.user_fullname}
               {...getFieldProps('user_fullname')}
               error={Boolean(touched.user_fullname && errors.user_fullname)}
@@ -109,8 +109,8 @@ export default function Editprofileform() {
             fullWidth
             autoComplete="Phone"
             type="number"
-            label="Phone Number "
-            placeholder="Phone Number"
+            label="ስልክ ቁጥር "
+            placeholder="ስልክ ቁጥር"
             value={values.Phone}
             {...getFieldProps('Phone')}
             error={Boolean(touched.Phone && errors.Phone)}
@@ -120,8 +120,8 @@ export default function Editprofileform() {
             fullWidth
             autoComplete="Position"
             type="text"
-            label="Position "
-            placeholder="Position"
+            label="የስራ መደብ "
+            placeholder="የስራ መደብ"
             value={values.Position}
             {...getFieldProps('Position')}
             error={Boolean(touched.Position && errors.Position)}

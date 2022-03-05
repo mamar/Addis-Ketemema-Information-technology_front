@@ -5,7 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 // layouts
-import DashboardNavbar from '../layouts/dashboard/DashboardNavbar';
+import DashboardNavbarForEmployee from '../layouts/dashboard/DashboardNavbar';
 import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
@@ -13,6 +13,7 @@ import EmployeAuth from '../layouts/EmployeAuth';
 import { MHidden } from '../components/@material-extend';
 import { Requestform } from '../components/authentication/Request';
 import Satisfaction from './Satisfaction';
+import EmpListDivider from './EmpListDivider';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -23,7 +24,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
-  maxWidth: 464,
+  maxWidth: 360,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -44,16 +45,16 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function SendRequest() {
   return (
-    <RootStyle title="Send Request | Minimal-UI">
+    <RootStyle title="እርካታ መሙያ">
       <EmployeAuth>
-        <DashboardNavbar />
+        <DashboardNavbarForEmployee />
       </EmployeAuth>
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
             እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
-          <img alt="register" src="/static/illustrations/illustration_register.png" />
+          <EmpListDivider />
         </SectionStyle>
       </MHidden>
 
@@ -65,14 +66,6 @@ export default function SendRequest() {
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>እባክዎ ጥያቄዎን በትክክል ይሙሉ!</Typography>
           </Box>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="/Satisfaction"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            Back
-          </Button>
 
           <Requestform />
         </ContentStyle>
