@@ -56,8 +56,6 @@ const TABLE_HEAD = [
   { id: 'request_type', label: 'የተጠየቀዉ የአገልግሎት አይነት', alignRight: false },
   { id: 'problem_desc', label: 'ያጋጠመዉ ችግር', alignRight: false },
   { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
-  { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
-  { id: 'finisheDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'Status', label: 'Status', alignRight: false },
   { id: 'Satisfaction', label: 'እርካታ', alignRight: false },
   { id: '' }
@@ -155,13 +153,11 @@ export default function NewRequestsForRequester() {
     Position: requestList.Position,
     Gender: requestList.Gender,
     user_fullname: requestList.user_fullname,
-    finsihedDate: requestList.finsihedDate,
     satisfaction: requestList.satisfaction,
     Phone: requestList.Phone,
     request_type: requestList.request_type,
     problem_desc: requestList.problem_desc,
     Date: requestList.Date,
-    assignedDate: requestList.assignedDate,
     status: requestList.status,
     NewRequest: requestList.NewRequest
   }));
@@ -286,8 +282,6 @@ export default function NewRequestsForRequester() {
                             <TableCell align="left">{row.request_type}</TableCell>
                             <TableCell align="left">{row.problem_desc}</TableCell>
                             <TableCell align="left">{row.Date}</TableCell>
-                            <TableCell align="left">{row.assignedDate}</TableCell>
-                            <TableCell align="left">{row.finsihedDate}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
                             <TableCell align="left">{row.satisfaction}</TableCell>
                             <br />

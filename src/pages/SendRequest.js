@@ -5,7 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 // layouts
-import DashboardNavbarForEmployee from '../layouts/dashboard/DashboardNavbar';
+import DashboardNavbarForEmployee from '../layouts/dashboard/DashboardNavbarForEmployee';
 import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
@@ -45,7 +45,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function SendRequest() {
   return (
-    <RootStyle title="እርካታ መሙያ">
+    <RootStyle title=" የአገልግሉት መጠየቂያ ቅፅ">
       <EmployeAuth>
         <DashboardNavbarForEmployee />
       </EmployeAuth>
