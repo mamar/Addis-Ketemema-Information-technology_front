@@ -1,15 +1,13 @@
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Card, Stack, Link, Container, Typography } from '@mui/material';
+import { Box, Card, Link, Container, Typography } from '@mui/material';
 // layouts
-import AuthLayout from '../layouts/AuthLayout';
+import AuthLayout from '../../layouts/AuthLayout';
 // components
-import Page from '../components/Page';
-import { MHidden } from '../components/@material-extend';
-import { LoginForm } from '../components/authentication/login';
-import AuthSocial from '../components/authentication/AuthSocial';
-
+import Page from '../../components/Page';
+import { MHidden } from '../../components/@material-extend';
+import EditStandardForm from '../../components/authentication/standard/EditStandardForm';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -39,35 +37,29 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Login() {
+export default function EditStandard() {
   return (
-    <RootStyle title="Login">
+    <RootStyle title=" የስታንዳርድ ማስተካከያ">
+      <AuthLayout />
       <MHidden width="mdDown">
-        <SectionStyle style={{ backgroundColor: '#4DBFDE' }}>
+        <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
             እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
-          <img src="/static/illustrations/illustration_login.png" alt="login" />
+          <img alt="register" src="/static/illustrations/illustration_register.png" />
         </SectionStyle>
       </MHidden>
 
-      <Container maxWidth="sm">
+      <Container>
         <ContentStyle>
-          <Stack sx={{ mb: 5 }}>
-            <Typography variant="h4" gutterBottom style={{ backgroundColor: '#4DBFDE' }}>
-              Sign in to Information technology
+          <Box sx={{ mb: 5 }}>
+            <Typography variant="h4" gutterBottom>
+              የስታንዳርድ ማስተካከያ
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              Enter your username and password correctly.
-            </Typography>
-          </Stack>
-          <LoginForm />
+            <Typography sx={{ color: 'text.secondary' }}>እባክዎ ስታንዳርዱን በትክክል ያስገቡ</Typography>
+          </Box>
 
-          <MHidden width="smUp">
-            <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-              &nbsp;
-            </Typography>
-          </MHidden>
+          <EditStandardForm />
         </ContentStyle>
       </Container>
     </RootStyle>

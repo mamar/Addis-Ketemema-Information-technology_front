@@ -194,7 +194,7 @@ export default function Office() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="office">
+              <Table id="office" SickyHeader aria-label="sticky table">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}

@@ -5,9 +5,13 @@ import { useState, useEffect, useRef } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
+import * as React from 'react';
 import axios from 'axios';
 // material
 import {
+  ListItem,
+  Divider,
+  List,
   Card,
   Table,
   Stack,
@@ -35,18 +39,22 @@ import editFill from '@iconify/icons-eva/edit-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import Select from '@mui/material/Select';
-import { MHidden } from '../components/@material-extend';
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
-import SendRequest from './SendRequest';
-import EmployeAuth from '../layouts/EmployeAuth';
-import DashboardNavbarForEmployee from '../layouts/dashboard/DashboardNavbarForEmployee';
-import { API_URL } from './Constant1';
-import { AddSatisfaction } from '../components/authentication/Request';
+import { MHidden } from '../../components/@material-extend';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import SearchNotFound from '../../components/SearchNotFound';
+import {
+  UserListHead,
+  UserListToolbar,
+  UserMoreMenu
+} from '../../components/_dashboard/allRequest';
+import EmployeAuth from '../../layouts/EmployeAuth';
+import DashboardNavbar from '../../layouts/dashboard/DashboardNavbar';
+import { API_URL } from '../Constant1';
+import { AddSatisfaction } from '../../components/authentication/Request';
 import EmpListDivider from './EmpListDivider';
+import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'user_fullname', label: 'IT ባለሙያ', alignRight: false },
@@ -57,7 +65,9 @@ const TABLE_HEAD = [
   { id: 'problem_desc', label: 'ያጋጠመዉ ችግር', alignRight: false },
   { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
   { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
+  { id: 'finisheDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'Status', label: 'Status', alignRight: false },
+  { id: 'Satisfaction', label: 'እርካታ', alignRight: false },
   { id: '' }
 ];
 const style = {
@@ -73,7 +83,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
-  maxWidth: 360,
+  maxWidth: 400,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -89,6 +99,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
   justifyContent: 'center',
   padding: theme.spacing(12, 0)
 }));
+
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
@@ -119,7 +130,7 @@ function applySortFilter(array, comparator, query) {
   }
   return stabilizedThis.map((el) => el[0]);
 }
-export default function ProgressTasksForRequester() {
+export default function Satisfaction() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -132,7 +143,7 @@ export default function ProgressTasksForRequester() {
   const [isOpen, setIsOpen] = useState(false);
   const [satisfaction1, setsatisfaction] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/ProgressTasksForRequester/${users.user[0].username}`).then((Response) => {
+    axios.get(`${API_URL}/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
     });
   });
@@ -221,8 +232,12 @@ export default function ProgressTasksForRequester() {
         <DashboardNavbarForEmployee />
       </EmployeAuth>
       <MHidden width="mdDown">
-        <SectionStyle>
-          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+        <SectionStyle style={{ backgroundColor: '#C7E4F9' }}>
+          <Typography
+            variant="h3"
+            sx={{ px: 5, mt: 10, mb: 5 }}
+            style={{ backgroundColor: '#4DBFDE' }}
+          >
             እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
           <EmpListDivider />
@@ -234,8 +249,8 @@ export default function ProgressTasksForRequester() {
             <Typography variant="h4" gutterBottom>
               እባክዎ Search ማድረጊያዉን status ለመፈለግ ይጠቀሙ
             </Typography>
-            &nbsp;
           </Stack>
+
           <Card>
             <UserListToolbar
               numSelected={selected.length}
@@ -245,7 +260,7 @@ export default function ProgressTasksForRequester() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table>
+                <Table SickyHeader aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
@@ -284,12 +299,39 @@ export default function ProgressTasksForRequester() {
                             <TableCell align="left">{row.problem_desc}</TableCell>
                             <TableCell align="left">{row.Date}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
+                            <TableCell align="left">{row.finsihedDate}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
+                            <TableCell align="left">{row.satisfaction}</TableCell>
                             <br />
                             <TableCell align="right">
                               <IconButton ref={ref} onClick={() => setIsOpen(true)}>
                                 <Icon icon={moreVerticalFill} width={20} height={20} />
                               </IconButton>
+
+                              <Menu
+                                open={isOpen}
+                                anchorEl={ref.current}
+                                onClose={() => setIsOpen(false)}
+                                PaperProps={{
+                                  sx: { width: 200, maxWidth: '100%' }
+                                }}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                              >
+                                <MenuItem
+                                  sx={{ color: 'text.secondary' }}
+                                  component={RouterLink}
+                                  to={`/AddSatisfaction/${row.request_id}`}
+                                >
+                                  <ListItemIcon>
+                                    <Icon icon={trash2Outline} width={24} height={24} />
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    primary="እርካታ"
+                                    primaryTypographyProps={{ variant: 'body2' }}
+                                  />
+                                </MenuItem>
+                              </Menu>
                             </TableCell>
                           </TableRow>
                         );

@@ -37,6 +37,7 @@ import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
 import { API_URL } from './Constant1';
+import { StandardForm } from '../components/authentication/standard';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'office_name', label: 'የፅ/ቤቱ ስም', alignRight: false },
@@ -212,7 +213,7 @@ export default function AssignedRequest() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="Assigned">
+              <Table id="Assigned" SickyHeader aria-label="sticky table">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
@@ -278,6 +279,19 @@ export default function AssignedRequest() {
                                 </ListItemIcon>
                                 <ListItemText
                                   primary="Finish Task"
+                                  primaryTypographyProps={{ variant: 'body2' }}
+                                />
+                              </MenuItem>
+                              <MenuItem
+                                sx={{ color: 'text.secondary' }}
+                                component={RouterLink}
+                                to={`/dashboard/StandardForm/${row.request_id}`}
+                              >
+                                <ListItemIcon>
+                                  <Icon icon={trash2Outline} width={24} height={24} />
+                                </ListItemIcon>
+                                <ListItemText
+                                  primary="ሰታንዳርድ"
                                   primaryTypographyProps={{ variant: 'body2' }}
                                 />
                               </MenuItem>

@@ -17,19 +17,24 @@ import AssignedRequest from './pages/AssignedRequest';
 import SolutionofferedRequest from './pages/SolutionofferedRequest';
 import Office from './pages/office';
 import Officeform from './components/authentication/office/Officeform';
-import SendRequest from './pages/SendRequest';
+import SendRequest from './pages/Employee/SendRequest';
 import AddOffice from './pages/AddOffice';
 import Performance from './pages/Performance';
 import Editprofile from './pages/Editprofile';
-import Satisfaction from './pages/Satisfaction';
+import Satisfaction from './pages/Employee/Satisfaction';
 import App from './App';
-import SendSatisfaction from './pages/SendSatisfaction';
+import SendSatisfaction from './pages/Employee/SendSatisfaction';
 import PrivateRoute from './components/authentication/Redirect/PrivateRoute';
-import FinishedTaskswithSatisfaction from './pages/FinishedTaskswithSatisfaction';
-import NewRequestsForRequester from './pages/NewRequestsForRequester';
-import ProgressTasksForRequester from './pages/ProgressTasksForRequester';
+import FinishedTaskswithSatisfaction from './pages/Employee/FinishedTaskswithSatisfaction';
+import NewRequestsForRequester from './pages/Employee/NewRequestsForRequester';
+import ProgressTasksForRequester from './pages/Employee/ProgressTasksForRequester';
 import AddStandard from './pages/AddStandard';
-import UserStandard from './pages/UserStandard';
+import SendStandard from './pages/SendStandard';
+import ITStandard from './pages/ITStandard';
+import StandardList from './pages/StandardList';
+import ListOfStandard from './pages/Standard/ListOfStandard';
+import EditSandard from './pages/Standard/EditStandard';
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -69,7 +74,19 @@ export default function Router() {
         { path: 'addoffice', element: <AddOffice /> },
         { path: 'register', element: <Register /> },
         { path: 'AddStandard', element: <AddStandard /> },
-        { path: 'UserStandard', element: <UserStandard /> }
+        { path: 'ITStandard', element: <ITStandard /> },
+        { path: 'Standard/:startDate/:endDate', element: <StandardList /> },
+        { path: 'StandardUser', element: <StandardList /> },
+        { path: 'StandardList', element: <ListOfStandard /> },
+        { path: 'UpdateStandard/:Standardid', element: <EditSandard /> },
+        {
+          path: 'StandardForm/:requestid',
+          element: (
+            <PrivateRoute>
+              <SendStandard />
+            </PrivateRoute>
+          )
+        }
       ]
     },
     {
@@ -122,7 +139,6 @@ export default function Router() {
         </PrivateRoute>
       )
     },
-
     {
       path: 'finishshedTasksSatisfaction',
       element: (

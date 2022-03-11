@@ -35,17 +35,21 @@ import editFill from '@iconify/icons-eva/edit-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import Select from '@mui/material/Select';
-import { MHidden } from '../components/@material-extend';
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
+import { MHidden } from '../../components/@material-extend';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import SearchNotFound from '../../components/SearchNotFound';
+import {
+  UserListHead,
+  UserListToolbar,
+  UserMoreMenu
+} from '../../components/_dashboard/allRequest';
 import SendRequest from './SendRequest';
-import EmployeAuth from '../layouts/EmployeAuth';
-import DashboardNavbarForEmployee from '../layouts/dashboard/DashboardNavbarForEmployee';
-import { API_URL } from './Constant1';
-import { AddSatisfaction } from '../components/authentication/Request';
+import EmployeAuth from '../../layouts/EmployeAuth';
+import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
+import { API_URL } from '../Constant1';
+import { AddSatisfaction } from '../../components/authentication/Request';
 import EmpListDivider from './EmpListDivider';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
@@ -57,9 +61,7 @@ const TABLE_HEAD = [
   { id: 'problem_desc', label: 'ያጋጠመዉ ችግር', alignRight: false },
   { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
   { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
-  { id: 'finisheDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'Status', label: 'Status', alignRight: false },
-  { id: 'Satisfaction', label: 'እርካታ', alignRight: false },
   { id: '' }
 ];
 const style = {
@@ -75,7 +77,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
-  maxWidth: 500,
+  maxWidth: 360,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -121,7 +123,7 @@ function applySortFilter(array, comparator, query) {
   }
   return stabilizedThis.map((el) => el[0]);
 }
-export default function FinishedTaskswithSatisfaction() {
+export default function ProgressTasksForRequester() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -134,11 +136,9 @@ export default function FinishedTaskswithSatisfaction() {
   const [isOpen, setIsOpen] = useState(false);
   const [satisfaction1, setsatisfaction] = useState([]);
   useEffect(() => {
-    axios
-      .get(`${API_URL}/FinishedTasksWithSatisfaction/${users.user[0].username}`)
-      .then((Response) => {
-        SetRequestList(Response.data);
-      });
+    axios.get(`${API_URL}/ProgressTasksForRequester/${users.user[0].username}`).then((Response) => {
+      SetRequestList(Response.data);
+    });
   });
   const finishTask = (taskid) => {
     axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
@@ -225,8 +225,12 @@ export default function FinishedTaskswithSatisfaction() {
         <DashboardNavbarForEmployee />
       </EmployeAuth>
       <MHidden width="mdDown">
-        <SectionStyle>
-          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+        <SectionStyle style={{ backgroundColor: '#C7E4F9' }}>
+          <Typography
+            variant="h3"
+            sx={{ px: 5, mt: 10, mb: 5 }}
+            style={{ backgroundColor: '#4DBFDE' }}
+          >
             እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
           <EmpListDivider />
@@ -238,8 +242,8 @@ export default function FinishedTaskswithSatisfaction() {
             <Typography variant="h4" gutterBottom>
               እባክዎ Search ማድረጊያዉን status ለመፈለግ ይጠቀሙ
             </Typography>
+            &nbsp;
           </Stack>
-
           <Card>
             <UserListToolbar
               numSelected={selected.length}
@@ -249,7 +253,7 @@ export default function FinishedTaskswithSatisfaction() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table>
+                <Table SickyHeader aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
@@ -288,9 +292,7 @@ export default function FinishedTaskswithSatisfaction() {
                             <TableCell align="left">{row.problem_desc}</TableCell>
                             <TableCell align="left">{row.Date}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
-                            <TableCell align="left">{row.finsihedDate}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
-                            <TableCell align="left">{row.satisfaction}</TableCell>
                             <br />
                             <TableCell align="right">
                               <IconButton ref={ref} onClick={() => setIsOpen(true)}>

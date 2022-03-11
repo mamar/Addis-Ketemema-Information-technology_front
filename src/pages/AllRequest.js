@@ -191,7 +191,7 @@ export default function AllRequest() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="allRequest">
+              <Table id="allRequest" SickyHeader aria-label="sticky table">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}

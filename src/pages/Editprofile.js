@@ -11,7 +11,7 @@ import { RegisterForm } from '../components/authentication/register';
 import AuthSocial from '../components/authentication/AuthSocial';
 import Editprofileform from '../components/authentication/register/Editprofileform';
 import DashboardNavbarForEmployee from '../layouts/dashboard/DashboardNavbarForEmployee';
-import EmpListDivider from './EmpListDivider';
+import EmpListDivider from './Employee/EmpListDivider';
 import EmployeAuth from '../layouts/EmployeAuth';
 // ----------------------------------------------------------------------
 
@@ -54,8 +54,12 @@ export default function Editprofile() {
         <DashboardNavbarForEmployee />
       </EmployeAuth>
       <MHidden width="mdDown">
-        <SectionStyle>
-          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+        <SectionStyle style={{ backgroundColor: '#C7E4F9' }}>
+          <Typography
+            variant="h3"
+            sx={{ px: 5, mt: 10, mb: 5 }}
+            style={{ backgroundColor: '#4DBFDE' }}
+          >
             እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
           <EmpListDivider />

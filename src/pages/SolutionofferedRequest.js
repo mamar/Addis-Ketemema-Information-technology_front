@@ -43,6 +43,7 @@ const TABLE_HEAD = [
   { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
   { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
   { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
+  { id: 'satisfaction', label: 'እርካታ', alignRight: false },
   { id: '' }
 ];
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -138,7 +139,8 @@ export default function SolutionofferedRequest() {
     problem_desc: requestList.problem_desc,
     Date: requestList.Date,
     assignedDate: requestList.assignedDate,
-    finishedDate: requestList.finishedDate
+    finishedDate: requestList.finishedDate,
+    satisfaction: requestList.satisfaction
   }));
 
   const handleRequestSort = (event, property) => {
@@ -226,7 +228,7 @@ export default function SolutionofferedRequest() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="solutionoffered">
+              <Table id="solutionoffered" ickyHeader aria-label="sticky table">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
@@ -269,6 +271,7 @@ export default function SolutionofferedRequest() {
                           <TableCell align="left">{row.Date}</TableCell>
                           <TableCell align="left">{row.assignedDate}</TableCell>
                           <TableCell align="left">{row.finishedDate}</TableCell>
+                          <TableCell align="left">{row.satisfaction}</TableCell>
                           <TableCell align="right">
                             <UserMoreMenu />
                           </TableCell>

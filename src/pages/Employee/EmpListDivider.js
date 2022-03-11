@@ -18,7 +18,12 @@ const style = {
 
 export default function EmpListDivider() {
   return (
-    <List sx={style} component="nav" aria-label="mailbox folders">
+    <List
+      sx={style}
+      component="nav"
+      aria-label="mailbox folders"
+      style={{ backgroundColor: '#4DBFDE' }}
+    >
       <ListItem button component={RouterLink} to="/satisfaction">
         <ListItemAvatar>
           <Avatar>
@@ -27,7 +32,7 @@ export default function EmpListDivider() {
         </ListItemAvatar>
         <ListItemText primary=" ያለቁና እርካታ ያልተሞላላቸዉ" />
       </ListItem>
-      <Divider />
+      <Divider style={{ backgroundColor: 'red' }} />
       <ListItem button divider component={RouterLink} to="/finishshedTasksSatisfaction">
         <ListItemAvatar>
           <Avatar>
@@ -36,7 +41,7 @@ export default function EmpListDivider() {
         </ListItemAvatar>
         <ListItemText primary=" ያለቁና እርካታ የተሞላላቸዉ" />
       </ListItem>
-      <Divider />
+      <Divider style={{ backgroundColor: 'red' }} />
       <ListItem button component={RouterLink} to="/ProgressTasksFor">
         <ListItemAvatar>
           <Avatar>
@@ -45,7 +50,7 @@ export default function EmpListDivider() {
         </ListItemAvatar>
         <ListItemText primary="የተጀመሩ አገልግሎቶች  " />
       </ListItem>
-      <Divider blue />
+      <Divider style={{ backgroundColor: 'red' }} />
       <ListItem button component={RouterLink} to="/NewRequestsFor">
         <ListItemAvatar>
           <Avatar>
@@ -54,7 +59,7 @@ export default function EmpListDivider() {
         </ListItemAvatar>
         <ListItemText primary=" አዲስ የተጠየቁ አገልግሎቶች " />
       </ListItem>
-      <Divider blue />
+      <Divider style={{ backgroundColor: 'red' }} />
       <ListItem button component={RouterLink} to="/SendRequest">
         <ListItemAvatar>
           <Avatar>

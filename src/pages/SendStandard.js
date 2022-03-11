@@ -1,18 +1,17 @@
+import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Card, Container, Typography, Button } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import { Icon } from '@iconify/react';
-import plusFill from '@iconify/icons-eva/plus-fill';
+import { Box, Card, Link, Container, Typography } from '@mui/material';
 // layouts
-import DashboardNavbar from '../layouts/dashboard/DashboardNavbar';
 import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
-import EmployeAuth from '../layouts/EmployeAuth';
 import { MHidden } from '../components/@material-extend';
-import { AddSatisfaction } from '../components/authentication/Request';
-import Satisfaction from './Satisfaction'; // ----------------------------------------------------------------------
+import AuthSocial from '../components/authentication/AuthSocial';
+import { API_URL } from './Constant1';
+import ItStandardForm from '../components/authentication/standard/ItStandardForm';
+
+// ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -41,12 +40,10 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function SendSatisfaction() {
+export default function SendStandard() {
   return (
-    <RootStyle title="የእርካታ መሙያ ቅፅ">
-      <EmployeAuth>
-        <DashboardNavbar />
-      </EmployeAuth>
+    <RootStyle title="የባለሙያዉ ስታንዳረድ መሙያ">
+      <AuthLayout>Information Technology</AuthLayout>
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
@@ -60,20 +57,12 @@ export default function SendSatisfaction() {
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              የእርካታ መሙያ ቅፅ
+              የባለሙያዉ ስታንዳረድ መሙያ ቅፅ
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>እባክዎ እርካታዉን በትክክል ይሙሉ</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>እባክዎ ስታንዳርዱን በትክክል ይሙሉ</Typography>
           </Box>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="/Satisfaction"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            ይመለሱ
-          </Button>
 
-          <AddSatisfaction />
+          <ItStandardForm />
         </ContentStyle>
       </Container>
     </RootStyle>

@@ -23,7 +23,7 @@ const sidebarConfig = [
   },
   {
     title: 'ስታንዳርድ',
-    path: '/dashboard/AddStandard',
+    path: '/dashboard/StandardList',
     icon: getIcon(fileTextFill)
   },
   {
@@ -59,6 +59,11 @@ const sidebarConfig = [
   {
     title: 'አፈጻጸም',
     path: '/dashboard/Performance',
+    icon: getIcon(fileTextFill)
+  },
+  {
+    title: 'የባለሙያ ስታንዳረድ መዉጫ',
+    path: '/dashboard/StandardUser',
     icon: getIcon(fileTextFill)
   },
   {

@@ -1,10 +1,10 @@
 import * as Yup from 'yup';
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate, Link as RouterLink, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 // material
@@ -29,8 +29,15 @@ import { API_URL } from '../../../pages/Constant1';
 // components
 // ----------------------------------------------------------------------
 
-export default function StandardForm() {
+export default function EditStandardForm() {
   const navigate = useNavigate();
+  const [standard, setStandard] = useState([]);
+  const standardid = JSON.parse(JSON.stringify(useParams()));
+  useEffect(() => {
+    axios.get(`${API_URL}/GetStandardForUpdate/${standardid.Standardid}`).then((Response) => {
+      setStandard(Response.data);
+    });
+  });
   const RegisterSchema = Yup.object().shape({
     service: Yup.string().required('required'),
     measurement: Yup.string().required(' required'),
@@ -39,15 +46,15 @@ export default function StandardForm() {
   });
   const formik = useFormik({
     initialValues: {
-      service: '',
-      measurement: '',
-      time: '',
-      price: ''
+      service: standard.service,
+      measurement: standard.measurement,
+      time: standard.time,
+      price: standard.price
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/AddStandard`, {
+        .put(`${API_URL}/UpdateStandard/${standardid.Standardid}`, {
           service: data.service,
           measurement: data.measurement,
           time: data.time,
@@ -131,7 +138,7 @@ export default function StandardForm() {
           />
 
           <LoadingButton size="large" type="submit" variant="contained" loading={isSubmitting}>
-            Add
+            Update
           </LoadingButton>
         </Stack>
       </Form>

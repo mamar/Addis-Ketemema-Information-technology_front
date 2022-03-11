@@ -2,8 +2,8 @@ import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
-import plusFill from '@iconify/icons-eva/plus-fill';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 // material
@@ -28,28 +28,22 @@ import {
   ListItemText
 } from '@mui/material';
 // components
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import editFill from '@iconify/icons-eva/edit-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
-import USERLIST from '../_mocks_/user';
-import Register from './Register';
-import { API_URL } from './Constant1';
+import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import SearchNotFound from '../../components/SearchNotFound';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/allRequest';
+import { API_URL } from '../Constant1';
+import { StandardForm } from '../../components/authentication/standard';
 // ----------------------------------------------------------------------
-
 const TABLE_HEAD = [
-  { id: 'userfullname', label: 'ሙሉስም', alignRight: false },
-  { id: 'Username', label: 'መለያ ኮድ', alignRight: false },
-  { id: 'gender', label: 'ፆታ', alignRight: false },
-  { id: 'Age', label: 'እድሜ', alignRight: false },
-  { id: 'Position', label: 'የስራ ሂደት', alignRight: false },
-  { id: 'Roles', label: 'ሚና', alignRight: false },
-  { id: 'officename', label: 'የፅ/ቤተ ስም', alignRight: false },
-  { id: 'status1', label: 'status', alignRight: false },
+  { id: 'service', label: 'የአገልግሎቱ አይነት', alignRight: false },
+  { id: 'measurement', label: 'መለኪያ', alignRight: false },
+  { id: 'time', label: 'ጊዜ', alignRight: false },
+  { id: 'price', label: 'ዋጋ', alignRight: false },
   { id: '' }
 ];
 
@@ -81,66 +75,44 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.user_fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.office_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
-
-export default function User() {
+export default function ListOfStandard() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('user_fullname');
+  const [orderBy, setOrderBy] = useState('service');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [userlist, SetuserList] = useState([]);
+  const [standardList, SetstandardList] = useState([]);
+  const users = JSON.parse(localStorage.getItem('userinfo'));
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const blockuser = (userid) => {
-    axios.put(`${API_URL}/blockuser/${userid}`).then((response) => {
-      if (response.Message === 'blocked') {
-        alert('user Blocked ');
-      }
-      if (response.Message === 'allready blocked') {
-        alert('Warning allready blocked');
-      }
-    });
-  };
-  const unblockuser = (userid) => {
-    axios.put(`${API_URL}/unblockuser/${userid}`).then((response) => {
-      if (response.Message === 'ublocked') {
-        alert('user Unblocked ');
-      }
-      if (response.Message === 'repition') {
-        alert('Warning allready unblocked');
-      }
-    });
-  };
-  const Deletuser = (userid) => {
-    axios.delete(`${API_URL}/Deleteusers/${userid}`).then((response) => {
-      alert('Deleted Successfully');
-    });
-  };
   useEffect(() => {
-    axios.get(`${API_URL}/Getusers`).then((Response) => {
-      if (Response.data === 'error') {
-        alert('Server Error');
-      } else {
-        SetuserList(Response.data);
-      }
+    axios.get(`${API_URL}/GetAllStandard`).then((Response) => {
+      SetstandardList(Response.data);
     });
   });
-  const users = [...Array(24)].map((_, index) => ({
-    office_name: userlist.office_name,
-    userid: userlist.userid,
-    user_fullname: userlist.user_fullname,
-    username: userlist.username,
-    age: userlist.age,
-    Gender: userlist.age,
-    Position: userlist.Position,
-    ROLES: userlist.ROLES,
-    status: userlist.status
+  const finishTask = (taskid) => {
+    axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
+      if (response.data.Message === 'Error') {
+        alert('Server Error');
+      }
+      if (response.data.Message === 'Success') {
+        console.log(response);
+        alert('Status Changed');
+      }
+    });
+  };
+  const request = [...Array(24)].map((_, index) => ({
+    service: standardList.service,
+    standardid: standardList.standardid,
+    measurement: standardList.measurement,
+    time: standardList.time,
+    price: standardList.price
   }));
 
   const handleRequestSort = (event, property) => {
@@ -151,7 +123,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = userlist.map((n) => n.user_fullname);
+      const newSelecteds = standardList.map((n) => n.service);
       setSelected(newSelecteds);
       return;
     }
@@ -189,35 +161,27 @@ export default function User() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userlist.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - standardList.length) : 0;
 
-  const filteredUsers = applySortFilter(userlist, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(standardList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Users">
+    <Page title=" የስታንዳረድ ዝርዝር">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            የስራተኞችና የባለሙያዎች ሙሉ መረጃ
+            የስታንዳረድ ዝርዝር
           </Typography>
           <Button
             variant="contained"
             component={RouterLink}
-            to="/dashboard/Register"
+            to="/dashboard/AddStandard"
             startIcon={<Icon icon={plusFill} />}
           >
-            Add New User
+            ስታንዳረድ ይጨምሩ
           </Button>
-          <ReactHTMLTableToExcel
-            variant="contained"
-            startIcon={<Icon icon={plusFill} />}
-            table="users"
-            filename="የባለሙያዎችና የሰራተኞች ሙሉ መረጃ"
-            sheet="የባለሙያዎችና የሰራተኞች ሙሉ መረጃ"
-            buttonText="Export excel"
-          />
         </Stack>
 
         <Card>
@@ -229,12 +193,12 @@ export default function User() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="users" tickyHeader aria-label="sticky table">
+              <Table id="standardList" SickyHeader aria-label="sticky table">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={userlist.length}
+                  rowCount={standardList.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -243,14 +207,13 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, userfullname, username, Gender, age, Position, ROLES, status } =
-                        row;
-                      const isItemSelected = selected.indexOf(userfullname) !== -1;
+                      const { standardid } = row;
+                      const isItemSelected = selected.indexOf(standardid) !== -1;
 
                       return (
                         <TableRow
                           hover
-                          key={id}
+                          key={row.standardid}
                           tabIndex={-1}
                           role="checkbox"
                           selected={isItemSelected}
@@ -259,17 +222,13 @@ export default function User() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, userfullname)}
+                              onChange={(event) => handleClick(event, standardList.standardid)}
                             />
                           </TableCell>
-                          <TableCell align="left">{row.user_fullname}</TableCell>
-                          <TableCell align="left">{row.username}</TableCell>
-                          <TableCell align="left">{row.Gender}</TableCell>
-                          <TableCell align="left">{row.Age}</TableCell>
-                          <TableCell align="left">{row.Position}</TableCell>
-                          <TableCell align="left">{row.ROLES}</TableCell>
-                          <TableCell align="left">{row.office_name}</TableCell>
-                          <TableCell align="left">{row.status}</TableCell>
+                          <TableCell align="left">{row.service}</TableCell>
+                          <TableCell align="left">{row.measurement}</TableCell>
+                          <TableCell align="left">{row.time}</TableCell>
+                          <TableCell align="left">{row.price}</TableCell>
                           <TableCell align="right">
                             <IconButton ref={ref} onClick={() => setIsOpen(true)}>
                               <Icon icon={moreVerticalFill} width={20} height={20} />
@@ -287,7 +246,7 @@ export default function User() {
                             >
                               <MenuItem
                                 sx={{ color: 'text.secondary' }}
-                                onClick={() => Deletuser(row.userid)}
+                                onClick={() => finishTask(row.request_id)}
                               >
                                 <ListItemIcon>
                                   <Icon icon={trash2Outline} width={24} height={24} />
@@ -297,28 +256,16 @@ export default function User() {
                                   primaryTypographyProps={{ variant: 'body2' }}
                                 />
                               </MenuItem>
-
                               <MenuItem
-                                onClick={blockuser(row.userid)}
                                 sx={{ color: 'text.secondary' }}
+                                component={RouterLink}
+                                to={`/dashboard/UpdateStandard/${row.standardid}`}
                               >
                                 <ListItemIcon>
-                                  <Icon icon={editFill} width={24} height={24} />
+                                  <Icon icon={trash2Outline} width={24} height={24} />
                                 </ListItemIcon>
                                 <ListItemText
-                                  primary="block"
-                                  primaryTypographyProps={{ variant: 'body2' }}
-                                />
-                              </MenuItem>
-                              <MenuItem
-                                onClick={unblockuser(row.userid)}
-                                sx={{ color: 'text.secondary' }}
-                              >
-                                <ListItemIcon>
-                                  <Icon icon={editFill} width={24} height={24} />
-                                </ListItemIcon>
-                                <ListItemText
-                                  primary="unblock"
+                                  primary="edit"
                                   primaryTypographyProps={{ variant: 'body2' }}
                                 />
                               </MenuItem>
@@ -349,7 +296,7 @@ export default function User() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={userlist.length}
+            count={standardList.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

@@ -83,6 +83,18 @@ const NOTIFICATIONS = [
   }
 ];
 export default function NotificationsPopover() {
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  const AssignTask = (taskid, username) => {
+    axios.put(`${API_URL}/AssignTask/${taskid}/${username}`).then((response) => {
+      if (response.data.Message === 'Error') {
+        alert('Server Error');
+      }
+      if (response.data.Message === 'Success') {
+        console.log(response);
+        alert('You take the task Successfully');
+      }
+    });
+  };
   function renderContent(notification) {
     const title = (
       <Typography variant="subtitle2">

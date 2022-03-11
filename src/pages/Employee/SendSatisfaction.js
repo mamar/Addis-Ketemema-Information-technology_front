@@ -5,15 +5,17 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 // layouts
-import DashboardNavbarForEmployee from '../layouts/dashboard/DashboardNavbarForEmployee';
-import AuthLayout from '../layouts/AuthLayout';
+import DashboardNavbar from '../../layouts/dashboard/DashboardNavbar';
+import AuthLayout from '../../layouts/AuthLayout';
 // components
-import Page from '../components/Page';
-import EmployeAuth from '../layouts/EmployeAuth';
-import { MHidden } from '../components/@material-extend';
-import { Requestform } from '../components/authentication/Request';
-import Satisfaction from './Satisfaction';
+import Page from '../../components/Page';
+import EmployeAuth from '../../layouts/EmployeAuth';
+import { MHidden } from '../../components/@material-extend';
+import { AddSatisfaction } from '../../components/authentication/Request';
 import EmpListDivider from './EmpListDivider';
+import Satisfaction from './Satisfaction';
+import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -24,7 +26,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
-  maxWidth: 360,
+  maxWidth: 464,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -43,15 +45,19 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function SendRequest() {
+export default function SendSatisfaction() {
   return (
-    <RootStyle title=" የአገልግሉት መጠየቂያ ቅፅ">
+    <RootStyle title="የእርካታ መሙያ ቅፅ">
       <EmployeAuth>
         <DashboardNavbarForEmployee />
       </EmployeAuth>
       <MHidden width="mdDown">
-        <SectionStyle>
-          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+        <SectionStyle style={{ backgroundColor: '#C7E4F9' }}>
+          <Typography
+            variant="h3"
+            sx={{ px: 5, mt: 10, mb: 5 }}
+            style={{ backgroundColor: '#4DBFDE' }}
+          >
             እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
           <EmpListDivider />
@@ -62,12 +68,12 @@ export default function SendRequest() {
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              የአገልግሉት መጠየቂያ ቅፅ
+              የእርካታ መሙያ ቅፅ
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>እባክዎ ጥያቄዎን በትክክል ይሙሉ!</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>እባክዎ እርካታዉን በትክክል ይሙሉ</Typography>
           </Box>
 
-          <Requestform />
+          <AddSatisfaction />
         </ContentStyle>
       </Container>
     </RootStyle>

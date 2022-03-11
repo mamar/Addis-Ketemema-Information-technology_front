@@ -2,22 +2,23 @@ import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
-import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink } from 'react-router-dom';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { styled } from '@mui/material/styles';
+import plusFill from '@iconify/icons-eva/plus-fill';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker';
 import dateformat from 'dateformat';
+import { LoadingButton } from '@mui/lab';
+
 import axios from 'axios';
 // material
 import {
   Card,
   Table,
+  Stack,
   TextField,
   Box,
-  Stack,
   Avatar,
   Button,
   Checkbox,
@@ -27,33 +28,38 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Menu,
+  MenuItem,
+  IconButton,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-// material
 // components
+import editFill from '@iconify/icons-eva/edit-fill';
+import trash2Outline from '@iconify/icons-eva/trash-2-outline';
+import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import Page from '../components/Page';
+import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
 import { API_URL } from './Constant1';
+import { StandardForm } from '../components/authentication/standard';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'userfullname', label: 'የባለሙያዉ ስም', alignRight: false },
-  { id: 'Finished', label: 'ያለቁ ስራዎች', alignRight: false },
-  { id: 'Assigned', label: 'ያላለቁ ስራዎች', alignRight: false },
-  { id: 'ComputerFinishde', label: 'ኮምፒዩተር ያለቁ', alignRight: false },
-  { id: 'ComputerProgress', label: 'ኮምፒዩተር የተጀመሩ', alignRight: false },
-  { id: 'PrinterFinished', label: 'ፕሪነተር ያለቁ', alignRight: false },
-  { id: 'PrinterProgress', label: 'ፕሪንተር የተጀመሩ', alignRight: false },
-  { id: 'PhotoCopyFinished', label: 'ፎቶኮፒ ያለቁ', alignRight: false },
-  { id: 'PhotoCopyProgress', label: 'ፎቶኮፒ የተጀመሩ', alignRight: false },
-  { id: 'NetworkFinished', label: 'ኔትወርክ ያለቁ', alignRight: false },
-  { id: 'NetworkProgress', label: 'ኔትወርክ የተጀመሩ', alignRight: false },
-  { id: 'SoftwareFinished', label: 'ሶፍትዌር ያለቁ', alignRight: false },
-  { id: 'SoftwareProgress', label: 'ሶፍትዌር የተጀመሩ', alignRight: false },
-  { id: 'OtherFinished', label: 'ሌሎች ያለቁ', alignRight: false },
-  { id: 'OtherProgress', label: 'ሌሎች ያላለቁ', alignRight: false },
+  { id: 'service', label: 'የአገልግሎቱ አይነት', alignRight: false },
+  { id: 'measurement', label: 'መለኪያ', alignRight: false },
+  { id: 'time', label: 'ጊዜ', alignRight: false },
+  { id: 'belowStandard', label: 'ከስታንዳረድ በታች የተሰሩ', alignRight: false },
+  { id: 'WithinStandard', label: 'በስታንዳረድ የተሰሩ', alignRight: false },
+  { id: 'AboveStandard', label: 'ከስታንዳረድ በላይ የተሰሩ', alignRight: false },
+  { id: 'Standard', label: 'Standard', alignRight: false },
+  { id: 'Actual', label: 'Actual', alignRight: false },
+  { id: 'standardAmh', label: 'Standard', alignRight: false },
+  { id: 'Actual', label: 'Actual', alignRight: false },
+  { id: 'price', label: 'ዋጋ', alignRight: false },
+  { id: 'meremera', label: 'ምርመራ', alignRight: false },
   { id: '' }
 ];
 
@@ -85,45 +91,41 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.user_fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.office_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
-export default function Performance() {
+export default function StandardList() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('user_fullname');
+  const [orderBy, setOrderBy] = useState('service');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [performancelist, setperformancelist] = useState([]);
+  const [standardlist, Setstandardlist] = useState([]);
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  const standDate = JSON.parse(JSON.stringify(useParams()));
   const [value, setValue] = useState([null, null]);
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const tableRef = useRef(null);
-
-  /* const { onDownload } = useDownloadExcel({
-    currentTableRef: tableRef.current,
-    filename: 'አፈፃፀም',
-    sheet: 'አፈፃፀም'
-  }); */
   useEffect(() => {
     axios
       .get(
-        `${API_URL}/performance/${dateformat(value[0], 'dd-mm-yy')}/${dateformat(
-          value[1],
+        `${API_URL}/UserStandard/${users.user[0].username}/${dateformat(
+          value[0],
           'dd-mm-yy'
-        )}`
+        )}/${dateformat(value[1], 'dd-mm-yy')}`
       )
       .then((Response) => {
-        setperformancelist(Response.data);
+        Setstandardlist(Response.data);
       });
   });
-  const performance = [...Array(24)].map((_, index) => ({
-    user_fullname: performancelist.user_fullname,
-    Finished: performancelist.Finished,
-    Assigned: performancelist.Assigned
+  const request = [...Array(24)].map((_, index) => ({
+    service: standardlist.service,
+    measurement: standardlist.measurement,
+    time: standardlist.time,
+    price: standardlist.price
   }));
 
   const handleRequestSort = (event, property) => {
@@ -134,7 +136,7 @@ export default function Performance() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = performancelist.map((n) => n.user_fullname);
+      const newSelecteds = standardlist.map((n) => n.service);
       setSelected(newSelecteds);
       return;
     }
@@ -172,35 +174,36 @@ export default function Performance() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - performancelist.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - standardlist.length) : 0;
 
-  const filteredUsers = applySortFilter(performancelist, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(standardlist, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="አፈጻጸም">
+    <Page title="የተጀመሩ ስራዎች">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            የባለሙያዎች አፈፃፀም
+            ስታንዳርድ
           </Typography>
           <Button
             variant="contained"
             component={RouterLink}
-            to="/dashboard/Performance"
+            to="#"
             startIcon={<Icon icon={plusFill} />}
           >
             <ReactHTMLTableToExcel
               variant="contained"
               startIcon={<Icon icon={plusFill} />}
-              table="performance"
-              filename="አፈፃፀም"
-              sheet="አፈፃፀም"
+              table="StandardList"
+              filename="የባለሙያ ስታንታርድ"
+              sheet="የባለሙያ ስታንታርድ"
               buttonText="Export excel"
             />
           </Button>
         </Stack>
+
         <Card>
           <UserListToolbar
             numSelected={selected.length}
@@ -227,12 +230,12 @@ export default function Performance() {
           </LocalizationProvider>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="performance">
+              <Table id="StandardList" ickyHeader aria-label="sticky table">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={performancelist.length}
+                  rowCount={standardlist.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -241,13 +244,13 @@ export default function Performance() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { userfullname } = row;
-                      const isItemSelected = selected.indexOf(userfullname) !== -1;
+                      const { service } = row;
+                      const isItemSelected = selected.indexOf(service) !== -1;
 
                       return (
                         <TableRow
                           hover
-                          key={userfullname}
+                          key={service}
                           tabIndex={-1}
                           role="checkbox"
                           selected={isItemSelected}
@@ -256,24 +259,25 @@ export default function Performance() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, userfullname)}
+                              onChange={(event) => handleClick(event, service)}
                             />
                           </TableCell>
-                          <TableCell align="left">{row.user_fullname}</TableCell>
-                          <TableCell align="left">{row.Finished}</TableCell>
-                          <TableCell align="left">{row.Assigned}</TableCell>
-                          <TableCell align="left">{row.ComputerFinishde}</TableCell>
-                          <TableCell align="left">{row.ComputerProgress}</TableCell>
-                          <TableCell align="left">{row.PrinterFinished}</TableCell>
-                          <TableCell align="left">{row.PrinterProgress}</TableCell>
-                          <TableCell align="left">{row.PhotoCopyFinished}</TableCell>
-                          <TableCell align="left">{row.PhotoCopyProgress}</TableCell>
-                          <TableCell align="left">{row.NetworkFinished}</TableCell>
-                          <TableCell align="left">{row.NetworkProgress}</TableCell>
-                          <TableCell align="left">{row.SoftwareFinished}</TableCell>
-                          <TableCell align="left">{row.SoftwareProgress}</TableCell>
-                          <TableCell align="left">{row.OtherFinished}</TableCell>
-                          <TableCell align="left">{row.OtherProgress}</TableCell>
+                          <TableCell align="left">{row.service}</TableCell>
+                          <TableCell align="left">{row.measurement}</TableCell>
+                          <TableCell align="left">{row.time}</TableCell>
+                          <TableCell align="left">{row.belowStandard}</TableCell>
+                          <TableCell align="left">{row.WithinStandard}</TableCell>
+                          <TableCell align="left">{row.AboveStandard}</TableCell>
+                          <TableCell align="left">{row.Standard}</TableCell>
+                          <TableCell align="left">{row.Actual}</TableCell>
+                          <TableCell align="left">{row.standardAmh}</TableCell>
+                          <TableCell align="left">{row.Actual}</TableCell>
+                          <TableCell align="left">{row.price}</TableCell>
+                          <TableCell align="right">
+                            <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+                              <Icon icon={moreVerticalFill} width={20} height={20} />
+                            </IconButton>
+                          </TableCell>
                         </TableRow>
                       );
                     })}
@@ -297,9 +301,9 @@ export default function Performance() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[5, 10, 100]}
             component="div"
-            count={performancelist.length}
+            count={standardlist.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

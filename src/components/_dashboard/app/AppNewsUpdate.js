@@ -57,12 +57,12 @@ export default function AppNewsUpdate() {
 
   return (
     <Card>
-      <CardHeader title="አዲስ የተጠየቁ አገልግሎቶች" />
+      <CardHeader title="አዲስ የተጠየቁ አገልግሎቶች" style={{ backgroundColor: '#DAF7A6 ' }} />
 
-      <Scrollbar>
+      <Scrollbar style={{ backgroundColor: '#DEF5F7 ' }}>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
           {requestnotification.map((row) => (
-            <Stack direction="row" alignItems="center" spacing={2}>
+            <Stack direction="row" alignItems="center" spacing={2} key={row.request_id}>
               <Box sx={{ minWidth: 240 }}>
                 <Link to="#" color="inherit" underline="hover" component={RouterLink}>
                   <Typography variant="subtitle2" noWrap>
@@ -87,6 +87,7 @@ export default function AppNewsUpdate() {
                 <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
                   {row.floor_no}
                 </Typography>
+                <Divider style={{ backgroundColor: 'red' }} />
               </Box>
               <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
                 {row.Date}
@@ -95,7 +96,6 @@ export default function AppNewsUpdate() {
                 <IconButton ref={ref} onClick={() => setIsOpen(true)}>
                   <Icon icon={moreVerticalFill} width={20} height={20} />
                 </IconButton>
-
                 <Menu
                   open={isOpen}
                   anchorEl={ref.current}

@@ -66,6 +66,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         height: '100%',
         '& .simplebar-content': { height: '100%', display: 'flex', flexDirection: 'column' }
       }}
+      style={{ backgroundColor: '#AE55B9' }}
     >
       <Box sx={{ px: 2.5, py: 3 }}>
         <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
@@ -89,7 +90,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
+      <NavSection navConfig={sidebarConfig} style={{ backgroundColor: '#4DBFDE' }} />
 
       <Box sx={{ flexGrow: 1 }} />
 

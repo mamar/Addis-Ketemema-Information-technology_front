@@ -212,7 +212,7 @@ export default function NewRequest() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="NewRequest">
+              <Table id="NewRequest" tickyHeader aria-label="sticky table">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
