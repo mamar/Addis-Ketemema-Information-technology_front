@@ -1,24 +1,23 @@
+import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Card, Container, Typography, Button } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import { Icon } from '@iconify/react';
-import plusFill from '@iconify/icons-eva/plus-fill';
+import { Box, Card, Link, Container, Typography } from '@mui/material';
 // layouts
-import DashboardNavbar from '../../layouts/dashboard/DashboardNavbar';
-import AuthLayout from '../../layouts/AuthLayout';
 // components
 import Page from '../../components/Page';
-import EmployeAuth from '../../layouts/EmployeAuth';
-import { MHidden } from '../../components/@material-extend';
-import { AddSatisfaction } from '../../components/authentication/Request';
-import EmpListDivider from './EmpListDivider';
-import Satisfaction from './Satisfaction';
+import { RegisterForm } from '../../components/authentication/register';
+import AuthSocial from '../../components/authentication/AuthSocial';
+import Editprofileform from '../../components/authentication/register/Editprofileform';
 import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
 import DashboardSidebarEmployee from '../../layouts/dashboard/DashboardSidebarEmployee';
-
+import EmployeAuth from '../../layouts/EmployeAuth';
 // ----------------------------------------------------------------------
 
+const style = {
+  width: '100%',
+  maxWidth: 360,
+  bgcolor: 'background.paper'
+};
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex'
@@ -27,7 +26,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
-  maxWidth: 464,
+  maxWidth: 400,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -35,7 +34,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  maxwidth: 480,
   margin: 'auto',
   display: 'flex',
   minHeight: '100vh',
@@ -46,24 +45,36 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function SendSatisfaction() {
+export default function Editprofile() {
   return (
-    <RootStyle title="የእርካታ መሙያ ቅፅ">
+    <RootStyle title="መረጃዎን ይቀይሩ">
       <EmployeAuth>
         <DashboardNavbarForEmployee />
       </EmployeAuth>
+
       <DashboardSidebarEmployee />
 
       <Container>
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              የእርካታ መሙያ ቅፅ
+              መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>እባክዎ እርካታዉን በትክክል ይሙሉ</Typography>
           </Box>
 
-          <AddSatisfaction />
+          <Editprofileform />
+
+          <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
+            By Editing, I agree to Minimal&nbsp;
+            <Link underline="always" sx={{ color: 'text.primary' }}>
+              Terms of Service
+            </Link>
+            &nbsp;and&nbsp;
+            <Link underline="always" sx={{ color: 'text.primary' }}>
+              Privacy Policy
+            </Link>
+            .
+          </Typography>
         </ContentStyle>
       </Container>
     </RootStyle>

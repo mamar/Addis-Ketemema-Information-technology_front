@@ -68,7 +68,12 @@ export default function RegisterForm() {
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form
+        autoComplete="off"
+        noValidate
+        onSubmit={handleSubmit}
+        style={{ backgroundColor: '#f2f2f2' }}
+      >
         <Stack spacing={3}>
           <TextField
             fullWidth
@@ -115,7 +120,7 @@ export default function RegisterForm() {
             error={Boolean(touched.phone && errors.phone)}
             helperText={touched.phone && errors.phone}
           />
-          <InputLabel id="demo-simple-select-label">Problem Type</InputLabel>
+          <InputLabel id="demo-simple-select-label">የአገልግሎት አይነት</InputLabel>
           <br />
           <Select
             labelId="demo-simple-select-label"

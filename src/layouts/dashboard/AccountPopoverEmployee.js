@@ -27,18 +27,18 @@ const MENU_OPTIONS = [
   {
     label: 'Profile',
     icon: personFill,
-    linkTo: '/dashboard/EditProfile'
+    linkTo: '/EditProfile'
   },
   {
     label: 'Settings',
     icon: settings2Fill,
-    linkTo: '/dashboard/EditProfile'
+    linkTo: '/EditProfile'
   }
 ];
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
+export default function AccountPopoverEmployee() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();

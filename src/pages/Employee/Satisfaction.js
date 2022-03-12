@@ -55,6 +55,8 @@ import { API_URL } from '../Constant1';
 import { AddSatisfaction } from '../../components/authentication/Request';
 import EmpListDivider from './EmpListDivider';
 import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
+import DashboardSidebarEmployee from '../../layouts/dashboard/DashboardSidebarEmployee';
+
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'user_fullname', label: 'IT ባለሙያ', alignRight: false },
@@ -67,7 +69,6 @@ const TABLE_HEAD = [
   { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
   { id: 'finisheDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'Status', label: 'Status', alignRight: false },
-  { id: 'Satisfaction', label: 'እርካታ', alignRight: false },
   { id: '' }
 ];
 const style = {
@@ -147,24 +148,12 @@ export default function Satisfaction() {
       SetRequestList(Response.data);
     });
   });
-  const finishTask = (taskid) => {
-    axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
-      if (response.data.Message === 'Error') {
-        alert('Server Error');
-        console.log(response);
-      }
-      if (response.data.Message === 'Success') {
-        console.log(response);
-        alert('Status Changed');
-      }
-    });
-  };
   const request = [...Array(24)].map((_, index) => ({
     request_id: requestList.request_id,
     Position: requestList.Position,
     Gender: requestList.Gender,
     user_fullname: requestList.user_fullname,
-    finsihedDate: requestList.finsihedDate,
+    finishedDate: requestList.finishedDate,
     satisfaction: requestList.satisfaction,
     Phone: requestList.Phone,
     request_type: requestList.request_type,
@@ -231,18 +220,7 @@ export default function Satisfaction() {
       <EmployeAuth>
         <DashboardNavbarForEmployee />
       </EmployeAuth>
-      <MHidden width="mdDown">
-        <SectionStyle style={{ backgroundColor: '#C7E4F9' }}>
-          <Typography
-            variant="h3"
-            sx={{ px: 5, mt: 10, mb: 5 }}
-            style={{ backgroundColor: '#4DBFDE' }}
-          >
-            እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
-          </Typography>
-          <EmpListDivider />
-        </SectionStyle>
-      </MHidden>
+      <DashboardSidebarEmployee />
       <Container>
         <ContentStyle>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -299,9 +277,8 @@ export default function Satisfaction() {
                             <TableCell align="left">{row.problem_desc}</TableCell>
                             <TableCell align="left">{row.Date}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
-                            <TableCell align="left">{row.finsihedDate}</TableCell>
+                            <TableCell align="left">{row.finishedDate}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
-                            <TableCell align="left">{row.satisfaction}</TableCell>
                             <br />
                             <TableCell align="right">
                               <IconButton ref={ref} onClick={() => setIsOpen(true)}>

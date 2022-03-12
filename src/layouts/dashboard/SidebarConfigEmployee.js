@@ -18,7 +18,7 @@ const sidebarConfig = [
   },
   {
     title: 'ያለቁና እርካታ የተሞላላቸዉ',
-    path: '/finishshedTasksSatisfaction"',
+    path: '/finishshedTasksSatisfaction',
     icon: getIcon(fileTextFill)
   },
   {
@@ -29,11 +29,6 @@ const sidebarConfig = [
   {
     title: 'አዲስ የተጠየቁ አገልግሎቶች',
     path: '/NewRequestsFor',
-    icon: getIcon(peopleFill)
-  },
-  {
-    title: 'አዲስ የተጠየቁ ስራዎች',
-    path: '/dashboard/NewRequest',
     icon: getIcon(fileTextFill)
   },
   {

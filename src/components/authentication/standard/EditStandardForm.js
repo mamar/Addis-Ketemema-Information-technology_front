@@ -46,10 +46,10 @@ export default function EditStandardForm() {
   });
   const formik = useFormik({
     initialValues: {
-      service: standard.service,
-      measurement: standard.measurement,
-      time: standard.time,
-      price: standard.price
+      service: '',
+      measurement: '',
+      time: '',
+      price: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {

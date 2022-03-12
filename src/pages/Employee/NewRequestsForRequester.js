@@ -47,20 +47,16 @@ import {
 } from '../../components/_dashboard/allRequest';
 import EmployeAuth from '../../layouts/EmployeAuth';
 import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
+import DashboardSidebarEmployee from '../../layouts/dashboard/DashboardSidebarEmployee';
 import { API_URL } from '../Constant1';
 import { AddSatisfaction } from '../../components/authentication/Request';
 import EmpListDivider from './EmpListDivider';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'user_fullname', label: 'IT ባለሙያ', alignRight: false },
-  { id: 'Position', label: 'የIT ባለሙያ መደብ', alignRight: false },
-  { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
-  { id: 'Gender', label: 'ፆታ', alignRight: false },
   { id: 'request_type', label: 'የተጠየቀዉ የአገልግሎት አይነት', alignRight: false },
   { id: 'problem_desc', label: 'ያጋጠመዉ ችግር', alignRight: false },
   { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
   { id: 'Status', label: 'Status', alignRight: false },
-  { id: 'Satisfaction', label: 'እርካታ', alignRight: false },
   { id: '' }
 ];
 const style = {
@@ -136,38 +132,15 @@ export default function NewRequestsForRequester() {
   const [satisfaction1, setsatisfaction] = useState([]);
   useEffect(() => {
     axios.get(`${API_URL}/NewRequestsForRequester/${users.user[0].username}`).then((Response) => {
-      if (Response.data.Message === 'error') {
-        alert('Server error');
-        window.location.reload();
-      } else {
-        SetRequestList(Response.data);
-      }
+      SetRequestList(Response.data);
     });
   });
-  const finishTask = (taskid) => {
-    axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
-      if (response.data.Message === 'Error') {
-        alert('Server Error');
-        console.log(response);
-      }
-      if (response.data.Message === 'Success') {
-        console.log(response);
-        alert('Status Changed');
-      }
-    });
-  };
   const request = [...Array(24)].map((_, index) => ({
     request_id: requestList.request_id,
-    Position: requestList.Position,
-    Gender: requestList.Gender,
-    user_fullname: requestList.user_fullname,
-    satisfaction: requestList.satisfaction,
-    Phone: requestList.Phone,
     request_type: requestList.request_type,
     problem_desc: requestList.problem_desc,
     Date: requestList.Date,
-    status: requestList.status,
-    NewRequest: requestList.NewRequest
+    status: requestList.status
   }));
 
   const handleRequestSort = (event, property) => {
@@ -227,18 +200,7 @@ export default function NewRequestsForRequester() {
       <EmployeAuth>
         <DashboardNavbarForEmployee />
       </EmployeAuth>
-      <MHidden width="mdDown">
-        <SectionStyle style={{ backgroundColor: '#C7E4F9' }}>
-          <Typography
-            variant="h3"
-            sx={{ px: 5, mt: 10, mb: 5 }}
-            style={{ backgroundColor: '#4DBFDE' }}
-          >
-            እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
-          </Typography>
-          <EmpListDivider />
-        </SectionStyle>
-      </MHidden>
+      <DashboardSidebarEmployee />
       <Container>
         <ContentStyle>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -270,12 +232,11 @@ export default function NewRequestsForRequester() {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const { status } = row;
-                        const isItemSelected = selected.indexOf(status) !== -1;
+                        const isItemSelected = selected.indexOf(row.status) !== -1;
                         return (
                           <TableRow
                             hover
-                            key={status}
+                            key={row.request_id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}
@@ -284,18 +245,13 @@ export default function NewRequestsForRequester() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, status)}
+                                onChange={(event) => handleClick(event, row.status)}
                               />
                             </TableCell>
-                            <TableCell align="left">{row.user_fullname}</TableCell>
-                            <TableCell align="left">{row.Position}</TableCell>
-                            <TableCell align="left">{row.Phone}</TableCell>
-                            <TableCell align="left">{row.Gender}</TableCell>
                             <TableCell align="left">{row.request_type}</TableCell>
                             <TableCell align="left">{row.problem_desc}</TableCell>
                             <TableCell align="left">{row.Date}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
-                            <TableCell align="left">{row.satisfaction}</TableCell>
                             <br />
                             <TableCell align="right">
                               <IconButton ref={ref} onClick={() => setIsOpen(true)}>

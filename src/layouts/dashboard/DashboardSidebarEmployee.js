@@ -11,7 +11,7 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
-import sidebarConfig from './SidebarConfig';
+import sidebarConfigEmployee from './SidebarConfigEmployee';
 import account from '../../_mocks_/account';
 import UserFullname from '../../components/authentication/userAuth/UserFullname';
 
@@ -36,12 +36,12 @@ const AccountStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-DashboardSidebar.propTypes = {
+DashboardSidebarEmployee.propTypes = {
   isOpenSidebar: PropTypes.bool,
   onCloseSidebar: PropTypes.func
 };
 
-export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
+export default function DashboardSidebarEmployee({ isOpenSidebar, onCloseSidebar }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const users = JSON.parse(localStorage.getItem('userinfo'));
@@ -69,7 +69,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       style={{ backgroundColor: '#AE55B9' }}
     >
       <Box sx={{ px: 2.5, py: 3 }}>
-        <Box component={RouterLink} to="#" sx={{ display: 'inline-flex' }}>
+        <Box component={RouterLink} to="/satisfaction" sx={{ display: 'inline-flex' }}>
           <Logo />
         </Box>
       </Box>
@@ -90,7 +90,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} style={{ backgroundColor: '#4DBFDE' }} />
+      <NavSection navConfig={sidebarConfigEmployee} style={{ backgroundColor: '#4DBFDE' }} />
 
       <Box sx={{ flexGrow: 1 }} />
 

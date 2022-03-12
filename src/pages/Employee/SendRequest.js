@@ -6,6 +6,7 @@ import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 // layouts
 import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
+import DashboardSidebarEmployee from '../../layouts/dashboard/DashboardSidebarEmployee';
 import AuthLayout from '../../layouts/AuthLayout';
 // components
 import Page from '../../components/Page';
@@ -49,19 +50,7 @@ export default function SendRequest() {
       <EmployeAuth>
         <DashboardNavbarForEmployee />
       </EmployeAuth>
-      <MHidden width="mdDown">
-        <SectionStyle style={{ backgroundColor: '#C7E4F9' }}>
-          <Typography
-            variant="h3"
-            sx={{ px: 5, mt: 10, mb: 5 }}
-            style={{ backgroundColor: '#4DBFDE' }}
-          >
-            እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
-          </Typography>
-          <EmpListDivider />
-        </SectionStyle>
-      </MHidden>
-
+      <DashboardSidebarEmployee />
       <Container>
         <ContentStyle>
           <Box sx={{ mb: 5 }}>

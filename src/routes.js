@@ -20,7 +20,7 @@ import Officeform from './components/authentication/office/Officeform';
 import SendRequest from './pages/Employee/SendRequest';
 import AddOffice from './pages/AddOffice';
 import Performance from './pages/Performance';
-import Editprofile from './pages/Editprofile';
+import Editprofile from './pages/Employee/Editprofile';
 import Satisfaction from './pages/Employee/Satisfaction';
 import App from './App';
 import SendSatisfaction from './pages/Employee/SendSatisfaction';
@@ -34,6 +34,7 @@ import ITStandard from './pages/ITStandard';
 import StandardList from './pages/StandardList';
 import ListOfStandard from './pages/Standard/ListOfStandard';
 import EditSandard from './pages/Standard/EditStandard';
+import EditProfileAdmin from './pages/EditProfileAdmin';
 
 // ----------------------------------------------------------------------
 
@@ -79,6 +80,7 @@ export default function Router() {
         { path: 'StandardUser', element: <StandardList /> },
         { path: 'StandardList', element: <ListOfStandard /> },
         { path: 'UpdateStandard/:Standardid', element: <EditSandard /> },
+        { path: 'EditProfile', element: <EditProfileAdmin /> },
         {
           path: 'StandardForm/:requestid',
           element: (
@@ -98,7 +100,7 @@ export default function Router() {
       ),
       children: [
         { path: '404', element: <NotFound /> },
-        { path: '/', element: <Navigate to="/dashboard" /> },
+        { path: '/', element: <Navigate to="/dashboard/app" /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },

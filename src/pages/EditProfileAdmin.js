@@ -7,19 +7,12 @@ import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
-import { RegisterForm } from '../components/authentication/register';
 import AuthSocial from '../components/authentication/AuthSocial';
+import { Officeform } from '../components/authentication/office';
+import { API_URL } from './Constant1';
 import Editprofileform from '../components/authentication/register/Editprofileform';
-import DashboardNavbarForEmployee from '../layouts/dashboard/DashboardNavbarForEmployee';
-import EmpListDivider from './Employee/EmpListDivider';
-import EmployeAuth from '../layouts/EmployeAuth';
 // ----------------------------------------------------------------------
 
-const style = {
-  width: '100%',
-  maxWidth: 360,
-  bgcolor: 'background.paper'
-};
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex'
@@ -28,7 +21,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
-  maxWidth: 400,
+  maxWidth: 464,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -36,7 +29,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
-  maxwidth: 480,
+  maxWidth: 480,
   margin: 'auto',
   display: 'flex',
   minHeight: '100vh',
@@ -47,22 +40,16 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Editprofile() {
+export default function EditProfileAdmin() {
   return (
-    <RootStyle title="መረጃዎን ይቀይሩ">
-      <EmployeAuth>
-        <DashboardNavbarForEmployee />
-      </EmployeAuth>
+    <RootStyle title="Register">
+      <AuthLayout>Information Technology</AuthLayout>
       <MHidden width="mdDown">
-        <SectionStyle style={{ backgroundColor: '#C7E4F9' }}>
-          <Typography
-            variant="h3"
-            sx={{ px: 5, mt: 10, mb: 5 }}
-            style={{ backgroundColor: '#4DBFDE' }}
-          >
+        <SectionStyle>
+          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
             እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
-          <EmpListDivider />
+          <img alt="register" src="/static/illustrations/illustration_register.png" />
         </SectionStyle>
       </MHidden>
 
@@ -72,30 +59,10 @@ export default function Editprofile() {
             <Typography variant="h4" gutterBottom>
               መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
             </Typography>
+            <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>
           </Box>
 
           <Editprofileform />
-
-          <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-            By Editing, I agree to Minimal&nbsp;
-            <Link underline="always" sx={{ color: 'text.primary' }}>
-              Terms of Service
-            </Link>
-            &nbsp;and&nbsp;
-            <Link underline="always" sx={{ color: 'text.primary' }}>
-              Privacy Policy
-            </Link>
-            .
-          </Typography>
-
-          <MHidden width="smUp">
-            <Typography variant="subtitle2" sx={{ mt: 3, textAlign: 'center' }}>
-              Already have an account?&nbsp;
-              <Link to="" component={RouterLink}>
-                Login
-              </Link>
-            </Typography>
-          </MHidden>
         </ContentStyle>
       </Container>
     </RootStyle>

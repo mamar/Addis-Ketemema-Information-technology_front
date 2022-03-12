@@ -48,6 +48,7 @@ import {
 import SendRequest from './SendRequest';
 import EmployeAuth from '../../layouts/EmployeAuth';
 import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
+import DashboardSidebarEmployee from '../../layouts/dashboard/DashboardSidebarEmployee';
 import { API_URL } from '../Constant1';
 import { AddSatisfaction } from '../../components/authentication/Request';
 import EmpListDivider from './EmpListDivider';
@@ -224,18 +225,9 @@ export default function ProgressTasksForRequester() {
       <EmployeAuth>
         <DashboardNavbarForEmployee />
       </EmployeAuth>
-      <MHidden width="mdDown">
-        <SectionStyle style={{ backgroundColor: '#C7E4F9' }}>
-          <Typography
-            variant="h3"
-            sx={{ px: 5, mt: 10, mb: 5 }}
-            style={{ backgroundColor: '#4DBFDE' }}
-          >
-            እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
-          </Typography>
-          <EmpListDivider />
-        </SectionStyle>
-      </MHidden>
+
+      <DashboardSidebarEmployee />
+
       <Container>
         <ContentStyle>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
