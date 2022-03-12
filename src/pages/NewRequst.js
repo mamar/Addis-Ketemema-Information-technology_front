@@ -48,6 +48,7 @@ const TABLE_HEAD = [
   { id: 'request_type', label: 'የአገልግሎቱ አይነት', alignRight: false },
   { id: 'problem_desc', label: 'የችግሩ መግለጫ', alignRight: false },
   { Date: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { Date: 'status', label: 'status', alignRight: false },
   { id: '' }
 ];
 
@@ -124,7 +125,8 @@ export default function NewRequest() {
     phone: requestList.phone,
     request_type: requestList.request_type,
     problem_desc: requestList.problem_desc,
-    Date: requestList.Date
+    Date: requestList.Date,
+    status: requestList.status
   }));
 
   const handleRequestSort = (event, property) => {
@@ -253,6 +255,7 @@ export default function NewRequest() {
                           <TableCell align="left">{row.request_type}</TableCell>
                           <TableCell align="left">{row.problem_desc}</TableCell>
                           <TableCell align="left">{row.Date}</TableCell>
+                          <TableCell align="left">{row.status}</TableCell>
                           <TableCell align="right">
                             <IconButton ref={ref} onClick={() => setIsOpen(true)}>
                               <Icon icon={moreVerticalFill} width={20} height={20} />

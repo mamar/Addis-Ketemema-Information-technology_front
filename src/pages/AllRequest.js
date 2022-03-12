@@ -103,7 +103,8 @@ export default function AllRequest() {
     status: requestList.status,
     assignedDate: requestList.assignedDate,
     finishedDate: requestList.finishedDate,
-    Date: requestList.Date
+    Date: requestList.Date,
+    request_id: requestList.request_id
   }));
 
   const handleRequestSort = (event, property) => {
@@ -114,7 +115,7 @@ export default function AllRequest() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = requestList.map((n) => n.fullname);
+      const newSelecteds = requestList.map((n) => n.division);
       setSelected(newSelecteds);
       return;
     }
@@ -206,12 +207,12 @@ export default function AllRequest() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const { fullname } = row;
-                      const isItemSelected = selected.indexOf(fullname) !== -1;
+                      const isItemSelected = selected.indexOf(row.request_id) !== -1;
 
                       return (
                         <TableRow
                           hover
-                          key={fullname}
+                          key={row.request_id}
                           tabIndex={-1}
                           role="checkbox"
                           selected={isItemSelected}
@@ -220,7 +221,7 @@ export default function AllRequest() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, fullname)}
+                              onChange={(event) => handleClick(event, row.request_id)}
                             />
                           </TableCell>
                           <TableCell align="left">{row.requesterusername}</TableCell>

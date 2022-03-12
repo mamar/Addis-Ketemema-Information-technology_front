@@ -72,10 +72,16 @@ const sidebarConfig = [
     icon: getIcon(personAddFill)
   },
   {
+    title: 'ማሳሰቢያ',
+    path: '/dashboard/Announcement',
+    icon: getIcon(fileTextFill)
+  }
+
+  /*  {
     title: 'Not found',
     path: '/404',
     icon: getIcon(alertTriangleFill)
-  }
+  } */
 ];
 
 export default sidebarConfig;

@@ -54,10 +54,10 @@ const TABLE_HEAD = [
   { id: 'belowStandard', label: 'ከስታንዳረድ በታች የተሰሩ', alignRight: false },
   { id: 'WithinStandard', label: 'በስታንዳረድ የተሰሩ', alignRight: false },
   { id: 'AboveStandard', label: 'ከስታንዳረድ በላይ የተሰሩ', alignRight: false },
-  { id: 'Standard', label: 'Standard', alignRight: false },
-  { id: 'Actual', label: 'Actual', alignRight: false },
-  { id: 'standardAmh', label: 'Standard', alignRight: false },
-  { id: 'Actual', label: 'Actual', alignRight: false },
+  { id: 'Standard', label: 'Standard(%)', alignRight: false },
+  { id: 'Actual', label: 'ጥራት(%)', alignRight: false },
+  { id: 'standardAmh', label: 'Stand.level', alignRight: false },
+  { id: 'Actual', label: 'እርካታ(%)', alignRight: false },
   { id: 'price', label: 'ዋጋ', alignRight: false },
   { id: 'meremera', label: 'ምርመራ', alignRight: false },
   { id: '' }
@@ -269,7 +269,7 @@ export default function StandardList() {
                           <TableCell align="left">{row.WithinStandard}</TableCell>
                           <TableCell align="left">{row.AboveStandard}</TableCell>
                           <TableCell align="left">{row.Standard}</TableCell>
-                          <TableCell align="left">{row.Actual}</TableCell>
+                          <TableCell align="left">100</TableCell>
                           <TableCell align="left">{row.standardAmh}</TableCell>
                           <TableCell align="left">{row.Actual}</TableCell>
                           <TableCell align="left">{row.price}</TableCell>

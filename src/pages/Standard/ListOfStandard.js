@@ -75,7 +75,7 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.office_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.service.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -207,8 +207,7 @@ export default function ListOfStandard() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { standardid } = row;
-                      const isItemSelected = selected.indexOf(standardid) !== -1;
+                      const isItemSelected = selected.indexOf(row.standardid) !== -1;
 
                       return (
                         <TableRow
@@ -222,7 +221,7 @@ export default function ListOfStandard() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, standardList.standardid)}
+                              onChange={(event) => handleClick(event, row.standardid)}
                             />
                           </TableCell>
                           <TableCell align="left">{row.service}</TableCell>

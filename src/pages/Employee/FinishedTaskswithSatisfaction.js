@@ -64,6 +64,7 @@ const TABLE_HEAD = [
   { id: 'finisheDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'Status', label: 'Status', alignRight: false },
   { id: 'Satisfaction', label: 'እርካታ', alignRight: false },
+  { id: 'comment', label: 'አስተያየት', አስተያየት: false },
   { id: '' }
 ];
 const style = {
@@ -168,7 +169,8 @@ export default function FinishedTaskswithSatisfaction() {
     problem_desc: requestList.problem_desc,
     Date: requestList.Date,
     assignedDate: requestList.assignedDate,
-    status: requestList.status
+    status: requestList.status,
+    comment: requestList.comment
   }));
 
   const handleRequestSort = (event, property) => {
@@ -288,6 +290,7 @@ export default function FinishedTaskswithSatisfaction() {
                             <TableCell align="left">{row.finishedDate}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
                             <TableCell align="left">{row.satisfaction}</TableCell>
+                            <TableCell align="left">{row.comment}</TableCell>
                             <br />
                             <TableCell align="right">
                               <IconButton ref={ref} onClick={() => setIsOpen(true)}>

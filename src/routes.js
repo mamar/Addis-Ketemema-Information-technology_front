@@ -35,6 +35,8 @@ import StandardList from './pages/StandardList';
 import ListOfStandard from './pages/Standard/ListOfStandard';
 import EditSandard from './pages/Standard/EditStandard';
 import EditProfileAdmin from './pages/EditProfileAdmin';
+import DisplayAnnounce from './pages/Announce/DiplayAnnounce';
+import { AnnounceForm } from './components/authentication/Announce';
 
 // ----------------------------------------------------------------------
 
@@ -81,6 +83,8 @@ export default function Router() {
         { path: 'StandardList', element: <ListOfStandard /> },
         { path: 'UpdateStandard/:Standardid', element: <EditSandard /> },
         { path: 'EditProfile', element: <EditProfileAdmin /> },
+        { path: 'Announcement', element: <DisplayAnnounce /> },
+        { path: 'AddAnnouncement', element: <AnnounceForm /> },
         {
           path: 'StandardForm/:requestid',
           element: (
