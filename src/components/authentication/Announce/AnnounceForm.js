@@ -36,7 +36,7 @@ export default function AnnounceForm() {
   });
   const formik = useFormik({
     initialValues: {
-      anounceName: Yup.string().min(8, 'Too Short!').max(50, 'Too Long!').required('required')
+      anounceName: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
@@ -82,7 +82,7 @@ export default function AnnounceForm() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
-          <TextField
+          <TextareaAutosize
             label="ማሳሰቢያ *"
             placeholder="ማሳሰቢያ *"
             value={values.anounceName}
