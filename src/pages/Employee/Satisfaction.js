@@ -56,6 +56,7 @@ import { AddSatisfaction } from '../../components/authentication/Request';
 import EmpListDivider from './EmpListDivider';
 import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
 import DashboardSidebarEmployee from '../../layouts/dashboard/DashboardSidebarEmployee';
+import PrivateRoute from '../../components/authentication/Redirect/PrivateRoute';
 
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
@@ -214,7 +215,6 @@ export default function Satisfaction() {
   const filteredUsers = applySortFilter(requestList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-
   return (
     <RootStyle title="የተጠየቁ አገልግሎቶች መከታተያ">
       <EmployeAuth>

@@ -95,6 +95,30 @@ export default function DisplayAnnounce() {
       setAnnounceList(Response.data);
     });
   });
+  const EndAnnounce = (anounceid) => {
+    axios.put(`${API_URL}/EndAnnounce/${anounceid}`).then((Response) => {
+      if (Response.data.Message === 'Esuccess') {
+        alert('Announcement Ended Succesffully');
+        window.location.reload();
+      }
+      if (Response.data.Message === 'Eerror') {
+        alert('server error');
+        window.location.reload();
+      }
+    });
+  };
+  const DeletAnounce = (anouncid) => {
+    axios.delete(`${API_URL}/DeleteAnnounce/${anouncid}`).then((Response) => {
+      if (Response.data.Message === 'Dsuccess') {
+        alert('Announcement Delete Succesffully');
+        window.location.reload();
+      }
+      if (Response.data.Message === 'Derror') {
+        alert('server error');
+        window.location.reload();
+      }
+    });
+  };
   const request = [...Array(24)].map((_, index) => ({
     anounceName: AnnounceList.anounceName,
     status: AnnounceList.status,
@@ -229,7 +253,10 @@ export default function DisplayAnnounce() {
                               anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                             >
-                              <MenuItem sx={{ color: 'text.secondary' }}>
+                              <MenuItem
+                                sx={{ color: 'text.primary' }}
+                                onClick={() => DeletAnounce(row.anouncid)}
+                              >
                                 <ListItemIcon>
                                   <Icon icon={trash2Outline} width={24} height={24} />
                                 </ListItemIcon>
@@ -240,14 +267,13 @@ export default function DisplayAnnounce() {
                               </MenuItem>
                               <MenuItem
                                 sx={{ color: 'text.secondary' }}
-                                component={RouterLink}
-                                to={`/dashboard/UpdateStandard/${row.anounceid}`}
+                                onClick={() => EndAnnounce(row.anouncid)}
                               >
                                 <ListItemIcon>
                                   <Icon icon={trash2Outline} width={24} height={24} />
                                 </ListItemIcon>
                                 <ListItemText
-                                  primary="edit"
+                                  primary="End"
                                   primaryTypographyProps={{ variant: 'body2' }}
                                 />
                               </MenuItem>

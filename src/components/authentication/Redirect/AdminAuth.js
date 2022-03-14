@@ -4,11 +4,14 @@ import { Navigate } from 'react-router-dom';
 
 const AdminAuth = ({ children }) => {
   const users = JSON.parse(localStorage.getItem('userinfo'));
-  const Admin = () => {
-    if (users.user[0].ROLES === 'Admin' || users.user[0].ROLES === 'IT') {
-      return true;
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'Employee') {
+      return <Navigate to="/satisfaction" />;
     }
-  };
-  return Admin ? children : <Navigate to="/Satisfaction" />;
+    return <Navigate to={children} />;
+  }
 };
 export default AdminAuth;

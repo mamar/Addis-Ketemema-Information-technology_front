@@ -25,6 +25,7 @@ import Satisfaction from './pages/Employee/Satisfaction';
 import App from './App';
 import SendSatisfaction from './pages/Employee/SendSatisfaction';
 import PrivateRoute from './components/authentication/Redirect/PrivateRoute';
+import AdminAuth from './components/authentication/Redirect/AdminAuth';
 import FinishedTaskswithSatisfaction from './pages/Employee/FinishedTaskswithSatisfaction';
 import NewRequestsForRequester from './pages/Employee/NewRequestsForRequester';
 import ProgressTasksForRequester from './pages/Employee/ProgressTasksForRequester';
@@ -37,6 +38,7 @@ import EditSandard from './pages/Standard/EditStandard';
 import EditProfileAdmin from './pages/EditProfileAdmin';
 import DisplayAnnounce from './pages/Announce/DiplayAnnounce';
 import { AnnounceForm } from './components/authentication/Announce';
+import AddAnnounce from './pages/Announce/AddAnnounce';
 
 // ----------------------------------------------------------------------
 
@@ -46,18 +48,10 @@ export default function Router() {
   return useRoutes([
     {
       path: '/dashboard',
-      element: (
-        <PrivateRoute>
-          <DashboardLayout />
-        </PrivateRoute>
-      ),
+      element: <DashboardLayout />,
       children: [
         {
-          element: (
-            <PrivateRoute>
-              <Navigate to="/dashboard/app" replace />
-            </PrivateRoute>
-          )
+          element: <Navigate to="/dashboard/app" replace />
         },
         {
           path: 'app',
@@ -68,7 +62,10 @@ export default function Router() {
           element: <Office />
         },
         { path: 'user', element: <User /> },
-        { path: 'AllRequest', element: <AllRequest /> },
+        {
+          path: 'AllRequest',
+          element: <AllRequest />
+        },
         { path: 'NewRequest', element: <NewRequest /> },
         { path: 'AssignedRequest', element: <AssignedRequest /> },
         // { path: 'OnProgressRequest', element: <OnProgressRequest /> },
@@ -84,24 +81,17 @@ export default function Router() {
         { path: 'UpdateStandard/:Standardid', element: <EditSandard /> },
         { path: 'EditProfile', element: <EditProfileAdmin /> },
         { path: 'Announcement', element: <DisplayAnnounce /> },
-        { path: 'AddAnnouncement', element: <AnnounceForm /> },
+        { path: 'AddAnnouncement', element: <AddAnnounce /> },
         {
           path: 'StandardForm/:requestid',
-          element: (
-            <PrivateRoute>
-              <SendStandard />
-            </PrivateRoute>
-          )
+          element: <SendStandard />
         }
       ]
     },
+
     {
       path: '/',
-      element: (
-        <PrivateRoute>
-          <LogoOnlyLayout />
-        </PrivateRoute>
-      ),
+      element: <LogoOnlyLayout />,
       children: [
         { path: '404', element: <NotFound /> },
         { path: '/', element: <Navigate to="/dashboard/app" /> },
@@ -115,59 +105,31 @@ export default function Router() {
     },
     {
       path: 'SendRequest',
-      element: (
-        <PrivateRoute>
-          <SendRequest />
-        </PrivateRoute>
-      )
+      element: <SendRequest />
     },
     {
       path: 'EditProfile',
-      element: (
-        <PrivateRoute>
-          <Editprofile />
-        </PrivateRoute>
-      )
+      element: <Editprofile />
     },
     {
       path: 'satisfaction',
-      element: (
-        <PrivateRoute>
-          <Satisfaction />
-        </PrivateRoute>
-      )
+      element: <Satisfaction />
     },
     {
       path: 'AddSatisfaction/:request_id',
-      element: (
-        <PrivateRoute>
-          <SendSatisfaction />
-        </PrivateRoute>
-      )
+      element: <SendSatisfaction />
     },
     {
       path: 'finishshedTasksSatisfaction',
-      element: (
-        <PrivateRoute>
-          <FinishedTaskswithSatisfaction />
-        </PrivateRoute>
-      )
+      element: <FinishedTaskswithSatisfaction />
     },
     {
       path: 'NewRequestsFor',
-      element: (
-        <PrivateRoute>
-          <NewRequestsForRequester />
-        </PrivateRoute>
-      )
+      element: <NewRequestsForRequester />
     },
     {
       path: 'ProgressTasksFor',
-      element: (
-        <PrivateRoute>
-          <ProgressTasksForRequester />
-        </PrivateRoute>
-      )
+      element: <ProgressTasksForRequester />
     }
   ]);
 }

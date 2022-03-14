@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 //
@@ -33,7 +33,7 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
-
+  const users = JSON.parse(localStorage.getItem('userinfo'));
   return (
     <RootStyle>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />

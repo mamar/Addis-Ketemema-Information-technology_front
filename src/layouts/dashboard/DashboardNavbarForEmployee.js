@@ -3,7 +3,9 @@ import { Icon } from '@iconify/react';
 import menu2Fill from '@iconify/icons-eva/menu-2-fill';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 // components
 import { MHidden } from '../../components/@material-extend';
 //
@@ -13,7 +15,7 @@ import LanguagePopover from './LanguagePopover';
 import NotificationsPopover from './NotificationsPopover';
 import AccountPopoverEmployee from './AccountPopoverEmployee';
 import NotificationsPopoverEmployee from './NotificationsPopoverEmployee';
-
+import { API_URL } from '../../pages/Constant1';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
@@ -45,6 +47,12 @@ DashboardNavbarForEmployee.propTypes = {
 };
 
 export default function DashboardNavbarForEmployee({ onOpenSidebar }) {
+  const [AnnounceList, setAnnounceList] = useState([]);
+  useEffect(() => {
+    axios.get(`${API_URL}/DisplayAnnounceForEmployee`).then((Response) => {
+      setAnnounceList(Response.data);
+    });
+  });
   return (
     <RootStyle style={{ backgroundColor: '#C7E4F9' }}>
       <ToolbarStyle>
@@ -56,6 +64,16 @@ export default function DashboardNavbarForEmployee({ onOpenSidebar }) {
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
+          {AnnounceList.map((row) => (
+            <Typography
+              variant="h4"
+              gutterBottom
+              key={row.anouncid}
+              style={{ backgroundColor: 'red' }}
+            >
+              ማሳሰቢያ:{row.anounceName}
+            </Typography>
+          ))}
           <NotificationsPopoverEmployee />
           <AccountPopoverEmployee />
         </Stack>

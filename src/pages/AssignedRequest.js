@@ -4,7 +4,7 @@ import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import axios from 'axios';
 // material
 import {
@@ -181,158 +181,165 @@ export default function AssignedRequest() {
   const filteredUsers = applySortFilter(requestList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-
-  return (
-    <Page title="የተጀመሩ ስራዎች">
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            የተጀመሩ ስራዎች
-          </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            <ReactHTMLTableToExcel
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'Employee') {
+      return <Navigate to="/satisfaction" />;
+    }
+    return (
+      <Page title="የተጀመሩ ስራዎች">
+        <Container>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+              የተጀመሩ ስራዎች
+            </Typography>
+            <Button
               variant="contained"
+              component={RouterLink}
+              to="#"
               startIcon={<Icon icon={plusFill} />}
-              table="Assigned"
-              filename="የተጀመሩ ስራዎች"
-              sheet="የተጀመሩ ስራዎች"
-              buttonText="Export excel"
+            >
+              <ReactHTMLTableToExcel
+                variant="contained"
+                startIcon={<Icon icon={plusFill} />}
+                table="Assigned"
+                filename="የተጀመሩ ስራዎች"
+                sheet="የተጀመሩ ስራዎች"
+                buttonText="Export excel"
+              />
+            </Button>
+          </Stack>
+
+          <Card>
+            <UserListToolbar
+              numSelected={selected.length}
+              filterName={filterName}
+              onFilterName={handleFilterByName}
             />
-          </Button>
-        </Stack>
 
-        <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
-
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="Assigned" SickyHeader aria-label="sticky table">
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={requestList.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      const { officename } = row;
-                      const isItemSelected = selected.indexOf(officename) !== -1;
-
-                      return (
-                        <TableRow
-                          hover
-                          key={officename}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, officename)}
-                            />
-                          </TableCell>
-                          <TableCell align="left">{row.office_name}</TableCell>
-                          <TableCell align="left">{row.user_fullname}</TableCell>
-                          <TableCell align="left">{row.division}</TableCell>
-                          <TableCell align="left">{row.floor_no}</TableCell>
-                          <TableCell align="left">{row.office_no}</TableCell>
-                          <TableCell align="left">{row.phone}</TableCell>
-                          <TableCell align="left">{row.request_type}</TableCell>
-                          <TableCell align="left">{row.problem_desc}</TableCell>
-                          <TableCell align="left">{row.Date}</TableCell>
-                          <TableCell align="left">{row.assignedDate}</TableCell>
-                          <TableCell align="left">{row.status}</TableCell>
-                          <TableCell align="right">
-                            <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                              <Icon icon={moreVerticalFill} width={20} height={20} />
-                            </IconButton>
-
-                            <Menu
-                              open={isOpen}
-                              anchorEl={ref.current}
-                              onClose={() => setIsOpen(false)}
-                              PaperProps={{
-                                sx: { width: 200, maxWidth: '100%' }
-                              }}
-                              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                            >
-                              <MenuItem
-                                sx={{ color: 'text.secondary' }}
-                                onClick={() => finishTask(row.request_id)}
-                              >
-                                <ListItemIcon>
-                                  <Icon icon={trash2Outline} width={24} height={24} />
-                                </ListItemIcon>
-                                <ListItemText
-                                  primary="Finish Task"
-                                  primaryTypographyProps={{ variant: 'body2' }}
-                                />
-                              </MenuItem>
-                              <MenuItem
-                                sx={{ color: 'text.secondary' }}
-                                component={RouterLink}
-                                to={`/dashboard/StandardForm/${row.request_id}`}
-                              >
-                                <ListItemIcon>
-                                  <Icon icon={trash2Outline} width={24} height={24} />
-                                </ListItemIcon>
-                                <ListItemText
-                                  primary="ሰታንዳርድ"
-                                  primaryTypographyProps={{ variant: 'body2' }}
-                                />
-                              </MenuItem>
-                            </Menu>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                {isUserNotFound && (
+            <Scrollbar>
+              <TableContainer sx={{ minWidth: 800 }}>
+                <Table id="Assigned" SickyHeader aria-label="sticky table">
+                  <UserListHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={TABLE_HEAD}
+                    rowCount={requestList.length}
+                    numSelected={selected.length}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
+                  />
                   <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
+                    {filteredUsers
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row) => {
+                        const { officename } = row;
+                        const isItemSelected = selected.indexOf(officename) !== -1;
 
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={requestList.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card>
-      </Container>
-    </Page>
-  );
+                        return (
+                          <TableRow
+                            hover
+                            key={officename}
+                            tabIndex={-1}
+                            role="checkbox"
+                            selected={isItemSelected}
+                            aria-checked={isItemSelected}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={isItemSelected}
+                                onChange={(event) => handleClick(event, officename)}
+                              />
+                            </TableCell>
+                            <TableCell align="left">{row.office_name}</TableCell>
+                            <TableCell align="left">{row.user_fullname}</TableCell>
+                            <TableCell align="left">{row.division}</TableCell>
+                            <TableCell align="left">{row.floor_no}</TableCell>
+                            <TableCell align="left">{row.office_no}</TableCell>
+                            <TableCell align="left">{row.phone}</TableCell>
+                            <TableCell align="left">{row.request_type}</TableCell>
+                            <TableCell align="left">{row.problem_desc}</TableCell>
+                            <TableCell align="left">{row.Date}</TableCell>
+                            <TableCell align="left">{row.assignedDate}</TableCell>
+                            <TableCell align="left">{row.status}</TableCell>
+                            <TableCell align="right">
+                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+                                <Icon icon={moreVerticalFill} width={20} height={20} />
+                              </IconButton>
+
+                              <Menu
+                                open={isOpen}
+                                anchorEl={ref.current}
+                                onClose={() => setIsOpen(false)}
+                                PaperProps={{
+                                  sx: { width: 200, maxWidth: '100%' }
+                                }}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                              >
+                                <MenuItem
+                                  sx={{ color: 'text.secondary' }}
+                                  onClick={() => finishTask(row.request_id)}
+                                >
+                                  <ListItemIcon>
+                                    <Icon icon={trash2Outline} width={24} height={24} />
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    primary="Finish Task"
+                                    primaryTypographyProps={{ variant: 'body2' }}
+                                  />
+                                </MenuItem>
+                                <MenuItem
+                                  sx={{ color: 'text.secondary' }}
+                                  component={RouterLink}
+                                  to={`/dashboard/StandardForm/${row.request_id}`}
+                                >
+                                  <ListItemIcon>
+                                    <Icon icon={trash2Outline} width={24} height={24} />
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    primary="ሰታንዳርድ"
+                                    primaryTypographyProps={{ variant: 'body2' }}
+                                  />
+                                </MenuItem>
+                              </Menu>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  {isUserNotFound && (
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                          <SearchNotFound searchQuery={filterName} />
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  )}
+                </Table>
+              </TableContainer>
+            </Scrollbar>
+
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={requestList.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Card>
+        </Container>
+      </Page>
+    );
+  }
 }
