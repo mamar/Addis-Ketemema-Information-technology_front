@@ -95,7 +95,7 @@ export default function ListOfStandard() {
     axios.get(`${API_URL}/GetAllStandard`).then((Response) => {
       SetstandardList(Response.data);
     });
-  });
+  }, []);
   const finishTask = (taskid) => {
     axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
       if (response.data.Message === 'Error') {
@@ -203,7 +203,7 @@ export default function ListOfStandard() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="standardList" SickyHeader aria-label="sticky table">
+                <Table id="standardList" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}

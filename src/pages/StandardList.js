@@ -55,7 +55,7 @@ const TABLE_HEAD = [
   { id: 'WithinStandard', label: 'በስታንዳረድ የተሰሩ', alignRight: false },
   { id: 'AboveStandard', label: 'ከስታንዳረድ በላይ የተሰሩ', alignRight: false },
   { id: 'Standard', label: 'Standard(%)', alignRight: false },
-  { id: 'Actual', label: 'ጥራት(%)', alignRight: false },
+  { id: 'Actual1', label: 'ጥራት(%)', alignRight: false },
   { id: 'standardAmh', label: 'Stand.level', alignRight: false },
   { id: 'Actual', label: 'እርካታ(%)', alignRight: false },
   { id: 'price', label: 'ዋጋ', alignRight: false },
@@ -120,7 +120,7 @@ export default function StandardList() {
       .then((Response) => {
         Setstandardlist(Response.data);
       });
-  });
+  }, []);
   const request = [...Array(24)].map((_, index) => ({
     service: standardlist.service,
     measurement: standardlist.measurement,
@@ -236,7 +236,7 @@ export default function StandardList() {
             </LocalizationProvider>
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="StandardList" ickyHeader aria-label="sticky table">
+                <Table id="StandardList" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}

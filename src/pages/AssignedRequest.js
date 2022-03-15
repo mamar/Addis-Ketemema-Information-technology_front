@@ -102,7 +102,7 @@ export default function AssignedRequest() {
     axios.get(`${API_URL}/GetProgressTask/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
     });
-  });
+  }, []);
   const finishTask = (taskid) => {
     axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
       if (response.data.Message === 'Error') {
@@ -221,7 +221,7 @@ export default function AssignedRequest() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="Assigned" SickyHeader aria-label="sticky table">
+                <Table id="Assigned" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
@@ -241,7 +241,7 @@ export default function AssignedRequest() {
                         return (
                           <TableRow
                             hover
-                            key={officename}
+                            key={row.request_id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}

@@ -94,7 +94,7 @@ export default function DisplayAnnounce() {
     axios.get(`${API_URL}/DisplayAnnounce`).then((Response) => {
       setAnnounceList(Response.data);
     });
-  });
+  }, []);
   const EndAnnounce = (anounceid) => {
     axios.put(`${API_URL}/EndAnnounce/${anounceid}`).then((Response) => {
       if (Response.data.Message === 'Esuccess') {
@@ -214,7 +214,7 @@ export default function DisplayAnnounce() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="standardList" SickyHeader aria-label="sticky table">
+                <Table id="standardList" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}

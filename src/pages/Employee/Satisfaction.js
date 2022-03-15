@@ -148,7 +148,7 @@ export default function Satisfaction() {
     axios.get(`${API_URL}/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
     });
-  });
+  }, []);
   const request = [...Array(24)].map((_, index) => ({
     request_id: requestList.request_id,
     Position: requestList.Position,
@@ -245,7 +245,7 @@ export default function Satisfaction() {
 
               <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }}>
-                  <Table SickyHeader aria-label="sticky table">
+                  <Table stickyheader="true" aria-label="sticky table">
                     <UserListHead
                       order={order}
                       orderBy={orderBy}
@@ -264,7 +264,7 @@ export default function Satisfaction() {
                           return (
                             <TableRow
                               hover
-                              key={status}
+                              key={row.request_id}
                               tabIndex={-1}
                               role="checkbox"
                               selected={isItemSelected}

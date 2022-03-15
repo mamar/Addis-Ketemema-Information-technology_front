@@ -47,14 +47,16 @@ export default function TotalPhotocopy() {
     axios.get(`${API_URL}/CountPhotocopy`).then((Response) => {
       setcount(Response.data);
     });
-  });
+  }, []);
   return (
     <RootStyle>
       <IconWrapperStyle>
         <LocalPrintshopIcon width={24} height={24} />
       </IconWrapperStyle>
       {countTask.map((value) => (
-        <Typography variant="h3">{/* fShortenNumber( */ value.total}</Typography>
+        <Typography variant="h3" key="TotalPhotocopy">
+          {/* fShortenNumber( */ value.total}
+        </Typography>
       ))}
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         ፎቶኮፒ

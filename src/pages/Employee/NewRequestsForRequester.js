@@ -134,7 +134,7 @@ export default function NewRequestsForRequester() {
     axios.get(`${API_URL}/NewRequestsForRequester/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
     });
-  });
+  }, []);
   const request = [...Array(24)].map((_, index) => ({
     request_id: requestList.request_id,
     request_type: requestList.request_type,
@@ -224,7 +224,7 @@ export default function NewRequestsForRequester() {
 
               <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }}>
-                  <Table SickyHeader aria-label="sticky table">
+                  <Table stickyheader="true" aria-label="sticky table">
                     <UserListHead
                       order={order}
                       orderBy={orderBy}

@@ -130,7 +130,7 @@ export default function User() {
         SetuserList(Response.data);
       }
     });
-  });
+  }, []);
   const users = [...Array(24)].map((_, index) => ({
     office_name: userlist.office_name,
     userid: userlist.userid,
@@ -229,7 +229,7 @@ export default function User() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="users" tickyHeader aria-label="sticky table">
+              <Table id="users" tickyheader="true" aria-label="sticky table">
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
@@ -250,7 +250,7 @@ export default function User() {
                       return (
                         <TableRow
                           hover
-                          key={id}
+                          key={row.userid}
                           tabIndex={-1}
                           role="checkbox"
                           selected={isItemSelected}

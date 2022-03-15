@@ -125,9 +125,8 @@ export default function SolutionofferedRequest() {
   useEffect(() => {
     axios.get(`${API_URL}/finishedTasksbyUser/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
-      console.log(Response.data);
     });
-  });
+  }, []);
   const request = [...Array(24)].map((_, index) => ({
     request_id: requestList.request_id,
     requesterusername: requestList.requesterusername,
@@ -238,7 +237,7 @@ export default function SolutionofferedRequest() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="solutionoffered" ickyHeader aria-label="sticky table">
+                <Table id="solutionoffered" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
@@ -258,7 +257,7 @@ export default function SolutionofferedRequest() {
                         return (
                           <TableRow
                             hover
-                            key={fullname}
+                            key={row.request_id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}

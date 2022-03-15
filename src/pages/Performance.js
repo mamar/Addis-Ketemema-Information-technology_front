@@ -119,7 +119,7 @@ export default function Performance() {
       .then((Response) => {
         setperformancelist(Response.data);
       });
-  });
+  }, []);
   const performance = [...Array(24)].map((_, index) => ({
     user_fullname: performancelist.user_fullname,
     Finished: performancelist.Finished,

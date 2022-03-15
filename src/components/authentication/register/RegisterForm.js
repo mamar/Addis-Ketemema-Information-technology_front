@@ -88,7 +88,7 @@ export default function RegisterForm() {
     axios.get(`${API_URL}/GetOffice`).then((Response) => {
       setofficelist(Response.data);
     });
-  });
+  }, []);
   const { errors, values, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (

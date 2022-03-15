@@ -19,7 +19,7 @@ export default function RegisterForm() {
     axios.get(`${API_URL}/GetOffice`).then((Response) => {
       setofficelist(Response.data);
     });
-  });
+  }, []);
   const navigate = useNavigate();
   const RegisterSchema = Yup.object().shape({
     division: Yup.string().required('required'),

@@ -41,14 +41,16 @@ export default function TotalRequest() {
     axios.get(`${API_URL}/CountAllTask`).then((Response) => {
       setcount(Response.data);
     });
-  });
+  }, []);
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>
       {countTask.map((value) => (
-        <Typography variant="h3">{/* fShortenNumber( */ value.total}</Typography>
+        <Typography variant="h3" key="TotalRequest">
+          {/* fShortenNumber( */ value.total}
+        </Typography>
       ))}
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         ጠቅላላ የተጠየቁ

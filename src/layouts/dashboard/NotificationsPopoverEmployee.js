@@ -51,7 +51,7 @@ export default function NotificationsPopoverEmployee() {
     axios.get(`${API_URL}/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
     });
-  });
+  }, []);
   function renderContent(notification) {
     const title = (
       <Typography variant="subtitle2">
@@ -248,7 +248,7 @@ export default function NotificationsPopoverEmployee() {
         <Divider />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple component={RouterLink} to="#">
+          <Button fullWidth disableRipple component={RouterLink} to="/Satisfaction">
             View All
           </Button>
         </Box>

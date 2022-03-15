@@ -144,7 +144,7 @@ export default function FinishedTaskswithSatisfaction() {
       .then((Response) => {
         SetRequestList(Response.data);
       });
-  });
+  }, []);
   const finishTask = (taskid) => {
     axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
       if (response.data.Message === 'Error') {
@@ -255,7 +255,7 @@ export default function FinishedTaskswithSatisfaction() {
 
               <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }}>
-                  <Table SickyHeader aria-label="sticky table">
+                  <Table stickyheader="true" aria-label="sticky table">
                     <UserListHead
                       order={order}
                       orderBy={orderBy}
@@ -274,7 +274,7 @@ export default function FinishedTaskswithSatisfaction() {
                           return (
                             <TableRow
                               hover
-                              key={status}
+                              key={row.request_id}
                               tabIndex={-1}
                               role="checkbox"
                               selected={isItemSelected}
@@ -298,7 +298,6 @@ export default function FinishedTaskswithSatisfaction() {
                               <TableCell align="left">{row.status}</TableCell>
                               <TableCell align="left">{row.satisfaction}</TableCell>
                               <TableCell align="left">{row.comment}</TableCell>
-                              <br />
                               <TableCell align="right">
                                 <IconButton ref={ref} onClick={() => setIsOpen(true)}>
                                   <Icon icon={moreVerticalFill} width={20} height={20} />

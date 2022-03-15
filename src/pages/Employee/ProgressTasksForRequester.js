@@ -140,7 +140,7 @@ export default function ProgressTasksForRequester() {
     axios.get(`${API_URL}/ProgressTasksForRequester/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
     });
-  });
+  }, []);
   const finishTask = (taskid) => {
     axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
       if (response.data.Message === 'Error') {
@@ -252,7 +252,7 @@ export default function ProgressTasksForRequester() {
 
               <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }}>
-                  <Table SickyHeader aria-label="sticky table">
+                  <Table stickyheader="true" aria-label="sticky table">
                     <UserListHead
                       order={order}
                       orderBy={orderBy}
@@ -271,7 +271,7 @@ export default function ProgressTasksForRequester() {
                           return (
                             <TableRow
                               hover
-                              key={status}
+                              key={row.request_id}
                               tabIndex={-1}
                               role="checkbox"
                               selected={isItemSelected}

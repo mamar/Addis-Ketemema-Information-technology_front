@@ -52,7 +52,7 @@ export default function DashboardNavbarForEmployee({ onOpenSidebar }) {
     axios.get(`${API_URL}/DisplayAnnounceForEmployee`).then((Response) => {
       setAnnounceList(Response.data);
     });
-  });
+  }, []);
   return (
     <RootStyle style={{ backgroundColor: '#C7E4F9' }}>
       <ToolbarStyle>

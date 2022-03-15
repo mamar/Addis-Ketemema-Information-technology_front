@@ -101,7 +101,7 @@ export default function NewRequest() {
     axios.get(`${API_URL}/GetNewRequest`).then((Response) => {
       SetRequestList(Response.data);
     });
-  });
+  }, []);
   const AssignTask = (taskid, username) => {
     axios.put(`${API_URL}/AssignTask/${taskid}/${username}`).then((response) => {
       if (response.data.Message === 'Error') {
@@ -221,7 +221,7 @@ export default function NewRequest() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="NewRequest" tickyHeader aria-label="sticky table">
+                <Table id="NewRequest" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
@@ -235,13 +235,12 @@ export default function NewRequest() {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const { fullname } = row;
-                        const isItemSelected = selected.indexOf(fullname) !== -1;
+                        const isItemSelected = selected.indexOf(row.request_id) !== -1;
 
                         return (
                           <TableRow
                             hover
-                            key={fullname}
+                            key={row.request_id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}
@@ -250,7 +249,7 @@ export default function NewRequest() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, fullname)}
+                                onChange={(event) => handleClick(event, row.request_id)}
                               />
                             </TableCell>
                             <TableCell align="left">{row.office_name}</TableCell>

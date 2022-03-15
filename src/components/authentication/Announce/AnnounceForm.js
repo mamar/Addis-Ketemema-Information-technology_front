@@ -88,7 +88,7 @@ export default function AnnounceForm() {
             value={values.anounceName}
             {...getFieldProps('anounceName')}
             error={Boolean(touched.anounceName && errors.anounceName)}
-            helperText={touched.anounceName && errors.anounceName}
+            helpertex={touched.anounceName && errors.anounceName}
           />
           <LoadingButton size="large" type="submit" variant="contained" loading={isSubmitting}>
             Add

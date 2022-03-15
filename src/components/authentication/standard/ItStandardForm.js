@@ -26,7 +26,7 @@ export default function ItStandardForm() {
     axios.get(`${API_URL}/GetAllStandard`).then((Response) => {
       setStandardlist(Response.data);
     });
-  });
+  }, []);
   const formik = useFormik({
     initialValues: {
       standardid: ''

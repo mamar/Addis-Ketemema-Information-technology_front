@@ -37,7 +37,7 @@ export default function EditStandardForm() {
     axios.get(`${API_URL}/GetStandardForUpdate/${standardid.Standardid}`).then((Response) => {
       setStandard(Response.data);
     });
-  });
+  }, []);
   const RegisterSchema = Yup.object().shape({
     service: Yup.string().required('required'),
     measurement: Yup.string().required(' required'),

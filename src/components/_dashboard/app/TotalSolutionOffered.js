@@ -44,14 +44,16 @@ export default function TotalSolutionOffered() {
     axios.get(`${API_URL}/CountSolutionOffered`).then((Response) => {
       setcount(Response.data);
     });
-  });
+  }, []);
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Icon icon={appleFilled} width={24} height={24} />
       </IconWrapperStyle>
       {countTask.map((value) => (
-        <Typography variant="h3">{/* fShortenNumber( */ value.total}</Typography>
+        <Typography variant="h3" key="TotalSolutionOfferd">
+          {/* fShortenNumber( */ value.total}
+        </Typography>
       ))}
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         መፍትሄ የተሰጣቸዉ

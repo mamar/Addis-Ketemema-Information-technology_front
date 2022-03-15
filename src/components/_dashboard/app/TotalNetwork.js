@@ -53,7 +53,9 @@ export default function TotalNetwork() {
         <SensorsIcon width={24} height={24} />
       </IconWrapperStyle>
       {countTask.map((value) => (
-        <Typography variant="h3">{/* fShortenNumber( */ value.total}</Typography>
+        <Typography variant="h3" key="TotalNetwork">
+          {/* fShortenNumber( */ value.total}
+        </Typography>
       ))}
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         ኔትወርክ

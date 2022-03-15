@@ -93,7 +93,7 @@ export default function AllRequest() {
     axios.get(`${API_URL}/GetAllRequest`).then((Response) => {
       SetRequestList(Response.data);
     });
-  });
+  }, []);
   const request = [...Array(24)].map((_, index) => ({
     requesterusername: requestList.requesterusername,
     workerusername: requestList.workerusername,
@@ -117,7 +117,7 @@ export default function AllRequest() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = requestList.map((n) => n.division);
+      const newSelecteds = requestList.map((n) => n.requesterusername);
       setSelected(newSelecteds);
       return;
     }
@@ -203,7 +203,7 @@ export default function AllRequest() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="allRequest" SickyHeader aria-label="sticky table">
+                <Table id="allRequest" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
@@ -217,7 +217,6 @@ export default function AllRequest() {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const { fullname } = row;
                         const isItemSelected = selected.indexOf(row.request_id) !== -1;
 
                         return (

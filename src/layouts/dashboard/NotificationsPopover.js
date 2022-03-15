@@ -204,7 +204,7 @@ export default function NotificationsPopover() {
         setNewRequest(Response.data);
       }
     });
-  });
+  }, []);
   const totalUnRead = requestnotification.length;
 
   const handleOpen = () => {
@@ -298,7 +298,7 @@ export default function NotificationsPopover() {
         <Divider />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple component={RouterLink} to="#">
+          <Button fullWidth disableRipple component={RouterLink} to="/dashboard/NewRequest">
             View All
           </Button>
         </Box>

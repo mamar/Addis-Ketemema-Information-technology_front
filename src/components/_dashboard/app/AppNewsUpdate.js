@@ -127,7 +127,7 @@ export default function AppNewsUpdate() {
       <Divider />
       <Box sx={{ p: 2, textAlign: 'right' }}>
         <Button
-          to="#"
+          to="/dashboard/NewRequest"
           size="small"
           color="inherit"
           component={RouterLink}

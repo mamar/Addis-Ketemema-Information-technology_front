@@ -101,7 +101,7 @@ export default function Office() {
     axios.get(`${API_URL}/GetOffice`).then((Response) => {
       setofficelist(Response.data);
     });
-  });
+  }, []);
   const office = [...Array(24)].map((_, index) => ({
     office_id: officelist.office_id,
     office_name: officelist.office_name,
@@ -204,7 +204,7 @@ export default function Office() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="office" SickyHeader aria-label="sticky table">
+                <Table id="office" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
@@ -224,7 +224,7 @@ export default function Office() {
                         return (
                           <TableRow
                             hover
-                            key={officename}
+                            key={row.office_id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}

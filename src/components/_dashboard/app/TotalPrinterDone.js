@@ -46,14 +46,16 @@ export default function TotalPrinterDone() {
     axios.get(`${API_URL}/CountPrinter`).then((Response) => {
       setcount(Response.data);
     });
-  });
+  }, []);
   return (
     <RootStyle>
       <IconWrapperStyle>
         <LocalPrintshopIcon width={24} height={24} />
       </IconWrapperStyle>
       {countTask.map((value) => (
-        <Typography variant="h3">{/* fShortenNumber( */ value.total}</Typography>
+        <Typography variant="h3" key="TotalPrinters">
+          {/* fShortenNumber( */ value.total}
+        </Typography>
       ))}
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         ፕሪንተር
