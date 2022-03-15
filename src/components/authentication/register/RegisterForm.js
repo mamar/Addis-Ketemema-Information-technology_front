@@ -110,7 +110,9 @@ export default function RegisterForm() {
             helperText={touched.office_id && errors.office_id}
           >
             {officelist.map((value) => (
-              <MenuItem value={value.office_id}> {value.office_name}</MenuItem>
+              <MenuItem value={value.office_id} key={value.office_id}>
+                {value.office_name}
+              </MenuItem>
             ))}
           </Select>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>

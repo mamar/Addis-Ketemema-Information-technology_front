@@ -4,7 +4,7 @@ import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import axios from 'axios';
 // material
 import {
@@ -120,6 +120,7 @@ export default function User() {
   const Deletuser = (userid) => {
     axios.delete(`${API_URL}/Deleteusers/${userid}`).then((response) => {
       alert('Deleted Successfully');
+      window.location.reload();
     });
   };
   useEffect(() => {
@@ -194,169 +195,179 @@ export default function User() {
   const filteredUsers = applySortFilter(userlist, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+  const users1 = JSON.parse(localStorage.getItem('userinfo'));
+  if (!users1) {
+    return <Navigate to="/login" />;
+  }
+  if (users1) {
+    if (users1.user[0].ROLES === 'Employee') {
+      return <Navigate to="/satisfaction" />;
+    }
+    if (users1.user[0].ROLES === 'IT') {
+      return <Navigate to="/NewRequest" />;
+    }
+    return (
+      <Page title="Users">
+        <Container>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+              የስራተኞችና የባለሙያዎች ሙሉ መረጃ
+            </Typography>
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to="/dashboard/Register"
+              startIcon={<Icon icon={plusFill} />}
+            >
+              Add New User
+            </Button>
+            <ReactHTMLTableToExcel
+              variant="contained"
+              startIcon={<Icon icon={plusFill} />}
+              table="users"
+              filename="የባለሙያዎችና የሰራተኞች ሙሉ መረጃ"
+              sheet="የባለሙያዎችና የሰራተኞች ሙሉ መረጃ"
+              buttonText="Export excel"
+            />
+          </Stack>
 
-  return (
-    <Page title="Users">
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            የስራተኞችና የባለሙያዎች ሙሉ መረጃ
-          </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="/dashboard/Register"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            Add New User
-          </Button>
-          <ReactHTMLTableToExcel
-            variant="contained"
-            startIcon={<Icon icon={plusFill} />}
-            table="users"
-            filename="የባለሙያዎችና የሰራተኞች ሙሉ መረጃ"
-            sheet="የባለሙያዎችና የሰራተኞች ሙሉ መረጃ"
-            buttonText="Export excel"
-          />
-        </Stack>
+          <Card>
+            <UserListToolbar
+              numSelected={selected.length}
+              filterName={filterName}
+              onFilterName={handleFilterByName}
+            />
 
-        <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
-
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="users" tickyheader="true" aria-label="sticky table">
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={userlist.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      const { id, userfullname, username, Gender, age, Position, ROLES, status } =
-                        row;
-                      const isItemSelected = selected.indexOf(userfullname) !== -1;
-
-                      return (
-                        <TableRow
-                          hover
-                          key={row.userid}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, userfullname)}
-                            />
-                          </TableCell>
-                          <TableCell align="left">{row.user_fullname}</TableCell>
-                          <TableCell align="left">{row.username}</TableCell>
-                          <TableCell align="left">{row.Gender}</TableCell>
-                          <TableCell align="left">{row.Age}</TableCell>
-                          <TableCell align="left">{row.Position}</TableCell>
-                          <TableCell align="left">{row.ROLES}</TableCell>
-                          <TableCell align="left">{row.office_name}</TableCell>
-                          <TableCell align="left">{row.status}</TableCell>
-                          <TableCell align="right">
-                            <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                              <Icon icon={moreVerticalFill} width={20} height={20} />
-                            </IconButton>
-
-                            <Menu
-                              open={isOpen}
-                              anchorEl={ref.current}
-                              onClose={() => setIsOpen(false)}
-                              PaperProps={{
-                                sx: { width: 200, maxWidth: '100%' }
-                              }}
-                              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                            >
-                              <MenuItem
-                                sx={{ color: 'text.secondary' }}
-                                onClick={() => Deletuser(row.userid)}
-                              >
-                                <ListItemIcon>
-                                  <Icon icon={trash2Outline} width={24} height={24} />
-                                </ListItemIcon>
-                                <ListItemText
-                                  primary="Delete"
-                                  primaryTypographyProps={{ variant: 'body2' }}
-                                />
-                              </MenuItem>
-
-                              <MenuItem
-                                onClick={blockuser(row.userid)}
-                                sx={{ color: 'text.secondary' }}
-                              >
-                                <ListItemIcon>
-                                  <Icon icon={editFill} width={24} height={24} />
-                                </ListItemIcon>
-                                <ListItemText
-                                  primary="block"
-                                  primaryTypographyProps={{ variant: 'body2' }}
-                                />
-                              </MenuItem>
-                              <MenuItem
-                                onClick={unblockuser(row.userid)}
-                                sx={{ color: 'text.secondary' }}
-                              >
-                                <ListItemIcon>
-                                  <Icon icon={editFill} width={24} height={24} />
-                                </ListItemIcon>
-                                <ListItemText
-                                  primary="unblock"
-                                  primaryTypographyProps={{ variant: 'body2' }}
-                                />
-                              </MenuItem>
-                            </Menu>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                {isUserNotFound && (
+            <Scrollbar>
+              <TableContainer sx={{ minWidth: 800 }}>
+                <Table id="users" tickyheader="true" aria-label="sticky table">
+                  <UserListHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={TABLE_HEAD}
+                    rowCount={userlist.length}
+                    numSelected={selected.length}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
+                  />
                   <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
+                    {filteredUsers
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row) => {
+                        const isItemSelected = selected.indexOf(row.userid) !== -1;
 
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={userlist.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card>
-      </Container>
-    </Page>
-  );
+                        return (
+                          <TableRow
+                            hover
+                            key={row.userid}
+                            tabIndex={-1}
+                            role="checkbox"
+                            selected={isItemSelected}
+                            aria-checked={isItemSelected}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={isItemSelected}
+                                onChange={(event) => handleClick(event, row.userid)}
+                              />
+                            </TableCell>
+                            <TableCell align="left">{row.user_fullname}</TableCell>
+                            <TableCell align="left">{row.username}</TableCell>
+                            <TableCell align="left">{row.Gender}</TableCell>
+                            <TableCell align="left">{row.Age}</TableCell>
+                            <TableCell align="left">{row.Position}</TableCell>
+                            <TableCell align="left">{row.ROLES}</TableCell>
+                            <TableCell align="left">{row.office_name}</TableCell>
+                            <TableCell align="left">{row.status}</TableCell>
+                            <br />
+                            <TableCell align="right">
+                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+                                <Icon icon={moreVerticalFill} width={20} height={20} />
+                              </IconButton>
+
+                              <Menu
+                                open={isOpen}
+                                anchorEl={ref.current}
+                                onClose={() => setIsOpen(false)}
+                                PaperProps={{
+                                  sx: { width: 200, maxWidth: '100%' }
+                                }}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                              >
+                                <MenuItem
+                                  sx={{ color: 'text.secondary' }}
+                                  onClick={() => Deletuser(row.userid)}
+                                >
+                                  <ListItemIcon>
+                                    <Icon icon={trash2Outline} width={24} height={24} />
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    primary="Delete"
+                                    primaryTypographyProps={{ variant: 'body2' }}
+                                  />
+                                </MenuItem>
+
+                                <MenuItem
+                                  onClick={blockuser(row.userid)}
+                                  sx={{ color: 'text.secondary' }}
+                                >
+                                  <ListItemIcon>
+                                    <Icon icon={editFill} width={24} height={24} />
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    primary="block"
+                                    primaryTypographyProps={{ variant: 'body2' }}
+                                  />
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={unblockuser(row.userid)}
+                                  sx={{ color: 'text.secondary' }}
+                                >
+                                  <ListItemIcon>
+                                    <Icon icon={editFill} width={24} height={24} />
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    primary="unblock"
+                                    primaryTypographyProps={{ variant: 'body2' }}
+                                  />
+                                </MenuItem>
+                              </Menu>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  {isUserNotFound && (
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                          <SearchNotFound searchQuery={filterName} />
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  )}
+                </Table>
+              </TableContainer>
+            </Scrollbar>
+
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={userlist.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Card>
+        </Container>
+      </Page>
+    );
+  }
 }
