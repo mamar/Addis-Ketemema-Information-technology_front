@@ -4,7 +4,7 @@ import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import axios from 'axios';
 // material
 import {
@@ -177,141 +177,152 @@ export default function DisplayAnnounce() {
   const filteredUsers = applySortFilter(AnnounceList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'Employee') {
+      return <Navigate to="/satisfaction" />;
+    }
+    if (users.user[0].ROLES === 'IT') {
+      return <Navigate to="/AssignedRequest" />;
+    }
 
-  return (
-    <Page title=" የስታንዳረድ ዝርዝር">
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            የማሳሰቢያ ዝርዝር
-          </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="/dashboard/AddAnnouncement"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            ማሳሰቢያ ይጨምሩ
-          </Button>
-        </Stack>
+    return (
+      <Page title=" የስታንዳረድ ዝርዝር">
+        <Container>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+              የማሳሰቢያ ዝርዝር
+            </Typography>
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to="/dashboard/AddAnnouncement"
+              startIcon={<Icon icon={plusFill} />}
+            >
+              ማሳሰቢያ ይጨምሩ
+            </Button>
+          </Stack>
 
-        <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
+          <Card>
+            <UserListToolbar
+              numSelected={selected.length}
+              filterName={filterName}
+              onFilterName={handleFilterByName}
+            />
 
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="standardList" SickyHeader aria-label="sticky table">
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={AnnounceList.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      const isItemSelected = selected.indexOf(row.anouncid) !== -1;
-
-                      return (
-                        <TableRow
-                          hover
-                          key={row.anouncid}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, row.anouncid)}
-                            />
-                          </TableCell>
-                          <TableCell align="left">{row.anounceName}</TableCell>
-                          <TableCell align="left">{row.anounceDate}</TableCell>
-                          <TableCell align="left">{row.status}</TableCell>
-                          <TableCell align="right">
-                            <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                              <Icon icon={moreVerticalFill} width={20} height={20} />
-                            </IconButton>
-
-                            <Menu
-                              open={isOpen}
-                              anchorEl={ref.current}
-                              onClose={() => setIsOpen(false)}
-                              PaperProps={{
-                                sx: { width: 200, maxWidth: '100%' }
-                              }}
-                              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                            >
-                              <MenuItem
-                                sx={{ color: 'text.primary' }}
-                                onClick={() => DeletAnounce(row.anouncid)}
-                              >
-                                <ListItemIcon>
-                                  <Icon icon={trash2Outline} width={24} height={24} />
-                                </ListItemIcon>
-                                <ListItemText
-                                  primary="Delete"
-                                  primaryTypographyProps={{ variant: 'body2' }}
-                                />
-                              </MenuItem>
-                              <MenuItem
-                                sx={{ color: 'text.secondary' }}
-                                onClick={() => EndAnnounce(row.anouncid)}
-                              >
-                                <ListItemIcon>
-                                  <Icon icon={trash2Outline} width={24} height={24} />
-                                </ListItemIcon>
-                                <ListItemText
-                                  primary="End"
-                                  primaryTypographyProps={{ variant: 'body2' }}
-                                />
-                              </MenuItem>
-                            </Menu>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                {isUserNotFound && (
+            <Scrollbar>
+              <TableContainer sx={{ minWidth: 800 }}>
+                <Table id="standardList" SickyHeader aria-label="sticky table">
+                  <UserListHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={TABLE_HEAD}
+                    rowCount={AnnounceList.length}
+                    numSelected={selected.length}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
+                  />
                   <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
+                    {filteredUsers
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row) => {
+                        const isItemSelected = selected.indexOf(row.anouncid) !== -1;
 
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={AnnounceList.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card>
-      </Container>
-    </Page>
-  );
+                        return (
+                          <TableRow
+                            hover
+                            key={row.anouncid}
+                            tabIndex={-1}
+                            role="checkbox"
+                            selected={isItemSelected}
+                            aria-checked={isItemSelected}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={isItemSelected}
+                                onChange={(event) => handleClick(event, row.anouncid)}
+                              />
+                            </TableCell>
+                            <TableCell align="left">{row.anounceName}</TableCell>
+                            <TableCell align="left">{row.anounceDate}</TableCell>
+                            <TableCell align="left">{row.status}</TableCell>
+                            <TableCell align="right">
+                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+                                <Icon icon={moreVerticalFill} width={20} height={20} />
+                              </IconButton>
+
+                              <Menu
+                                open={isOpen}
+                                anchorEl={ref.current}
+                                onClose={() => setIsOpen(false)}
+                                PaperProps={{
+                                  sx: { width: 200, maxWidth: '100%' }
+                                }}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                              >
+                                <MenuItem
+                                  sx={{ color: 'text.primary' }}
+                                  onClick={() => DeletAnounce(row.anouncid)}
+                                >
+                                  <ListItemIcon>
+                                    <Icon icon={trash2Outline} width={24} height={24} />
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    primary="Delete"
+                                    primaryTypographyProps={{ variant: 'body2' }}
+                                  />
+                                </MenuItem>
+                                <MenuItem
+                                  sx={{ color: 'text.secondary' }}
+                                  onClick={() => EndAnnounce(row.anouncid)}
+                                >
+                                  <ListItemIcon>
+                                    <Icon icon={trash2Outline} width={24} height={24} />
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    primary="End"
+                                    primaryTypographyProps={{ variant: 'body2' }}
+                                  />
+                                </MenuItem>
+                              </Menu>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  {isUserNotFound && (
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                          <SearchNotFound searchQuery={filterName} />
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  )}
+                </Table>
+              </TableContainer>
+            </Scrollbar>
+
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={AnnounceList.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Card>
+        </Container>
+      </Page>
+    );
+  }
 }

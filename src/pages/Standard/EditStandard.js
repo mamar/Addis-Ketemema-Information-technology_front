@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
@@ -38,30 +38,42 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function EditStandard() {
-  return (
-    <RootStyle title=" የስታንዳርድ ማስተካከያ">
-      <AuthLayout />
-      <MHidden width="mdDown">
-        <SectionStyle>
-          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
-          </Typography>
-          <img alt="register" src="/static/illustrations/illustration_register.png" />
-        </SectionStyle>
-      </MHidden>
-
-      <Container>
-        <ContentStyle>
-          <Box sx={{ mb: 5 }}>
-            <Typography variant="h4" gutterBottom>
-              የስታንዳርድ ማስተካከያ
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'Employee') {
+      return <Navigate to="/satisfaction" />;
+    }
+    if (users.user[0].ROLES === 'IT') {
+      return <Navigate to="/AssignedRequest" />;
+    }
+    return (
+      <RootStyle title=" የስታንዳርድ ማስተካከያ">
+        <AuthLayout />
+        <MHidden width="mdDown">
+          <SectionStyle>
+            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+              እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>እባክዎ ስታንዳርዱን በትክክል ያስገቡ</Typography>
-          </Box>
+            <img alt="register" src="/static/illustrations/illustration_register.png" />
+          </SectionStyle>
+        </MHidden>
 
-          <EditStandardForm />
-        </ContentStyle>
-      </Container>
-    </RootStyle>
-  );
+        <Container>
+          <ContentStyle>
+            <Box sx={{ mb: 5 }}>
+              <Typography variant="h4" gutterBottom>
+                የስታንዳርድ ማስተካከያ
+              </Typography>
+              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ስታንዳርዱን በትክክል ያስገቡ</Typography>
+            </Box>
+
+            <EditStandardForm />
+          </ContentStyle>
+        </Container>
+      </RootStyle>
+    );
+  }
 }

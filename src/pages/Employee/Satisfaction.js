@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
 import axios from 'axios';
@@ -215,135 +215,143 @@ export default function Satisfaction() {
   const filteredUsers = applySortFilter(requestList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-  return (
-    <RootStyle title="የተጠየቁ አገልግሎቶች መከታተያ">
-      <EmployeAuth>
-        <DashboardNavbarForEmployee />
-      </EmployeAuth>
-      <DashboardSidebarEmployee />
-      <Container>
-        <ContentStyle>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="h4" gutterBottom>
-              እባክዎ Search ማድረጊያዉን status ለመፈለግ ይጠቀሙ
-            </Typography>
-          </Stack>
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'IT' || users.user[0].ROLES === 'Admin') {
+      return <Navigate to="/dashboard/app" />;
+    }
+    return (
+      <RootStyle title="የተጠየቁ አገልግሎቶች መከታተያ">
+        <EmployeAuth>
+          <DashboardNavbarForEmployee />
+        </EmployeAuth>
+        <DashboardSidebarEmployee />
+        <Container>
+          <ContentStyle>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+              <Typography variant="h4" gutterBottom>
+                እባክዎ Search ማድረጊያዉን status ለመፈለግ ይጠቀሙ
+              </Typography>
+            </Stack>
 
-          <Card>
-            <UserListToolbar
-              numSelected={selected.length}
-              filterName={filterName}
-              onFilterName={handleFilterByName}
-            />
+            <Card>
+              <UserListToolbar
+                numSelected={selected.length}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+              />
 
-            <Scrollbar>
-              <TableContainer sx={{ minWidth: 800 }}>
-                <Table SickyHeader aria-label="sticky table">
-                  <UserListHead
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={TABLE_HEAD}
-                    rowCount={requestList.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
-                  />
-                  <TableBody>
-                    {filteredUsers
-                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((row) => {
-                        const { status } = row;
-                        const isItemSelected = selected.indexOf(status) !== -1;
-                        return (
-                          <TableRow
-                            hover
-                            key={status}
-                            tabIndex={-1}
-                            role="checkbox"
-                            selected={isItemSelected}
-                            aria-checked={isItemSelected}
-                          >
-                            <TableCell padding="checkbox">
-                              <Checkbox
-                                checked={isItemSelected}
-                                onChange={(event) => handleClick(event, status)}
-                              />
-                            </TableCell>
-                            <TableCell align="left">{row.user_fullname}</TableCell>
-                            <TableCell align="left">{row.Position}</TableCell>
-                            <TableCell align="left">{row.Phone}</TableCell>
-                            <TableCell align="left">{row.Gender}</TableCell>
-                            <TableCell align="left">{row.request_type}</TableCell>
-                            <TableCell align="left">{row.problem_desc}</TableCell>
-                            <TableCell align="left">{row.Date}</TableCell>
-                            <TableCell align="left">{row.assignedDate}</TableCell>
-                            <TableCell align="left">{row.finishedDate}</TableCell>
-                            <TableCell align="left">{row.status}</TableCell>
-                            <br />
-                            <TableCell align="right">
-                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                                <Icon icon={moreVerticalFill} width={20} height={20} />
-                              </IconButton>
-
-                              <Menu
-                                open={isOpen}
-                                anchorEl={ref.current}
-                                onClose={() => setIsOpen(false)}
-                                PaperProps={{
-                                  sx: { width: 200, maxWidth: '100%' }
-                                }}
-                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                              >
-                                <MenuItem
-                                  sx={{ color: 'text.secondary' }}
-                                  component={RouterLink}
-                                  to={`/AddSatisfaction/${row.request_id}`}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={trash2Outline} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="እርካታ"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-                              </Menu>
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
-                  </TableBody>
-                  {isUserNotFound && (
+              <Scrollbar>
+                <TableContainer sx={{ minWidth: 800 }}>
+                  <Table SickyHeader aria-label="sticky table">
+                    <UserListHead
+                      order={order}
+                      orderBy={orderBy}
+                      headLabel={TABLE_HEAD}
+                      rowCount={requestList.length}
+                      numSelected={selected.length}
+                      onRequestSort={handleRequestSort}
+                      onSelectAllClick={handleSelectAllClick}
+                    />
                     <TableBody>
-                      <TableRow>
-                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                          <SearchNotFound searchQuery={filterName} />
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  )}
-                </Table>
-              </TableContainer>
-            </Scrollbar>
+                      {filteredUsers
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((row) => {
+                          const { status } = row;
+                          const isItemSelected = selected.indexOf(status) !== -1;
+                          return (
+                            <TableRow
+                              hover
+                              key={status}
+                              tabIndex={-1}
+                              role="checkbox"
+                              selected={isItemSelected}
+                              aria-checked={isItemSelected}
+                            >
+                              <TableCell padding="checkbox">
+                                <Checkbox
+                                  checked={isItemSelected}
+                                  onChange={(event) => handleClick(event, status)}
+                                />
+                              </TableCell>
+                              <TableCell align="left">{row.user_fullname}</TableCell>
+                              <TableCell align="left">{row.Position}</TableCell>
+                              <TableCell align="left">{row.Phone}</TableCell>
+                              <TableCell align="left">{row.Gender}</TableCell>
+                              <TableCell align="left">{row.request_type}</TableCell>
+                              <TableCell align="left">{row.problem_desc}</TableCell>
+                              <TableCell align="left">{row.Date}</TableCell>
+                              <TableCell align="left">{row.assignedDate}</TableCell>
+                              <TableCell align="left">{row.finishedDate}</TableCell>
+                              <TableCell align="left">{row.status}</TableCell>
+                              <br />
+                              <TableCell align="right">
+                                <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+                                  <Icon icon={moreVerticalFill} width={20} height={20} />
+                                </IconButton>
 
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={requestList.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Card>
-        </ContentStyle>
-      </Container>
-    </RootStyle>
-  );
+                                <Menu
+                                  open={isOpen}
+                                  anchorEl={ref.current}
+                                  onClose={() => setIsOpen(false)}
+                                  PaperProps={{
+                                    sx: { width: 200, maxWidth: '100%' }
+                                  }}
+                                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                >
+                                  <MenuItem
+                                    sx={{ color: 'text.secondary' }}
+                                    component={RouterLink}
+                                    to={`/AddSatisfaction/${row.request_id}`}
+                                  >
+                                    <ListItemIcon>
+                                      <Icon icon={trash2Outline} width={24} height={24} />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                      primary="እርካታ"
+                                      primaryTypographyProps={{ variant: 'body2' }}
+                                    />
+                                  </MenuItem>
+                                </Menu>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      {emptyRows > 0 && (
+                        <TableRow style={{ height: 53 * emptyRows }}>
+                          <TableCell colSpan={6} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+                    {isUserNotFound && (
+                      <TableBody>
+                        <TableRow>
+                          <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                            <SearchNotFound searchQuery={filterName} />
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    )}
+                  </Table>
+                </TableContainer>
+              </Scrollbar>
+
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={requestList.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Card>
+          </ContentStyle>
+        </Container>
+      </RootStyle>
+    );
+  }
 }

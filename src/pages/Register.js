@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
@@ -40,56 +40,65 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Register() {
-  return (
-    <RootStyle title="Register">
-      <AuthLayout>.</AuthLayout>
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'Employee') {
+      return <Navigate to="/satisfaction" />;
+    }
+    return (
+      <RootStyle title="Register">
+        <AuthLayout>.</AuthLayout>
 
-      <MHidden width="mdDown">
-        <SectionStyle>
-          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Welcome to information Cummunication Technology
-          </Typography>
-          <img alt="register" src="/static/illustrations/illustration_register.png" />
-        </SectionStyle>
-      </MHidden>
-
-      <Container>
-        <ContentStyle>
-          <Box sx={{ mb: 5 }}>
-            <Typography variant="h4" gutterBottom>
-              Register uses on here.
+        <MHidden width="mdDown">
+          <SectionStyle>
+            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+              Welcome to information Cummunication Technology
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              Please fill Role Admin,Guest and Employee
-            </Typography>
-          </Box>
+            <img alt="register" src="/static/illustrations/illustration_register.png" />
+          </SectionStyle>
+        </MHidden>
 
-          <AuthSocial />
+        <Container>
+          <ContentStyle>
+            <Box sx={{ mb: 5 }}>
+              <Typography variant="h4" gutterBottom>
+                Register uses on here.
+              </Typography>
+              <Typography sx={{ color: 'text.secondary' }}>
+                Please fill Role Admin,Guest and Employee
+              </Typography>
+            </Box>
 
-          <RegisterForm />
+            <AuthSocial />
 
-          <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-            By registering, I agree to Minimal&nbsp;
-            <Link underline="always" sx={{ color: 'text.primary' }}>
-              Terms of Service
-            </Link>
-            &nbsp;and&nbsp;
-            <Link underline="always" sx={{ color: 'text.primary' }}>
-              Privacy Policy
-            </Link>
-            .
-          </Typography>
+            <RegisterForm />
 
-          <MHidden width="smUp">
-            <Typography variant="subtitle2" sx={{ mt: 3, textAlign: 'center' }}>
-              Already have an account?&nbsp;
-              <Link to="/" component={RouterLink}>
-                Login
+            <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
+              By registering, I agree to Minimal&nbsp;
+              <Link underline="always" sx={{ color: 'text.primary' }}>
+                Terms of Service
               </Link>
+              &nbsp;and&nbsp;
+              <Link underline="always" sx={{ color: 'text.primary' }}>
+                Privacy Policy
+              </Link>
+              .
             </Typography>
-          </MHidden>
-        </ContentStyle>
-      </Container>
-    </RootStyle>
-  );
+
+            <MHidden width="smUp">
+              <Typography variant="subtitle2" sx={{ mt: 3, textAlign: 'center' }}>
+                Already have an account?&nbsp;
+                <Link to="/" component={RouterLink}>
+                  Login
+                </Link>
+              </Typography>
+            </MHidden>
+          </ContentStyle>
+        </Container>
+      </RootStyle>
+    );
+  }
 }

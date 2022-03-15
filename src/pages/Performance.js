@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { styled } from '@mui/material/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -177,136 +177,148 @@ export default function Performance() {
   const filteredUsers = applySortFilter(performancelist, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'Employee') {
+      return <Navigate to="/satisfaction" />;
+    }
+    if (users.user[0].ROLES === 'IT') {
+      return <Navigate to="/AssignedRequest" />;
+    }
 
-  return (
-    <Page title="አፈጻጸም">
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            የባለሙያዎች አፈፃፀም
-          </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="/dashboard/Performance"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            <ReactHTMLTableToExcel
+    return (
+      <Page title="አፈጻጸም">
+        <Container>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+              የባለሙያዎች አፈፃፀም
+            </Typography>
+            <Button
               variant="contained"
+              component={RouterLink}
+              to="/dashboard/Performance"
               startIcon={<Icon icon={plusFill} />}
-              table="performance"
-              filename="አፈፃፀም"
-              sheet="አፈፃፀም"
-              buttonText="Export excel"
-            />
-          </Button>
-        </Stack>
-        <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Stack spacing={3}>
-              <MobileDateRangePicker
-                startText="From"
-                value={value}
-                onChange={(newValue) => {
-                  setValue(newValue);
-                }}
-                renderInput={(startProps, endProps) => (
-                  <>
-                    <TextField {...startProps} />
-                    <Box sx={{ mx: 2 }}> to </Box>
-                    <TextField {...endProps} />
-                  </>
-                )}
+            >
+              <ReactHTMLTableToExcel
+                variant="contained"
+                startIcon={<Icon icon={plusFill} />}
+                table="performance"
+                filename="አፈፃፀም"
+                sheet="አፈፃፀም"
+                buttonText="Export excel"
               />
-            </Stack>
-          </LocalizationProvider>
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="performance">
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={performancelist.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      const { userfullname } = row;
-                      const isItemSelected = selected.indexOf(userfullname) !== -1;
-
-                      return (
-                        <TableRow
-                          hover
-                          key={userfullname}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, userfullname)}
-                            />
-                          </TableCell>
-                          <TableCell align="left">{row.user_fullname}</TableCell>
-                          <TableCell align="left">{row.Finished}</TableCell>
-                          <TableCell align="left">{row.Assigned}</TableCell>
-                          <TableCell align="left">{row.ComputerFinishde}</TableCell>
-                          <TableCell align="left">{row.ComputerProgress}</TableCell>
-                          <TableCell align="left">{row.PrinterFinished}</TableCell>
-                          <TableCell align="left">{row.PrinterProgress}</TableCell>
-                          <TableCell align="left">{row.PhotoCopyFinished}</TableCell>
-                          <TableCell align="left">{row.PhotoCopyProgress}</TableCell>
-                          <TableCell align="left">{row.NetworkFinished}</TableCell>
-                          <TableCell align="left">{row.NetworkProgress}</TableCell>
-                          <TableCell align="left">{row.SoftwareFinished}</TableCell>
-                          <TableCell align="left">{row.SoftwareProgress}</TableCell>
-                          <TableCell align="left">{row.OtherFinished}</TableCell>
-                          <TableCell align="left">{row.OtherProgress}</TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
+            </Button>
+          </Stack>
+          <Card>
+            <UserListToolbar
+              numSelected={selected.length}
+              filterName={filterName}
+              onFilterName={handleFilterByName}
+            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Stack spacing={3}>
+                <MobileDateRangePicker
+                  startText="From"
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                  renderInput={(startProps, endProps) => (
+                    <>
+                      <TextField {...startProps} />
+                      <Box sx={{ mx: 2 }}> to </Box>
+                      <TextField {...endProps} />
+                    </>
                   )}
-                </TableBody>
-                {isUserNotFound && (
+                />
+              </Stack>
+            </LocalizationProvider>
+            <Scrollbar>
+              <TableContainer sx={{ minWidth: 800 }}>
+                <Table id="performance">
+                  <UserListHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={TABLE_HEAD}
+                    rowCount={performancelist.length}
+                    numSelected={selected.length}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
+                  />
                   <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
+                    {filteredUsers
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row) => {
+                        const { userfullname } = row;
+                        const isItemSelected = selected.indexOf(userfullname) !== -1;
 
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={performancelist.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card>
-      </Container>
-    </Page>
-  );
+                        return (
+                          <TableRow
+                            hover
+                            key={userfullname}
+                            tabIndex={-1}
+                            role="checkbox"
+                            selected={isItemSelected}
+                            aria-checked={isItemSelected}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={isItemSelected}
+                                onChange={(event) => handleClick(event, userfullname)}
+                              />
+                            </TableCell>
+                            <TableCell align="left">{row.user_fullname}</TableCell>
+                            <TableCell align="left">{row.Finished}</TableCell>
+                            <TableCell align="left">{row.Assigned}</TableCell>
+                            <TableCell align="left">{row.ComputerFinishde}</TableCell>
+                            <TableCell align="left">{row.ComputerProgress}</TableCell>
+                            <TableCell align="left">{row.PrinterFinished}</TableCell>
+                            <TableCell align="left">{row.PrinterProgress}</TableCell>
+                            <TableCell align="left">{row.PhotoCopyFinished}</TableCell>
+                            <TableCell align="left">{row.PhotoCopyProgress}</TableCell>
+                            <TableCell align="left">{row.NetworkFinished}</TableCell>
+                            <TableCell align="left">{row.NetworkProgress}</TableCell>
+                            <TableCell align="left">{row.SoftwareFinished}</TableCell>
+                            <TableCell align="left">{row.SoftwareProgress}</TableCell>
+                            <TableCell align="left">{row.OtherFinished}</TableCell>
+                            <TableCell align="left">{row.OtherProgress}</TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  {isUserNotFound && (
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                          <SearchNotFound searchQuery={filterName} />
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  )}
+                </Table>
+              </TableContainer>
+            </Scrollbar>
+
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={performancelist.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Card>
+        </Container>
+      </Page>
+    );
+  }
 }

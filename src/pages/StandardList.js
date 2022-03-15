@@ -4,7 +4,7 @@ import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useParams, Navigate } from 'react-router-dom';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker';
@@ -179,138 +179,145 @@ export default function StandardList() {
   const filteredUsers = applySortFilter(standardlist, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-
-  return (
-    <Page title="የተጀመሩ ስራዎች">
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            ስታንዳርድ
-          </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            <ReactHTMLTableToExcel
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'Employee') {
+      return <Navigate to="/satisfaction" />;
+    }
+    return (
+      <Page title="የተጀመሩ ስራዎች">
+        <Container>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+              ስታንዳርድ
+            </Typography>
+            <Button
               variant="contained"
+              component={RouterLink}
+              to="#"
               startIcon={<Icon icon={plusFill} />}
-              table="StandardList"
-              filename="የባለሙያ ስታንታርድ"
-              sheet="የባለሙያ ስታንታርድ"
-              buttonText="Export excel"
-            />
-          </Button>
-        </Stack>
-
-        <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Stack spacing={3}>
-              <MobileDateRangePicker
-                startText="From"
-                value={value}
-                onChange={(newValue) => {
-                  setValue(newValue);
-                }}
-                renderInput={(startProps, endProps) => (
-                  <>
-                    <TextField {...startProps} />
-                    <Box sx={{ mx: 2 }}> to </Box>
-                    <TextField {...endProps} />
-                  </>
-                )}
+            >
+              <ReactHTMLTableToExcel
+                variant="contained"
+                startIcon={<Icon icon={plusFill} />}
+                table="StandardList"
+                filename="የባለሙያ ስታንታርድ"
+                sheet="የባለሙያ ስታንታርድ"
+                buttonText="Export excel"
               />
-            </Stack>
-          </LocalizationProvider>
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table id="StandardList" ickyHeader aria-label="sticky table">
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={standardlist.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      const { service } = row;
-                      const isItemSelected = selected.indexOf(service) !== -1;
+            </Button>
+          </Stack>
 
-                      return (
-                        <TableRow
-                          hover
-                          key={service}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, service)}
-                            />
-                          </TableCell>
-                          <TableCell align="left">{row.service}</TableCell>
-                          <TableCell align="left">{row.measurement}</TableCell>
-                          <TableCell align="left">{row.time}</TableCell>
-                          <TableCell align="left">{row.belowStandard}</TableCell>
-                          <TableCell align="left">{row.WithinStandard}</TableCell>
-                          <TableCell align="left">{row.AboveStandard}</TableCell>
-                          <TableCell align="left">{row.Standard}</TableCell>
-                          <TableCell align="left">100</TableCell>
-                          <TableCell align="left">{row.standardAmh}</TableCell>
-                          <TableCell align="left">{row.Actual}</TableCell>
-                          <TableCell align="left">{row.price}</TableCell>
-                          <TableCell align="right">
-                            <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                              <Icon icon={moreVerticalFill} width={20} height={20} />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
+          <Card>
+            <UserListToolbar
+              numSelected={selected.length}
+              filterName={filterName}
+              onFilterName={handleFilterByName}
+            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Stack spacing={3}>
+                <MobileDateRangePicker
+                  startText="From"
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                  renderInput={(startProps, endProps) => (
+                    <>
+                      <TextField {...startProps} />
+                      <Box sx={{ mx: 2 }}> to </Box>
+                      <TextField {...endProps} />
+                    </>
                   )}
-                </TableBody>
-                {isUserNotFound && (
+                />
+              </Stack>
+            </LocalizationProvider>
+            <Scrollbar>
+              <TableContainer sx={{ minWidth: 800 }}>
+                <Table id="StandardList" ickyHeader aria-label="sticky table">
+                  <UserListHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={TABLE_HEAD}
+                    rowCount={standardlist.length}
+                    numSelected={selected.length}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
+                  />
                   <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
+                    {filteredUsers
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row) => {
+                        const { service } = row;
+                        const isItemSelected = selected.indexOf(service) !== -1;
 
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 100]}
-            component="div"
-            count={standardlist.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card>
-      </Container>
-    </Page>
-  );
+                        return (
+                          <TableRow
+                            hover
+                            key={service}
+                            tabIndex={-1}
+                            role="checkbox"
+                            selected={isItemSelected}
+                            aria-checked={isItemSelected}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={isItemSelected}
+                                onChange={(event) => handleClick(event, service)}
+                              />
+                            </TableCell>
+                            <TableCell align="left">{row.service}</TableCell>
+                            <TableCell align="left">{row.measurement}</TableCell>
+                            <TableCell align="left">{row.time}</TableCell>
+                            <TableCell align="left">{row.belowStandard}</TableCell>
+                            <TableCell align="left">{row.WithinStandard}</TableCell>
+                            <TableCell align="left">{row.AboveStandard}</TableCell>
+                            <TableCell align="left">{row.Standard}</TableCell>
+                            <TableCell align="left">100</TableCell>
+                            <TableCell align="left">{row.standardAmh}</TableCell>
+                            <TableCell align="left">{row.Actual}</TableCell>
+                            <TableCell align="left">{row.price}</TableCell>
+                            <TableCell align="right">
+                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+                                <Icon icon={moreVerticalFill} width={20} height={20} />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  {isUserNotFound && (
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                          <SearchNotFound searchQuery={filterName} />
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  )}
+                </Table>
+              </TableContainer>
+            </Scrollbar>
+
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 100]}
+              component="div"
+              count={standardlist.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Card>
+        </Container>
+      </Page>
+    );
+  }
 }

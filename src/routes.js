@@ -74,7 +74,6 @@ export default function Router() {
         { path: 'addoffice', element: <AddOffice /> },
         { path: 'register', element: <Register /> },
         { path: 'AddStandard', element: <AddStandard /> },
-        { path: 'ITStandard', element: <ITStandard /> },
         { path: 'Standard/:startDate/:endDate', element: <StandardList /> },
         { path: 'StandardUser', element: <StandardList /> },
         { path: 'StandardList', element: <ListOfStandard /> },

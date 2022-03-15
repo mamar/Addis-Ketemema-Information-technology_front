@@ -1,7 +1,7 @@
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Card, Container, Typography, Button } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 // layouts
@@ -45,24 +45,33 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function SendRequest() {
-  return (
-    <RootStyle title=" የአገልግሉት መጠየቂያ ቅፅ">
-      <EmployeAuth>
-        <DashboardNavbarForEmployee />
-      </EmployeAuth>
-      <DashboardSidebarEmployee />
-      <Container>
-        <ContentStyle>
-          <Box sx={{ mb: 5 }}>
-            <Typography variant="h4" gutterBottom>
-              የአገልግሉት መጠየቂያ ቅፅ
-            </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>እባክዎ ጥያቄዎን በትክክል ይሙሉ!</Typography>
-          </Box>
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'IT' || users.user[0].ROLES === 'Admin') {
+      return <Navigate to="/dashboard/app" />;
+    }
+    return (
+      <RootStyle title=" የአገልግሉት መጠየቂያ ቅፅ">
+        <EmployeAuth>
+          <DashboardNavbarForEmployee />
+        </EmployeAuth>
+        <DashboardSidebarEmployee />
+        <Container>
+          <ContentStyle>
+            <Box sx={{ mb: 5 }}>
+              <Typography variant="h4" gutterBottom>
+                የአገልግሉት መጠየቂያ ቅፅ
+              </Typography>
+              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ጥያቄዎን በትክክል ይሙሉ!</Typography>
+            </Box>
 
-          <Requestform />
-        </ContentStyle>
-      </Container>
-    </RootStyle>
-  );
+            <Requestform />
+          </ContentStyle>
+        </Container>
+      </RootStyle>
+    );
+  }
 }

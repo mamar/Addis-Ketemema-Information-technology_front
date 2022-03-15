@@ -1,7 +1,7 @@
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Card, Container, Typography, Button } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 // layouts
@@ -47,25 +47,34 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function SendSatisfaction() {
-  return (
-    <RootStyle title="የእርካታ መሙያ ቅፅ">
-      <EmployeAuth>
-        <DashboardNavbarForEmployee />
-      </EmployeAuth>
-      <DashboardSidebarEmployee />
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'IT' || users.user[0].ROLES === 'Admin') {
+      return <Navigate to="/dashboard/app" />;
+    }
+    return (
+      <RootStyle title="የእርካታ መሙያ ቅፅ">
+        <EmployeAuth>
+          <DashboardNavbarForEmployee />
+        </EmployeAuth>
+        <DashboardSidebarEmployee />
 
-      <Container>
-        <ContentStyle>
-          <Box sx={{ mb: 5 }}>
-            <Typography variant="h4" gutterBottom>
-              የእርካታ መሙያ ቅፅ
-            </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>እባክዎ እርካታዉን በትክክል ይሙሉ</Typography>
-          </Box>
+        <Container>
+          <ContentStyle>
+            <Box sx={{ mb: 5 }}>
+              <Typography variant="h4" gutterBottom>
+                የእርካታ መሙያ ቅፅ
+              </Typography>
+              <Typography sx={{ color: 'text.secondary' }}>እባክዎ እርካታዉን በትክክል ይሙሉ</Typography>
+            </Box>
 
-          <AddSatisfaction />
-        </ContentStyle>
-      </Container>
-    </RootStyle>
-  );
+            <AddSatisfaction />
+          </ContentStyle>
+        </Container>
+      </RootStyle>
+    );
+  }
 }

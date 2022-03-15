@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
@@ -46,37 +46,46 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Editprofile() {
-  return (
-    <RootStyle title="መረጃዎን ይቀይሩ">
-      <EmployeAuth>
-        <DashboardNavbarForEmployee />
-      </EmployeAuth>
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  if (!users) {
+    return <Navigate to="/login" />;
+  }
+  if (users) {
+    if (users.user[0].ROLES === 'IT' || users.user[0].ROLES === 'Admin') {
+      return <Navigate to="/dashboard/app" />;
+    }
+    return (
+      <RootStyle title="መረጃዎን ይቀይሩ">
+        <EmployeAuth>
+          <DashboardNavbarForEmployee />
+        </EmployeAuth>
 
-      <DashboardSidebarEmployee />
+        <DashboardSidebarEmployee />
 
-      <Container>
-        <ContentStyle>
-          <Box sx={{ mb: 5 }}>
-            <Typography variant="h4" gutterBottom>
-              መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
+        <Container>
+          <ContentStyle>
+            <Box sx={{ mb: 5 }}>
+              <Typography variant="h4" gutterBottom>
+                መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
+              </Typography>
+            </Box>
+
+            <Editprofileform />
+
+            <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
+              By Editing, I agree to Minimal&nbsp;
+              <Link underline="always" sx={{ color: 'text.primary' }}>
+                Terms of Service
+              </Link>
+              &nbsp;and&nbsp;
+              <Link underline="always" sx={{ color: 'text.primary' }}>
+                Privacy Policy
+              </Link>
+              .
             </Typography>
-          </Box>
-
-          <Editprofileform />
-
-          <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-            By Editing, I agree to Minimal&nbsp;
-            <Link underline="always" sx={{ color: 'text.primary' }}>
-              Terms of Service
-            </Link>
-            &nbsp;and&nbsp;
-            <Link underline="always" sx={{ color: 'text.primary' }}>
-              Privacy Policy
-            </Link>
-            .
-          </Typography>
-        </ContentStyle>
-      </Container>
-    </RootStyle>
-  );
+          </ContentStyle>
+        </Container>
+      </RootStyle>
+    );
+  }
 }
