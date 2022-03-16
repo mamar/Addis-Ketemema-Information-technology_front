@@ -31,6 +31,7 @@ import {
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import editFill from '@iconify/icons-eva/edit-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
+import { LoadingButton } from '@mui/lab';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
@@ -99,21 +100,25 @@ export default function User() {
   const [isOpen, setIsOpen] = useState(false);
   const blockuser = (userid) => {
     axios.put(`${API_URL}/blockuser/${userid}`).then((response) => {
-      if (response.Message === 'blocked') {
+      if (response.data.Message === 'blocked') {
         alert('user Blocked ');
+        window.location.reload();
       }
-      if (response.Message === 'allready blocked') {
+      if (response.data.Message === 'allready blocked') {
         alert('Warning allready blocked');
+        window.location.reload();
       }
     });
   };
   const unblockuser = (userid) => {
     axios.put(`${API_URL}/unblockuser/${userid}`).then((response) => {
-      if (response.Message === 'ublocked') {
+      if (response.data.Message === 'ublocked') {
         alert('user Unblocked ');
+        window.location.reload();
       }
-      if (response.Message === 'repition') {
+      if (response.data.Message === 'repition') {
         alert('Warning allready unblocked');
+        window.location.reload();
       }
     });
   };
@@ -240,7 +245,7 @@ export default function User() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="users" tickyheader="true" aria-label="sticky table">
+                <Table id="users" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
@@ -279,60 +284,41 @@ export default function User() {
                             <TableCell align="left">{row.ROLES}</TableCell>
                             <TableCell align="left">{row.office_name}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
-                            <br />
-                            <TableCell align="right">
-                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                                <Icon icon={moreVerticalFill} width={20} height={20} />
-                              </IconButton>
-
-                              <Menu
-                                open={isOpen}
-                                anchorEl={ref.current}
-                                onClose={() => setIsOpen(false)}
-                                PaperProps={{
-                                  sx: { width: 200, maxWidth: '100%' }
-                                }}
-                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => Deletuser(row.userid)}
+                                style={{ backgroundColor: 'red' }}
                               >
-                                <MenuItem
-                                  sx={{ color: 'text.secondary' }}
-                                  onClick={() => Deletuser(row.userid)}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={trash2Outline} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="Delete"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-
-                                <MenuItem
-                                  onClick={blockuser(row.userid)}
-                                  sx={{ color: 'text.secondary' }}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={editFill} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="block"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-                                <MenuItem
-                                  onClick={unblockuser(row.userid)}
-                                  sx={{ color: 'text.secondary' }}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={editFill} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="unblock"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-                              </Menu>
+                                Delete
+                              </LoadingButton>
+                            </TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => blockuser(row.userid)}
+                                style={{ backgroundColor: '#75077E' }}
+                              >
+                                Block
+                              </LoadingButton>
+                            </TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => unblockuser(row.userid)}
+                                style={{ backgroundColor: '#08890E' }}
+                              >
+                                Unblock
+                              </LoadingButton>
                             </TableCell>
                           </TableRow>
                         );

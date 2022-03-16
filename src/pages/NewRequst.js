@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 // material
 import {
@@ -106,10 +107,12 @@ export default function NewRequest() {
     axios.put(`${API_URL}/AssignTask/${taskid}/${username}`).then((response) => {
       if (response.data.Message === 'Error') {
         alert('Server Error');
+        window.location.reload();
       }
       if (response.data.Message === 'Success') {
         console.log(response);
         alert('You take the task Successfully');
+        window.location.reload();
       }
     });
   };
@@ -262,34 +265,17 @@ export default function NewRequest() {
                             <TableCell align="left">{row.problem_desc}</TableCell>
                             <TableCell align="left">{row.Date}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
-                            <TableCell align="right">
-                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                                <Icon icon={moreVerticalFill} width={20} height={20} />
-                              </IconButton>
-
-                              <Menu
-                                open={isOpen}
-                                anchorEl={ref.current}
-                                onClose={() => setIsOpen(false)}
-                                PaperProps={{
-                                  sx: { width: 200, maxWidth: '100%' }
-                                }}
-                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => AssignTask(row.request_id, users.user[0].username)}
+                                style={{ backgroundColor: '#75077E' }}
                               >
-                                <MenuItem
-                                  sx={{ color: 'text.secondary' }}
-                                  onClick={() => AssignTask(row.request_id, users.user[0].username)}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={trash2Outline} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="Assign Task"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-                              </Menu>
+                                Assign
+                              </LoadingButton>
                             </TableCell>
                           </TableRow>
                         );

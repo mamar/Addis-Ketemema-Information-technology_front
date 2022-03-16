@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
 // material
@@ -239,49 +240,30 @@ export default function Office() {
                             <TableCell align="left">{row.office_name}</TableCell>
                             <TableCell align="left">{row.floor_no}</TableCell>
                             <TableCell align="left">{row.phone}</TableCell>
-
-                            <TableCell align="right">
-                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                                <Icon icon={moreVerticalFill} width={20} height={20} />
-                              </IconButton>
-
-                              <Menu
-                                open={isOpen}
-                                anchorEl={ref.current}
-                                onClose={() => setIsOpen(false)}
-                                PaperProps={{
-                                  sx: { width: 200, maxWidth: '100%' }
-                                }}
-                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => deleteoffice(row.office_id)}
+                                style={{ backgroundColor: 'red' }}
                               >
-                                <MenuItem
-                                  sx={{ color: 'text.secondary' }}
-                                  onClick={() => deleteoffice(row.office_id)}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={trash2Outline} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="Delete"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-
-                                <MenuItem
-                                  component={RouterLink}
-                                  to="#"
-                                  sx={{ color: 'text.secondary' }}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={editFill} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="Edit"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-                              </Menu>
+                                Delete
+                              </LoadingButton>
+                            </TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                component={RouterLink}
+                                to="#"
+                                style={{ backgroundColor: '#75077E' }}
+                              >
+                                Edit
+                              </LoadingButton>
                             </TableCell>
                           </TableRow>
                         );

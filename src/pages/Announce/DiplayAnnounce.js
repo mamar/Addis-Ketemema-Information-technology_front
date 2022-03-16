@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 // material
 import {
@@ -40,6 +41,7 @@ import { API_URL } from '../Constant1';
 import { StandardForm } from '../../components/authentication/standard';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
+  { id: 'anouncid', label: 'anouncid', alignRight: false },
   { id: 'AnnounceName', label: 'ማሳሰቢያ', alignRight: false },
   { id: 'AnnounceDate', label: 'የተፃፈበት ቀን', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
@@ -120,10 +122,10 @@ export default function DisplayAnnounce() {
     });
   };
   const request = [...Array(24)].map((_, index) => ({
+    anouncid: AnnounceList.anouncid,
     anounceName: AnnounceList.anounceName,
     status: AnnounceList.status,
-    anounceDate: AnnounceList.anounceDate,
-    anouncid: AnnounceList.anouncid
+    anounceDate: AnnounceList.anounceDate
   }));
 
   const handleRequestSort = (event, property) => {
@@ -228,7 +230,7 @@ export default function DisplayAnnounce() {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const isItemSelected = selected.indexOf(row.anouncid) !== -1;
+                        const isItemSelected = selected.indexOf(row.anounceName) !== -1;
 
                         return (
                           <TableRow
@@ -242,52 +244,37 @@ export default function DisplayAnnounce() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, row.anouncid)}
+                                onChange={(event) => handleClick(event, row.anounceName)}
                               />
                             </TableCell>
+                            <TableCell align="left">{row.anouncid}</TableCell>
                             <TableCell align="left">{row.anounceName}</TableCell>
                             <TableCell align="left">{row.anounceDate}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
-                            <TableCell align="right">
-                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                                <Icon icon={moreVerticalFill} width={20} height={20} />
-                              </IconButton>
-
-                              <Menu
-                                open={isOpen}
-                                anchorEl={ref.current}
-                                onClose={() => setIsOpen(false)}
-                                PaperProps={{
-                                  sx: { width: 200, maxWidth: '100%' }
-                                }}
-                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            <TableCell align="left">{row.price}</TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => DeletAnounce(row.anouncid)}
+                                style={{ backgroundColor: 'red' }}
                               >
-                                <MenuItem
-                                  sx={{ color: 'text.primary' }}
-                                  onClick={() => DeletAnounce(row.anouncid)}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={trash2Outline} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="Delete"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-                                <MenuItem
-                                  sx={{ color: 'text.secondary' }}
-                                  onClick={() => EndAnnounce(row.anouncid)}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={trash2Outline} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="End"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-                              </Menu>
+                                Delete
+                              </LoadingButton>
+                            </TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => EndAnnounce(row.anouncid)}
+                                style={{ backgroundColor: '#75077E' }}
+                              >
+                                End
+                              </LoadingButton>
                             </TableCell>
                           </TableRow>
                         );

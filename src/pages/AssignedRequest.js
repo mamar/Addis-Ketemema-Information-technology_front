@@ -6,6 +6,7 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
 import axios from 'axios';
+import { LoadingButton } from '@mui/lab';
 // material
 import {
   Card,
@@ -107,10 +108,12 @@ export default function AssignedRequest() {
     axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
       if (response.data.Message === 'Error') {
         alert('Server Error');
+        window.location.reload();
       }
       if (response.data.Message === 'Success') {
         console.log(response);
         alert('Status Changed');
+        window.location.reload();
       }
     });
   };
@@ -264,47 +267,30 @@ export default function AssignedRequest() {
                             <TableCell align="left">{row.Date}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
-                            <TableCell align="right">
-                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                                <Icon icon={moreVerticalFill} width={20} height={20} />
-                              </IconButton>
-
-                              <Menu
-                                open={isOpen}
-                                anchorEl={ref.current}
-                                onClose={() => setIsOpen(false)}
-                                PaperProps={{
-                                  sx: { width: 200, maxWidth: '100%' }
-                                }}
-                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => finishTask(row.userid)}
+                                style={{ backgroundColor: 'red' }}
                               >
-                                <MenuItem
-                                  sx={{ color: 'text.secondary' }}
-                                  onClick={() => finishTask(row.request_id)}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={trash2Outline} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="Finish Task"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-                                <MenuItem
-                                  sx={{ color: 'text.secondary' }}
-                                  component={RouterLink}
-                                  to={`/dashboard/StandardForm/${row.request_id}`}
-                                >
-                                  <ListItemIcon>
-                                    <Icon icon={trash2Outline} width={24} height={24} />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    primary="ሰታንዳርድ"
-                                    primaryTypographyProps={{ variant: 'body2' }}
-                                  />
-                                </MenuItem>
-                              </Menu>
+                                ይጨርሱ
+                              </LoadingButton>
+                            </TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                component={RouterLink}
+                                to={`/dashboard/StandardForm/${row.request_id}`}
+                                style={{ backgroundColor: '#75077E' }}
+                              >
+                                ሰታንዳርድ
+                              </LoadingButton>
                             </TableCell>
                           </TableRow>
                         );

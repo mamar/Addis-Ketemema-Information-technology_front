@@ -64,7 +64,7 @@ export default function LoginForm() {
             }
             if (response.data.user[0].ROLES === 'Admin' || response.data.user[0].ROLES === 'IT') {
               localStorage.setItem('userinfo', JSON.stringify(response.data));
-              navigate('/dashboard', { replace: true });
+              navigate('/dashboard/app', { replace: true });
               // setloginstatus(response.data.user[0].username);
             }
           }

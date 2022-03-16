@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react';
 import bellFill from '@iconify/icons-eva/bell-fill';
 import clockFill from '@iconify/icons-eva/clock-fill';
 import doneAllFill from '@iconify/icons-eva/done-all-fill';
+import { LoadingButton } from '@mui/lab';
 // material
 import { alpha } from '@mui/material/styles';
 import {
@@ -90,8 +91,8 @@ export default function NotificationsPopover() {
         alert('Server Error');
       }
       if (response.data.Message === 'Success') {
-        console.log(response);
         alert('You take the task Successfully');
+        window.location.reload();
       }
     });
   };
@@ -189,6 +190,17 @@ export default function NotificationsPopover() {
             </Typography>
           }
         />
+
+        <LoadingButton
+          fullWidth
+          size="small"
+          type="submit"
+          variant="contained"
+          onClick={() => AssignTask(notification.request_id, users.user[0].username)}
+          style={{ backgroundColor: '#75077E' }}
+        >
+          Assign
+        </LoadingButton>
       </ListItemButton>
     );
   }

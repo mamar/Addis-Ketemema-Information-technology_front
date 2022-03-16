@@ -8,6 +8,7 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import { Link as RouterLink } from 'react-router-dom';
 import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
+import { LoadingButton } from '@mui/lab';
 // material
 import {
   Box,
@@ -92,34 +93,17 @@ export default function AppNewsUpdate() {
               <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
                 {row.Date}
               </Typography>
-              <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
-                <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                  <Icon icon={moreVerticalFill} width={20} height={20} />
-                </IconButton>
-                <Menu
-                  open={isOpen}
-                  anchorEl={ref.current}
-                  onClose={() => setIsOpen(false)}
-                  PaperProps={{
-                    sx: { width: 200, maxWidth: '100%' }
-                  }}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                >
-                  <MenuItem
-                    sx={{ color: 'text.secondary' }}
-                    onClick={() => AssignTask(row.request_id, users.user[0].username)}
-                  >
-                    <ListItemIcon>
-                      <Icon icon={trash2Outline} width={24} height={24} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Assign Task"
-                      primaryTypographyProps={{ variant: 'body2' }}
-                    />
-                  </MenuItem>
-                </Menu>
-              </Typography>
+
+              <LoadingButton
+                fullWidth
+                size="small"
+                type="submit"
+                variant="contained"
+                onClick={() => AssignTask(row.request_id, users.user[0].username)}
+                style={{ backgroundColor: '#75077E' }}
+              >
+                Assign
+              </LoadingButton>
             </Stack>
           ))}
         </Stack>

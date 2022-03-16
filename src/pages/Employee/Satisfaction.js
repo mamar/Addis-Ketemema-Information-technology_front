@@ -34,11 +34,7 @@ import {
   Box
 } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
-// components
-import editFill from '@iconify/icons-eva/edit-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-import Select from '@mui/material/Select';
+import { LoadingButton } from '@mui/lab';
 import { MHidden } from '../../components/@material-extend';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
@@ -286,37 +282,20 @@ export default function Satisfaction() {
                               <TableCell align="left">{row.assignedDate}</TableCell>
                               <TableCell align="left">{row.finishedDate}</TableCell>
                               <TableCell align="left">{row.status}</TableCell>
-                              <br />
-                              <TableCell align="right">
-                                <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                                  <Icon icon={moreVerticalFill} width={20} height={20} />
-                                </IconButton>
-
-                                <Menu
-                                  open={isOpen}
-                                  anchorEl={ref.current}
-                                  onClose={() => setIsOpen(false)}
-                                  PaperProps={{
-                                    sx: { width: 200, maxWidth: '100%' }
-                                  }}
-                                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                              <TableCell align="left">
+                                <LoadingButton
+                                  fullWidth
+                                  size="small"
+                                  type="submit"
+                                  variant="contained"
+                                  component={RouterLink}
+                                  to={`/AddSatisfaction/${row.request_id}`}
+                                  style={{ backgroundColor: '#75077E' }}
                                 >
-                                  <MenuItem
-                                    sx={{ color: 'text.secondary' }}
-                                    component={RouterLink}
-                                    to={`/AddSatisfaction/${row.request_id}`}
-                                  >
-                                    <ListItemIcon>
-                                      <Icon icon={trash2Outline} width={24} height={24} />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                      primary="እርካታ"
-                                      primaryTypographyProps={{ variant: 'body2' }}
-                                    />
-                                  </MenuItem>
-                                </Menu>
+                                  እርካታ
+                                </LoadingButton>
                               </TableCell>
+                              <br />
                             </TableRow>
                           );
                         })}
