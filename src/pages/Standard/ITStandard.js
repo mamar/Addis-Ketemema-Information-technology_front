@@ -1,26 +1,18 @@
-import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import DateRangePicker from '@mui/lab/DateRangePicker';
+import { LoadingButton } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker';
-import DesktopDateRangePicker from '@mui/lab/DesktopDateRangePicker';
-import axios from 'axios';
 // material
-import { Box, Card, Link, Container, Stack, TextField, Typography } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-import { width } from '@mui/system';
-import moment from 'moment';
-import dateformat from 'dateformat';
+import { Box, Card, Container, Stack, TextField, Typography } from '@mui/material';
 // material
 import { styled } from '@mui/material/styles';
-import Page from '../../components/Page';
-import AuthLayout from '../../layouts/AuthLayout';
+import dateformat from 'dateformat';
+import { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 // components
 import { MHidden } from '../../components/@material-extend';
-import UserSorage from '../../components/authentication/userAuth/UserStorage';
-import { API_URL } from '../Constant1';
+import Page from '../../components/Page';
+import AuthLayout from '../../layouts/AuthLayout';
 
 // layouts
 // components
@@ -53,9 +45,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function ITStandard() {
   const [value, setValue] = useState([null, null]);
-  const users = JSON.parse(localStorage.getItem('userinfo'));
-  const DateChange = (start, end) => console.log(start, 'and', end);
-  const [standardList, Setstandardlist] = useState();
   return (
     <RootStyle title="ስታንዳረድ ማዉጫ">
       <AuthLayout>Information Technology</AuthLayout>

@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
+import { Typography } from '@mui/material';
 // material
 import { styled } from '@mui/material/styles';
-import { Typography } from '@mui/material';
-// components
-import Logo from '../components/Logo';
+import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 //
 import { MHidden } from '../components/@material-extend';
+// components
+import Logo from '../components/Logo';
 
 // ----------------------------------------------------------------------
 

@@ -1,36 +1,29 @@
-import * as Yup from 'yup';
-import { useState, forwardRef } from 'react';
-import { Icon } from '@iconify/react';
-import { useFormik, Form, FormikProvider } from 'formik';
-import eyeFill from '@iconify/icons-eva/eye-fill';
-import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet-async';
-// material
-import {
-  Box,
-  Card,
-  Link,
-  Container,
-  Stack,
-  TextField,
-  IconButton,
-  InputAdornment,
-  TextareaAutosize
-} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import axios from 'axios';
-import { width } from '@mui/system';
 // material
-import { styled } from '@mui/material/styles';
+import { Box, Stack, TextField } from '@mui/material';
+// material
+import axios from 'axios';
+import { Form, FormikProvider, useFormik } from 'formik';
+import PropTypes from 'prop-types';
+import { forwardRef, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
+import * as Yup from 'yup';
 import { API_URL } from '../../../pages/Constant1';
 // layouts
 // components
 // ----------------------------------------------------------------------
 
 export default function EditOffice() {
-  const navigate = useNavigate();
+  const officeid = JSON.parse(JSON.stringify(useParams()));
+  const [officeList, setofficelist] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${API_URL}/Office/GetOffice`).then((Response) => {
+      setofficelist(Response.data);
+    });
+  }, []);
+
   const RegisterSchema = Yup.object().shape({
     office_name: Yup.string()
       .min(8, 'Too Short!')
@@ -41,21 +34,27 @@ export default function EditOffice() {
   });
   const formik = useFormik({
     initialValues: {
-      office_name: '',
-      floor_no: '',
-      phone: ''
+      office_name: officeList.office_name,
+      floor_no: officeList.floor_no,
+      phone: officeList.phone
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/Office/AddOffice`, {
+        .put(`${API_URL}/Office/updateOffice/${officeid.office_id}`, {
           office_name: data.office_name,
           floor_no: data.floor_no,
           phone: data.phone
         })
         .then((Response) => {
-          alert('office Added Successfully');
-          window.location.reload();
+          if (Response.data.Message === 'success') {
+            alert('office Updated Successfully');
+            window.location.reload();
+          }
+          if (Response.data.Message === 'error') {
+            alert('Server Error');
+            window.location.reload();
+          }
         });
     }
   });
@@ -75,55 +74,54 @@ export default function EditOffice() {
   };
 
   const { errors, values, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
-
-  const RootStyle = styled(Page)(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-      display: 'flex'
-    }
-  }));
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Stack spacing={3}>
-          <TextField
-            label="office_name"
-            placeholder="office_name "
-            value={values.office_name}
-            {...getFieldProps('office_name')}
-            error={Boolean(touched.office_name && errors.office_name)}
-            helperText={touched.office_name && errors.office_name}
-          />
-          <TextField
-            autoComplete="floor_no"
-            type="text"
-            label="floor_no "
-            placeholder="floor_no"
-            value={values.Gender}
-            {...getFieldProps('floor_no')}
-            error={Boolean(touched.floor_no && errors.floor_no)}
-            helperText={touched.floor_no && errors.floor_no}
-          />
-          <TextField
-            autoComplete="phone"
-            type="text"
-            label="phone "
-            placeholder="phone"
-            value={values.age}
-            {...getFieldProps('phone')}
-            error={Boolean(touched.phone && errors.phone)}
-            helperText={touched.phone && errors.phone}
-          />
+        {officeList.map((row) => (
+          <Stack spacing={3} key={row.office_id}>
+            <TextField
+              label="office_name"
+              placeholder="office_name "
+              defaultValue={row.office_name}
+              value={values.office_name}
+              {...getFieldProps('office_name')}
+              error={Boolean(touched.office_name && errors.office_name)}
+              helperText={touched.office_name && errors.office_name}
+            />
+            <TextField
+              autoComplete="floor_no"
+              type="text"
+              label="floor_no "
+              placeholder="floor_no"
+              defaultValue={row.floor_no}
+              value={values.floor_no}
+              {...getFieldProps('floor_no')}
+              error={Boolean(touched.floor_no && errors.floor_no)}
+              helperText={touched.floor_no && errors.floor_no}
+            />
+            <TextField
+              autoComplete="phone"
+              type="text"
+              label="phone "
+              placeholder="phone"
+              defaultValue={row.phone}
+              value={values.phone}
+              {...getFieldProps('phone')}
+              error={Boolean(touched.phone && errors.phone)}
+              helperText={touched.phone && errors.phone}
+            />
 
-          <LoadingButton
-            size="medium"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-            style={{ backgroundColor: '#75077E' }}
-          >
-            Add
-          </LoadingButton>
-        </Stack>
+            <LoadingButton
+              size="medium"
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+              style={{ backgroundColor: '#75077E' }}
+            >
+              Add
+            </LoadingButton>
+          </Stack>
+        ))}
       </Form>
     </FormikProvider>
   );

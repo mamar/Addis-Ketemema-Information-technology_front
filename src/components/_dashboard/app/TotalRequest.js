@@ -1,12 +1,11 @@
-import { Icon } from '@iconify/react';
 import androidFilled from '@iconify/icons-ant-design/android-filled';
+import { Icon } from '@iconify/react';
+import { Card, Typography } from '@mui/material';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
+import axios from 'axios';
 // utils
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { fShortenNumber } from '../../../utils/formatNumber';
 import { API_URL } from '../../../pages/Constant1';
 // ----------------------------------------------------------------------
 

@@ -1,56 +1,30 @@
-import { add, filter } from 'lodash';
-import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
-import { useState, useEffect, useRef } from 'react';
-import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
-import axios from 'axios';
 // material
 import {
   Card,
-  Table,
-  Stack,
-  Avatar,
-  Button,
   Checkbox,
-  TableRow,
+  Container,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
   TableContainer,
   TablePagination,
-  Menu,
-  MenuItem,
-  IconButton,
-  ListItemIcon,
-  ListItemText,
-  TextField,
-  Box
+  TableRow,
+  Typography
 } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-// components
-import editFill from '@iconify/icons-eva/edit-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-import Select from '@mui/material/Select';
-import { MHidden } from '../../components/@material-extend';
+import { styled } from '@mui/material/styles';
+import axios from 'axios';
+import { filter } from 'lodash';
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
-import {
-  UserListHead,
-  UserListToolbar,
-  UserMoreMenu
-} from '../../components/_dashboard/allRequest';
-import EmployeAuth from '../../layouts/EmployeAuth';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/allRequest';
 import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
 import DashboardSidebarEmployee from '../../layouts/dashboard/DashboardSidebarEmployee';
+import EmployeAuth from '../../layouts/EmployeAuth';
 import { API_URL } from '../Constant1';
-import { AddSatisfaction } from '../../components/authentication/Request';
-import EmpListDivider from './EmpListDivider';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'user_fullname', label: 'IT ባለሙያ', alignRight: false },
@@ -67,24 +41,11 @@ const TABLE_HEAD = [
   { id: 'comment', label: 'አስተያየት', አስተያየት: false },
   { id: '' }
 ];
-const style = {
-  width: '100%',
-  maxWidth: 360,
-  bgcolor: 'background.paper'
-};
+
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex'
   }
-}));
-
-const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  maxWidth: 400,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2)
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
@@ -135,9 +96,6 @@ export default function FinishedTaskswithSatisfaction() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [requestList, SetRequestList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [satisfaction1, setsatisfaction] = useState([]);
   useEffect(() => {
     axios
       .get(`${API_URL}/Request/FinishedTasksWithSatisfaction/${users.user[0].username}`)
@@ -145,34 +103,6 @@ export default function FinishedTaskswithSatisfaction() {
         SetRequestList(Response.data);
       });
   }, []);
-  const finishTask = (taskid) => {
-    axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
-      if (response.data.Message === 'Error') {
-        alert('Server Error');
-        console.log(response);
-      }
-      if (response.data.Message === 'Success') {
-        console.log(response);
-        alert('Status Changed');
-      }
-    });
-  };
-  const request = [...Array(24)].map((_, index) => ({
-    request_id: requestList.request_id,
-    Position: requestList.Position,
-    Gender: requestList.Gender,
-    user_fullname: requestList.user_fullname,
-    finishedDate: requestList.finishedDate,
-    satisfaction: requestList.satisfaction,
-    Phone: requestList.Phone,
-    request_type: requestList.request_type,
-    problem_desc: requestList.problem_desc,
-    Date: requestList.Date,
-    assignedDate: requestList.assignedDate,
-    status: requestList.status,
-    comment: requestList.comment
-  }));
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -298,11 +228,6 @@ export default function FinishedTaskswithSatisfaction() {
                               <TableCell align="left">{row.status}</TableCell>
                               <TableCell align="left">{row.satisfaction}</TableCell>
                               <TableCell align="left">{row.comment}</TableCell>
-                              <TableCell align="right">
-                                <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                                  <Icon icon={moreVerticalFill} width={20} height={20} />
-                                </IconButton>
-                              </TableCell>
                             </TableRow>
                           );
                         })}

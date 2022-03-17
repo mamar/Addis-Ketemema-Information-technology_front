@@ -1,45 +1,37 @@
-import { filter } from 'lodash';
-import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
-import { useState, useEffect, useRef } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { styled } from '@mui/material/styles';
+import { Icon } from '@iconify/react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker';
-import dateformat from 'dateformat';
-import axios from 'axios';
 // material
 import {
-  Card,
-  Table,
-  TextField,
   Box,
-  Stack,
-  Avatar,
   Button,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  TableRow,
+  TextField,
+  Typography
 } from '@mui/material';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+import axios from 'axios';
+import dateformat from 'dateformat';
+import { filter } from 'lodash';
+import { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 // material
 // components
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
-import {
-  UserListHead,
-  UserListToolbar,
-  UserMoreMenu
-} from '../../components/_dashboard/allRequest';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/allRequest';
 import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
@@ -103,15 +95,6 @@ export default function Performance() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [performancelist, setperformancelist] = useState([]);
   const [value, setValue] = useState([null, null]);
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const tableRef = useRef(null);
-
-  /* const { onDownload } = useDownloadExcel({
-    currentTableRef: tableRef.current,
-    filename: 'አፈፃፀም',
-    sheet: 'አፈፃፀም'
-  }); */
   useEffect(() => {
     axios
       .get(
@@ -124,12 +107,6 @@ export default function Performance() {
         setperformancelist(Response.data);
       });
   }, []);
-  const performance = [...Array(24)].map((_, index) => ({
-    user_fullname: performancelist.user_fullname,
-    Finished: performancelist.Finished,
-    Assigned: performancelist.Assigned
-  }));
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

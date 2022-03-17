@@ -1,39 +1,20 @@
-import * as Yup from 'yup';
-import { useState } from 'react';
-import axios from 'axios';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useFormik, Form, FormikProvider } from 'formik';
-import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-// material
-import {
-  Link,
-  Stack,
-  Checkbox,
-  TextField,
-  IconButton,
-  InputAdornment,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  FormControlLabel
-} from '@mui/material';
+import { Icon } from '@iconify/react';
 import { LoadingButton } from '@mui/lab';
+// material
+import { IconButton, InputAdornment, Stack, TextField } from '@mui/material';
+import axios from 'axios';
+import { Form, FormikProvider, useFormik } from 'formik';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 import { API_URL } from '../../../pages/Constant1';
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
-  const handlelogin = (event) => {
-    event.preventDefault();
-  };
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setusername] = useState('');
-  const [password, setpassword] = useState('');
-  const [loginStatus, setloginstatus] = useState('');
-  const [Listloginerrors, setloginerrors] = useState([]);
   axios.defaults.withCredentials = true;
 
   const LoginSchema = Yup.object().shape({
@@ -91,6 +72,7 @@ export default function LoginForm() {
             autoComplete="username"
             type="username"
             label="Username "
+            value={values.username}
             {...getFieldProps('username')}
             error={Boolean(touched.username && errors.username)}
             helperText={touched.username && errors.username}
@@ -101,6 +83,7 @@ export default function LoginForm() {
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
+            value={values.password}
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (

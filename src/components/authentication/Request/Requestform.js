@@ -1,26 +1,17 @@
-import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
-import { useFormik, Form, FormikProvider } from 'formik';
-import { useNavigate } from 'react-router-dom';
-// material
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import axios from 'axios';
+// material
+import { Stack, TextField } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import axios from 'axios';
+import { Form, FormikProvider, useFormik } from 'formik';
+import * as Yup from 'yup';
 import { API_URL } from '../../../pages/Constant1';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
-  const [officelist, setofficelist] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
-  useEffect(() => {
-    axios.get(`${API_URL}/Office/GetOffice`).then((Response) => {
-      setofficelist(Response.data);
-    });
-  }, []);
-  const navigate = useNavigate();
   const RegisterSchema = Yup.object().shape({
     division: Yup.string().required('required'),
     floor_no: Yup.string().required(' required'),

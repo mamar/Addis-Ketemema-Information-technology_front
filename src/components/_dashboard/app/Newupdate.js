@@ -1,31 +1,18 @@
-import faker from 'faker';
-import PropTypes from 'prop-types';
-import { Icon } from '@iconify/react';
-import { formatDistance } from 'date-fns';
-import { Link as RouterLink } from 'react-router-dom';
 import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
+import { Icon } from '@iconify/react';
 // material
-import { Box, Stack, Link, Card, Button, Divider, Typography, CardHeader } from '@mui/material';
-// utils
-import { useState, useEffect } from 'react';
+import { Box, Button, Card, CardHeader, Divider, Link, Stack, Typography } from '@mui/material';
 import axios from 'axios';
+import { formatDistance } from 'date-fns';
+import PropTypes from 'prop-types';
+// utils
+import { useEffect, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { API_URL } from '../../../pages/Constant1';
-import { mockImgCover } from '../../../utils/mockImages';
 //
 import Scrollbar from '../../Scrollbar';
 
 // ----------------------------------------------------------------------
-
-const NEWS = [...Array(5)].map((_, index) => {
-  const setIndex = index + 1;
-  return {
-    title: faker.name.title(),
-    description: faker.lorem.paragraphs(),
-    image: mockImgCover(setIndex),
-    postedAt: faker.date.soon()
-  };
-});
-
 // ----------------------------------------------------------------------
 
 NewsItem.propTypes = {

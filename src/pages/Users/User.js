@@ -1,44 +1,30 @@
-import { filter } from 'lodash';
-import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
-import { useState, useEffect, useRef } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
-import axios from 'axios';
+import { Icon } from '@iconify/react';
+import { LoadingButton } from '@mui/lab';
 // material
 import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
   Button,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
   TableContainer,
   TablePagination,
-  Menu,
-  MenuItem,
-  IconButton,
-  ListItemIcon,
-  ListItemText
+  TableRow,
+  Typography
 } from '@mui/material';
-// components
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-import editFill from '@iconify/icons-eva/edit-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import { LoadingButton } from '@mui/lab';
+import axios from 'axios';
+import { filter } from 'lodash';
+import { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_dashboard/user';
-import USERLIST from '../../_mocks_/user';
-import Register from './Register';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/user';
 import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 
@@ -96,8 +82,6 @@ export default function User() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userlist, SetuserList] = useState([]);
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
   const blockuser = (userid) => {
     axios.put(`${API_URL}/user/blockuser/${userid}`).then((response) => {
       if (response.data.Message === 'blocked') {
@@ -123,7 +107,7 @@ export default function User() {
     });
   };
   const Deletuser = (userid) => {
-    axios.delete(`${API_URL}/user/Deleteusers/${userid}`).then((response) => {
+    axios.delete(`${API_URL}/user/Deleteusers/${userid}`).then(() => {
       alert('Deleted Successfully');
       window.location.reload();
     });
@@ -137,17 +121,6 @@ export default function User() {
       }
     });
   }, []);
-  const users = [...Array(24)].map((_, index) => ({
-    office_name: userlist.office_name,
-    userid: userlist.userid,
-    user_fullname: userlist.user_fullname,
-    username: userlist.username,
-    age: userlist.age,
-    Gender: userlist.age,
-    Position: userlist.Position,
-    ROLES: userlist.ROLES,
-    status: userlist.status
-  }));
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -318,6 +291,19 @@ export default function User() {
                                 style={{ backgroundColor: '#08890E' }}
                               >
                                 Unblock
+                              </LoadingButton>
+                            </TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                component={RouterLink}
+                                to={`/dashboard/UserUpdate/${row.userid}`}
+                                style={{ backgroundColor: '#75077E' }}
+                              >
+                                Edit
                               </LoadingButton>
                             </TableCell>
                           </TableRow>

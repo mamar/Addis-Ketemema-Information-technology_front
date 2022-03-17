@@ -1,46 +1,31 @@
-import { filter, result } from 'lodash';
-import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
-import { useState, useEffect, useRef } from 'react';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 import { LoadingButton } from '@mui/lab';
-import axios from 'axios';
 // material
 import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
   Button,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
   TableContainer,
   TablePagination,
-  Menu,
-  MenuItem,
-  IconButton,
-  ListItemIcon,
-  ListItemText
+  TableRow,
+  Typography
 } from '@mui/material';
-import editFill from '@iconify/icons-eva/edit-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+import axios from 'axios';
+import { filter } from 'lodash';
+import { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 // components
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
-import {
-  UserListHead,
-  UserListToolbar,
-  UserMoreMenu
-} from '../../components/_dashboard/allRequest';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/allRequest';
 import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
@@ -100,8 +85,6 @@ export default function NewRequest() {
   const [requestList, SetRequestList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
 
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     axios.get(`${API_URL}/Request/GetNewRequest`).then((Response) => {
       SetRequestList(Response.data);
@@ -120,22 +103,6 @@ export default function NewRequest() {
       }
     });
   };
-
-  const request = [...Array(24)].map((_, index) => ({
-    request_id: requestList.request_id,
-    requesterusername: requestList.requesterusername,
-    office_name: requestList.office_name,
-    user_fullname: requestList.user_fullname,
-    division: requestList.division,
-    floor_no: requestList.floor_no,
-    office_no: requestList.office_no,
-    phone: requestList.phone,
-    request_type: requestList.request_type,
-    problem_desc: requestList.problem_desc,
-    Date: requestList.Date,
-    status: requestList.status
-  }));
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

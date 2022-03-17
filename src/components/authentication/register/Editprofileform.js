@@ -1,50 +1,44 @@
-import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
-import { Icon } from '@iconify/react';
-import { useFormik, Form, FormikProvider } from 'formik';
-import eyeFill from '@iconify/icons-eva/eye-fill';
-import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import { useNavigate } from 'react-router-dom';
-// material
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
 import { LoadingButton } from '@mui/lab';
+// material
+import { Stack, TextField } from '@mui/material';
 import axios from 'axios';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import { Form, FormikProvider, useFormik } from 'formik';
+import { useEffect, useState } from 'react';
+import * as Yup from 'yup';
 import { API_URL } from '../../../pages/Constant1';
 
 // ----------------------------------------------------------------------
 
 export default function Editprofileform() {
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  const [userList, SetuserList] = useState([]);
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+  useEffect(() => {
+    axios.get(`${API_URL}/user/Getuserbyusername/${users.user[0].username}`).then((Response) => {
+      if (Response.data === 'error') {
+        alert('Server Error');
+      } else {
+        SetuserList(Response.data);
+      }
+    });
+  }, []);
   const RegisterSchema = Yup.object().shape({
     user_fullname: Yup.string()
       .min(8, 'Too Short!')
       .max(50, 'Too Long!')
       .required('user_fullname required'),
     Position: Yup.string().required(' required'),
-    Phone: Yup.string().required('required'),
-    office_id: Yup.string().required(' Required')
+    Phone: Yup.string().required('required')
   });
-  const [messagelist, setMessageList] = useState([]);
-  const users = JSON.parse(localStorage.getItem('userinfo'));
   const formik = useFormik({
     initialValues: {
-      office_id: users.user[0].office_id,
-      user_fullname: users.user[0].user_fullname,
-      Position: users.user[0].Position,
-      Phone: users.user[0].Phone
+      user_fullname: userList.user_fullname,
+      Position: userList.Position,
+      Phone: userList.Phone
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
         .patch(`${API_URL}/user/Updateusers/${users.user[0].username}`, {
-          office_id: data.office_id,
           user_fullname: data.user_fullname,
           Position: data.Position,
           Phone: data.Phone
@@ -63,83 +57,62 @@ export default function Editprofileform() {
         });
     }
   });
-  const [officelist, setofficelist] = useState([]);
-  useEffect(() => {
-    axios.get(`${API_URL}/Office/GetOffice`).then((Response) => {
-      setofficelist(Response.data);
-    });
-  }, []);
   const { errors, values, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Stack spacing={3}>
-          <InputLabel id="demo-simple-select-label">ፅ/ቤት</InputLabel>
-          <br />
-          <Select
-            labelId="demo-simple-select-label"
-            fullWidth
-            autoComplete="office_id"
-            type="text"
-            label="ፅ/ቤት "
-            placeholder="ፅ/ቤት"
-            value={values.office_id}
-            {...getFieldProps('office_id')}
-            error={Boolean(touched.office_id && errors.office_id)}
-            helperText={touched.office_id && errors.office_id}
-          >
-            {officelist.map((value) => (
-              <MenuItem value={value.office_id} key={value.office_id}>
-                {value.office_name}
-              </MenuItem>
-            ))}
-          </Select>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+        {userList.map((row) => (
+          <Stack spacing={3} key={row.userid}>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+              <TextField
+                fullWidth
+                autoComplete="user_fullname"
+                label="ሙሉ ስም"
+                placeholder="ሙሉ ስም"
+                defaultValue={row.user_fullname}
+                value={values.user_fullname}
+                {...getFieldProps('user_fullname')}
+                error={Boolean(touched.user_fullname && errors.user_fullname)}
+                helperText={touched.user_fullname && errors.user_fullname}
+              />
+            </Stack>
             <TextField
               fullWidth
-              autoComplete="user_fullname"
-              label="ሙሉ ስም"
-              placeholder="ሙሉ ስም"
-              value={values.user_fullname}
-              {...getFieldProps('user_fullname')}
-              error={Boolean(touched.user_fullname && errors.user_fullname)}
-              helperText={touched.user_fullname && errors.user_fullname}
+              autoComplete="Phone"
+              type="number"
+              label="ስልክ ቁጥር "
+              placeholder="ስልክ ቁጥር"
+              defaultValue={row.Phone}
+              value={values.Phone}
+              {...getFieldProps('Phone')}
+              error={Boolean(touched.Phone && errors.Phone)}
+              helperText={touched.Phone && errors.Phone}
             />
+            <TextField
+              fullWidth
+              autoComplete="Position"
+              type="text"
+              label="የስራ መደብ "
+              placeholder="የስራ መደብ"
+              defaultValue={row.Position}
+              value={values.Position}
+              {...getFieldProps('Position')}
+              error={Boolean(touched.Position && errors.Position)}
+              helperText={touched.Position && errors.Position}
+            />
+            <LoadingButton
+              fullWidth
+              size="medium"
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+              style={{ backgroundColor: '#75077E' }}
+            >
+              Update
+            </LoadingButton>
           </Stack>
-          <TextField
-            fullWidth
-            autoComplete="Phone"
-            type="number"
-            label="ስልክ ቁጥር "
-            placeholder="ስልክ ቁጥር"
-            value={values.Phone}
-            {...getFieldProps('Phone')}
-            error={Boolean(touched.Phone && errors.Phone)}
-            helperText={touched.Phone && errors.Phone}
-          />
-          <TextField
-            fullWidth
-            autoComplete="Position"
-            type="text"
-            label="የስራ መደብ "
-            placeholder="የስራ መደብ"
-            value={values.Position}
-            {...getFieldProps('Position')}
-            error={Boolean(touched.Position && errors.Position)}
-            helperText={touched.Position && errors.Position}
-          />
-          <LoadingButton
-            fullWidth
-            size="medium"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-            style={{ backgroundColor: '#75077E' }}
-          >
-            Update
-          </LoadingButton>
-        </Stack>
+        ))}
       </Form>
     </FormikProvider>
   );

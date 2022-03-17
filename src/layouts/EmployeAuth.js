@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
+import { Typography } from '@mui/material';
 // material
 import { styled } from '@mui/material/styles';
-import { Typography } from '@mui/material';
+import PropTypes from 'prop-types';
 // components
 //
 import { MHidden } from '../components/@material-extend';

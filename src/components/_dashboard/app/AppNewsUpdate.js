@@ -1,42 +1,19 @@
-import faker from 'faker';
-import PropTypes from 'prop-types';
-import { Icon } from '@iconify/react';
-import { formatDistance } from 'date-fns';
-import axios from 'axios';
-import { useState, useEffect, useRef } from 'react';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-import { Link as RouterLink } from 'react-router-dom';
 import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
+import { Icon } from '@iconify/react';
 import { LoadingButton } from '@mui/lab';
 // material
-import {
-  Box,
-  Stack,
-  Link,
-  Card,
-  Button,
-  Divider,
-  Typography,
-  CardHeader,
-  Menu,
-  MenuItem,
-  IconButton,
-  ListItemIcon,
-  ListItemText
-} from '@mui/material';
-// utils
-import { mockImgCover } from '../../../utils/mockImages';
+import { Box, Button, Card, CardHeader, Divider, Link, Stack, Typography } from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { API_URL } from '../../../pages/Constant1';
 //
 import Scrollbar from '../../Scrollbar';
-import { API_URL } from '../../../pages/Constant1';
 
 // ----------------------------------------------------------------------
 
 export default function AppNewsUpdate() {
   const [requestnotification, setNewRequest] = useState([]);
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const AssignTask = (taskid, username) => {
     axios.put(`${API_URL}/Request/AssignTask/${taskid}/${username}`).then((response) => {

@@ -1,21 +1,16 @@
-import PropTypes from 'prop-types';
-import { Icon } from '@iconify/react';
 import menu2Fill from '@iconify/icons-eva/menu-2-fill';
+import { Icon } from '@iconify/react';
+import { AppBar, Box, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
-import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 // components
 import { MHidden } from '../../components/@material-extend';
-//
-import Searchbar from './Searchbar';
-import AccountPopover from './AccountPopover';
-import LanguagePopover from './LanguagePopover';
-import NotificationsPopover from './NotificationsPopover';
+import { API_URL } from '../../pages/Constant1';
 import AccountPopoverEmployee from './AccountPopoverEmployee';
 import NotificationsPopoverEmployee from './NotificationsPopoverEmployee';
-import { API_URL } from '../../pages/Constant1';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;

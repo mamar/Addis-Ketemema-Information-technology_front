@@ -1,16 +1,13 @@
-import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { Box, Card, Container, Typography } from '@mui/material';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Card, Link, Container, Typography } from '@mui/material';
-// layouts
-import AuthLayout from '../../layouts/AuthLayout';
+import { Navigate } from 'react-router-dom';
+import { MHidden } from '../../components/@material-extend';
+import Editprofileform from '../../components/authentication/register/Editprofileform';
 // components
 import Page from '../../components/Page';
-import { MHidden } from '../../components/@material-extend';
-import AuthSocial from '../../components/authentication/AuthSocial';
-import { Officeform } from '../../components/authentication/office';
-import { API_URL } from '../Constant1';
-import Editprofileform from '../../components/authentication/register/Editprofileform';
+// layouts
+import AuthLayout from '../../layouts/AuthLayout';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({

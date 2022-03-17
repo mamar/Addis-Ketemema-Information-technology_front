@@ -1,8 +1,7 @@
-import { motion } from 'framer-motion';
-import { Link as RouterLink } from 'react-router-dom';
+import { Box, Container, Typography } from '@mui/material';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Button, Typography, Container } from '@mui/material';
+import { motion } from 'framer-motion';
 // components
 import { MotionContainer, varBounceIn } from '../components/animate';
 import Page from '../components/Page';

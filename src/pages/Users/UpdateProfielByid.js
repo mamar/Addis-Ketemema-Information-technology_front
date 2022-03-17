@@ -3,11 +3,12 @@ import { Box, Card, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
 import { MHidden } from '../../components/@material-extend';
-import AnnounceForm from '../../components/authentication/Announce/AnnounceForm';
+import { EditProfiebyIdForm } from '../../components/authentication/register';
 // components
 import Page from '../../components/Page';
 // layouts
 import AuthLayout from '../../layouts/AuthLayout';
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -37,7 +38,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AddAnnounce() {
+export default function UpdateProfielByid() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   if (!users) {
     return <Navigate to="/login" />;
@@ -46,11 +47,8 @@ export default function AddAnnounce() {
     if (users.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
-    if (users.user[0].ROLES === 'IT') {
-      return <Navigate to="/AssignedRequest" />;
-    }
     return (
-      <RootStyle title="ማሳሰቢያ">
+      <RootStyle title="መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ">
         <AuthLayout>Information Technology</AuthLayout>
         <MHidden width="mdDown">
           <SectionStyle>
@@ -65,12 +63,12 @@ export default function AddAnnounce() {
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
               <Typography variant="h4" gutterBottom>
-                ማሳሰቢያ ማስገቢያ
+                መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ማሳሰቢያዉን በትክክል ያስገቡ</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>
             </Box>
 
-            <AnnounceForm />
+            <EditProfiebyIdForm />
           </ContentStyle>
         </Container>
       </RootStyle>

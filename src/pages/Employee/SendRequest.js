@@ -1,20 +1,14 @@
 // material
+import { Box, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Card, Container, Typography, Button } from '@mui/material';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
-import { Icon } from '@iconify/react';
-import plusFill from '@iconify/icons-eva/plus-fill';
+import { Navigate } from 'react-router-dom';
+import { Requestform } from '../../components/authentication/Request';
+// components
+import Page from '../../components/Page';
 // layouts
 import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
 import DashboardSidebarEmployee from '../../layouts/dashboard/DashboardSidebarEmployee';
-import AuthLayout from '../../layouts/AuthLayout';
-// components
-import Page from '../../components/Page';
 import EmployeAuth from '../../layouts/EmployeAuth';
-import { MHidden } from '../../components/@material-extend';
-import { Requestform } from '../../components/authentication/Request';
-import Satisfaction from './Satisfaction';
-import EmpListDivider from './EmpListDivider';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -22,16 +16,6 @@ const RootStyle = styled(Page)(({ theme }) => ({
     display: 'flex'
   }
 }));
-
-const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  maxWidth: 360,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2)
-}));
-
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
   margin: 'auto',

@@ -1,41 +1,29 @@
-import { filter } from 'lodash';
-import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
-import { useState, useEffect, useRef } from 'react';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 import { LoadingButton } from '@mui/lab';
-import { styled } from '@mui/material/styles';
-import axios from 'axios';
 // material
 import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
   Button,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
   TableContainer,
   TablePagination,
-  Menu,
-  MenuItem,
-  IconButton,
-  ListItemIcon,
-  ListItemText
+  TableRow,
+  Typography
 } from '@mui/material';
-import editFill from '@iconify/icons-eva/edit-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+import axios from 'axios';
+import { filter } from 'lodash';
+import { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 // material
 // components
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../../components/_dashboard/allRequest';
@@ -89,9 +77,6 @@ export default function Office() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [officelist, setofficelist] = useState([]);
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
-
   const deleteoffice = (officeid) => {
     axios.delete(`${API_URL}/Office/DeleteOffice/${officeid}`).then((response) => {
       if (response.data.Message === 'error') {
@@ -109,13 +94,6 @@ export default function Office() {
       setofficelist(Response.data);
     });
   }, []);
-  const office = [...Array(24)].map((_, index) => ({
-    office_id: officelist.office_id,
-    office_name: officelist.office_name,
-    floor_noo: officelist.floor_no,
-    phone: officelist.phone
-  }));
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

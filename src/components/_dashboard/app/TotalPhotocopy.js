@@ -1,16 +1,10 @@
-import { Icon } from '@iconify/react';
-import bugFilled from '@iconify/icons-ant-design/bug-filled';
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
+import { Card, Typography } from '@mui/material';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
-
-// utils
-import { fShortenNumber } from '../../../utils/formatNumber';
 import { API_URL } from '../../../pages/Constant1';
-
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -38,9 +32,6 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
-const TOTAL = 234;
-
 export default function TotalPhotocopy() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {

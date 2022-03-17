@@ -1,21 +1,16 @@
-import { Icon } from '@iconify/react';
-import { useRef, useState, useEffect } from 'react';
-import homeFill from '@iconify/icons-eva/home-fill';
 import personFill from '@iconify/icons-eva/person-fill';
 import settings2Fill from '@iconify/icons-eva/settings-2-fill';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
+import { Icon } from '@iconify/react';
+import { Avatar, Box, Button, Divider, IconButton, MenuItem, Typography } from '@mui/material';
 // material
 import { alpha } from '@mui/material/styles';
-import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
+import { useRef, useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import UserSorage from '../../components/authentication/userAuth/UserStorage';
 // components
 import MenuPopover from '../../components/MenuPopover';
 //
 import account from '../../_mocks_/account';
-import UserSorage from '../../components/authentication/userAuth/UserStorage';
-import UserFullname from '../../components/authentication/userAuth/UserFullname';
-
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -42,22 +37,7 @@ export default function AccountPopoverEmployee() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const [userlist, setuserlist] = useState([]);
-  const users = JSON.parse(localStorage.getItem('userinfo'));
-  const userhundle = () => {
-    if (users != null) {
-      return users.user[0].username;
-    }
-    if (users == null) {
-      return null;
-    }
-  };
-  const handleLogout = (e) => {
-    axios.get('http://localhost:8080/logout').then((response) => {
-      navigate('/Login', { replace: true });
-    });
-  };
-  const logout = (e) => {
+  const logout = () => {
     localStorage.clear();
     navigate('/Login', { replace: true });
   };

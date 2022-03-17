@@ -1,15 +1,13 @@
-import * as React from 'react';
+import WorkIcon from '@mui/icons-material/Work';
+import Avatar from '@mui/material/Avatar';
+import { pink } from '@mui/material/colors';
+import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
-import { Link as RouterLink } from 'react-router-dom';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
-import { pink } from '@mui/material/colors';
+import ListItemText from '@mui/material/ListItemText';
+import * as React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 const style = {
   width: '100%',

@@ -1,13 +1,13 @@
-import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { Box, Card, Container, Typography } from '@mui/material';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Card, Link, Container, Typography } from '@mui/material';
-// layouts
-import AuthLayout from '../../layouts/AuthLayout';
-// components
-import Page from '../../components/Page';
+import { Navigate } from 'react-router-dom';
 import { MHidden } from '../../components/@material-extend';
 import EditStandardForm from '../../components/authentication/standard/EditStandardForm';
+// components
+import Page from '../../components/Page';
+// layouts
+import AuthLayout from '../../layouts/AuthLayout';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({

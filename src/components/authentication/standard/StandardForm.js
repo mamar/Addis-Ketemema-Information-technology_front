@@ -1,36 +1,18 @@
-import * as Yup from 'yup';
-import { useState, forwardRef } from 'react';
-import { Icon } from '@iconify/react';
-import { useFormik, Form, FormikProvider } from 'formik';
-import eyeFill from '@iconify/icons-eva/eye-fill';
-import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet-async';
-// material
-import {
-  Box,
-  Card,
-  Link,
-  Container,
-  Stack,
-  TextField,
-  IconButton,
-  InputAdornment,
-  TextareaAutosize
-} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import axios from 'axios';
-import { width } from '@mui/system';
 // material
-import { styled } from '@mui/material/styles';
+import { Box, Stack, TextField } from '@mui/material';
+import axios from 'axios';
+import { Form, FormikProvider, useFormik } from 'formik';
+import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
+import { Helmet } from 'react-helmet-async';
+import * as Yup from 'yup';
 import { API_URL } from '../../../pages/Constant1';
 // layouts
 // components
 // ----------------------------------------------------------------------
 
 export default function StandardForm() {
-  const navigate = useNavigate();
   const RegisterSchema = Yup.object().shape({
     service: Yup.string().required('required'),
     measurement: Yup.string().required(' required'),
@@ -81,12 +63,6 @@ export default function StandardForm() {
   };
 
   const { errors, values, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
-
-  const RootStyle = styled(Page)(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-      display: 'flex'
-    }
-  }));
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>

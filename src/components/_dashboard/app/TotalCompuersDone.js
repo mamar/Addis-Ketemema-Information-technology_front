@@ -1,13 +1,9 @@
-import { Icon } from '@iconify/react';
-import windowsFilled from '@iconify/icons-ant-design/windows-filled';
 import ComputerIcon from '@mui/icons-material/Computer';
+import { Card, Typography } from '@mui/material';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
-// utils
-import { fShortenNumber } from '../../../utils/formatNumber';
+import { useEffect, useState } from 'react';
 import { API_URL } from '../../../pages/Constant1';
 
 // ----------------------------------------------------------------------
@@ -37,8 +33,6 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
-const TOTAL = 1723315;
 
 export default function TotalCompuersDone() {
   const [countTask, setcount] = useState([]);

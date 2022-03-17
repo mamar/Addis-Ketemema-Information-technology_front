@@ -1,20 +1,18 @@
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
-import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
-
+import { Avatar, Box, Button, Drawer, Link, Stack, Typography } from '@mui/material';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { MHidden } from '../../components/@material-extend';
+import UserFullname from '../../components/authentication/userAuth/UserFullname';
 // components
 import Logo from '../../components/Logo';
-import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
-import { MHidden } from '../../components/@material-extend';
+import Scrollbar from '../../components/Scrollbar';
+import account from '../../_mocks_/account';
 //
 import sidebarConfig from './SidebarConfig';
-import account from '../../_mocks_/account';
-import UserFullname from '../../components/authentication/userAuth/UserFullname';
-
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
@@ -42,17 +40,7 @@ DashboardSidebar.propTypes = {
 };
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
-  const users = JSON.parse(localStorage.getItem('userinfo'));
-  const userhundle = () => {
-    if (users != null) {
-      return users.user[0].user_fullname;
-    }
-    if (users == null) {
-      return null;
-    }
-  };
   useEffect(() => {
     if (isOpenSidebar) {
       onCloseSidebar();

@@ -1,22 +1,17 @@
 // material
-import { Box, Grid, Container, Typography } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 // components
 import Page from '../components/Page';
 import {
-  AppTasks,
-  TotalSolutionOffered,
-  TotalPrinterDone,
-  TotalCompuersDone,
   AppNewsUpdate,
-  TotalRequest,
-  AppOrderTimeline,
+  TotalCompuersDone,
   TotalNetwork,
+  TotalOthers,
   TotalPhotocopy,
-  AppTrafficBySite,
-  AppCurrentSubject,
-  AppConversionRates,
-  TotalOthers
+  TotalPrinterDone,
+  TotalRequest,
+  TotalSolutionOffered
 } from '../components/_dashboard/app';
 
 // ----------------------------------------------------------------------

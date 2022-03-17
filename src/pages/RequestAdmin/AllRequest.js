@@ -1,31 +1,27 @@
-import { filter } from 'lodash';
-import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
-import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
-
-import axios from 'axios';
+import { Icon } from '@iconify/react';
 // material
 import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
   Button,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  TableRow,
+  Typography
 } from '@mui/material';
+import axios from 'axios';
+import { filter } from 'lodash';
+import { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 // components
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
 import {
@@ -34,6 +30,7 @@ import {
   UserMoreMenu
 } from '../../components/_dashboard/allRequest';
 import { API_URL } from '../Constant1';
+
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'requesterusername', label: 'የጠያቂዉ ስም', alignRight: false },
@@ -98,21 +95,6 @@ export default function AllRequest() {
       SetRequestList(Response.data);
     });
   }, []);
-  const request = [...Array(24)].map((_, index) => ({
-    requesterusername: requestList.requesterusername,
-    workerusername: requestList.workerusername,
-    division: requestList.division,
-    floor_no: requestList.floor_no,
-    phone: requestList.phone,
-    request_type: requestList.request_type,
-    problem_desc: requestList.problem_desc,
-    status: requestList.status,
-    assignedDate: requestList.assignedDate,
-    finishedDate: requestList.finishedDate,
-    Date: requestList.Date,
-    request_id: requestList.request_id
-  }));
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

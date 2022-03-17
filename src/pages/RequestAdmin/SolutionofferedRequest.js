@@ -1,31 +1,27 @@
-import { filter } from 'lodash';
-import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
-import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { styled } from '@mui/material/styles';
-import axios from 'axios';
+import { Icon } from '@iconify/react';
 // material
 import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
   Button,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  TableRow,
+  Typography
 } from '@mui/material';
+import axios from 'axios';
+import { filter } from 'lodash';
+import { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 // components
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
 import {
@@ -52,29 +48,6 @@ const TABLE_HEAD = [
   { id: 'status', label: 'status', alignRight: false },
   { id: '' }
 ];
-const RootStyle = styled(Page)(({ theme }) => ({
-  [theme.breakpoints.up('md')]: {
-    display: 'flex'
-  }
-}));
-
-const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2)
-}));
-
-const ContentStyle = styled('div')(({ theme }) => ({
-  width: '100%',
-  margin: 'auto',
-  display: 'flex',
-  minHeight: '100vh',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  padding: theme.spacing(12, 0)
-}));
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
@@ -117,15 +90,6 @@ export default function SolutionofferedRequest() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [requestList, SetRequestList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
-
-  // Delete
-  // eslint-disable-next-line camelcase
-  const deleteoffice = (office_id) => {
-    // eslint-disable-next-line camelcase
-    axios.delete(`${API_URL}/Request/DeleteOffice/${office_id}`).then((response) => {
-      alert('Deleted Successfully');
-    });
-  };
   useEffect(() => {
     axios
       .get(`${API_URL}/Request/finishedTasksbyUser/${users.user[0].username}`)
@@ -133,25 +97,6 @@ export default function SolutionofferedRequest() {
         SetRequestList(Response.data);
       });
   }, []);
-  const request = [...Array(24)].map((_, index) => ({
-    request_id: requestList.request_id,
-    requesterusername: requestList.requesterusername,
-    office_name: requestList.office_name,
-    user_fullname: requestList.user_fullname,
-    division: requestList.division,
-    floor_no: requestList.floor_no,
-    office_no: requestList.office_no,
-    phone: requestList.phone,
-    request_type: requestList.request_type,
-    problem_desc: requestList.problem_desc,
-    Date: requestList.Date,
-    assignedDate: requestList.assignedDate,
-    finishedDate: requestList.finishedDate,
-    satisfaction: requestList.satisfaction,
-    comment: requestList.comment,
-    status: requestList.status
-  }));
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

@@ -1,26 +1,21 @@
-import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
-import { Icon } from '@iconify/react';
-import { useFormik, Form, FormikProvider } from 'formik';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import { useNavigate } from 'react-router-dom';
-// material
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
+import { Icon } from '@iconify/react';
 import { LoadingButton } from '@mui/lab';
+// material
+import { IconButton, InputAdornment, Stack, TextField } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import axios from 'axios';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import { Form, FormikProvider, useFormik } from 'formik';
+import { useEffect, useState } from 'react';
+import * as Yup from 'yup';
 import { API_URL } from '../../../pages/Constant1';
 
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const RegisterSchema = Yup.object().shape({
     user_fullname: Yup.string()
@@ -39,7 +34,6 @@ export default function RegisterForm() {
     Phone: Yup.string().required('Phone Number'),
     office_id: Yup.string().required('Office name is Required')
   });
-  const [messagelist, setMessageList] = useState([]);
   const formik = useFormik({
     initialValues: {
       passwordConfirmation: '',
@@ -72,11 +66,11 @@ export default function RegisterForm() {
             alert('UserName allready exist');
             window.location.reload();
           }
-          if (Response.data.error === 'Server Error') {
+          if (Response.data.Message === 'error') {
             alert('Server Error');
             window.location.reload();
-          } else {
-            setMessageList(Response.data);
+          }
+          if (Response.data.Message === 'success') {
             alert('user Added Successfully');
             window.location.reload();
           }

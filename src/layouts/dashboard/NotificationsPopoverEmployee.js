@@ -1,43 +1,33 @@
-import faker from 'faker';
-import PropTypes from 'prop-types';
-import { noCase } from 'change-case';
-import { useRef, useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { set, sub, formatDistanceToNow } from 'date-fns';
-import { Icon } from '@iconify/react';
 import bellFill from '@iconify/icons-eva/bell-fill';
 import clockFill from '@iconify/icons-eva/clock-fill';
 import doneAllFill from '@iconify/icons-eva/done-all-fill';
+import { Icon } from '@iconify/react';
 import { LoadingButton } from '@mui/lab';
-// material
-import { alpha } from '@mui/material/styles';
 import {
-  Box,
-  List,
-  Badge,
-  Button,
   Avatar,
-  Tooltip,
+  Badge,
+  Box,
+  Button,
   Divider,
   IconButton,
-  Typography,
-  ListItemText,
-  ListSubheader,
+  List,
   ListItemAvatar,
   ListItemButton,
-  Menu,
-  Link,
-  MenuItem,
-  ListItemIcon
+  ListItemText,
+  ListSubheader,
+  Tooltip,
+  Typography
 } from '@mui/material';
+// material
+import { alpha } from '@mui/material/styles';
 import axios from 'axios';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-// utils
-import { mockImgAvatar } from '../../utils/mockImages';
+import { noCase } from 'change-case';
+import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import MenuPopover from '../../components/MenuPopover';
 // components
 import Scrollbar from '../../components/Scrollbar';
-import MenuPopover from '../../components/MenuPopover';
 import { API_URL } from '../../pages/Constant1';
 
 // ----------------------------------------------------------------------
@@ -45,8 +35,6 @@ import { API_URL } from '../../pages/Constant1';
 export default function NotificationsPopoverEmployee() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const [requestList, SetRequestList] = useState([]);
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     axios.get(`${API_URL}/Request/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
@@ -115,7 +103,7 @@ export default function NotificationsPopoverEmployee() {
       <ListItemButton
         disableGutters
         component={RouterLink}
-        to={`AddSatisfaction/${notification.request_id}`}
+        to={`/AddSatisfaction/${notification.request_id}`}
         sx={{
           py: 1.5,
           px: 2.5,
@@ -125,9 +113,6 @@ export default function NotificationsPopoverEmployee() {
           })
         }}
       >
-        <ListItemAvatar>
-          <Avatar sx={{ bgcolor: 'background.neutral' }}>{avatar}</Avatar>
-        </ListItemAvatar>
         <ListItemText
           primary={title}
           secondary={
@@ -149,7 +134,17 @@ export default function NotificationsPopoverEmployee() {
             </Typography>
           }
         />
-        <Divider style={{ backgroundColor: 'red' }} />
+        <LoadingButton
+          size="small"
+          type="submit"
+          variant="contained"
+          component={RouterLink}
+          to={`/AddSatisfaction/${notification.request_id}`}
+          style={{ backgroundColor: '#ff1a1a' }}
+        >
+          እርካታ
+        </LoadingButton>
+        <Divider style={{ backgroundColor: 'green' }} />
       </ListItemButton>
     );
   }

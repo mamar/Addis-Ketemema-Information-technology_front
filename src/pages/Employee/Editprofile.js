@@ -1,38 +1,21 @@
-import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { Box, Container, Link, Typography } from '@mui/material';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Card, Link, Container, Typography } from '@mui/material';
+import { Navigate } from 'react-router-dom';
+import Editprofileform from '../../components/authentication/register/Editprofileform';
 // layouts
 // components
 import Page from '../../components/Page';
-import { RegisterForm } from '../../components/authentication/register';
-import AuthSocial from '../../components/authentication/AuthSocial';
-import Editprofileform from '../../components/authentication/register/Editprofileform';
 import DashboardNavbarForEmployee from '../../layouts/dashboard/DashboardNavbarForEmployee';
 import DashboardSidebarEmployee from '../../layouts/dashboard/DashboardSidebarEmployee';
 import EmployeAuth from '../../layouts/EmployeAuth';
 // ----------------------------------------------------------------------
 
-const style = {
-  width: '100%',
-  maxWidth: 360,
-  bgcolor: 'background.paper'
-};
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex'
   }
 }));
-
-const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  maxWidth: 400,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2)
-}));
-
 const ContentStyle = styled('div')(({ theme }) => ({
   maxwidth: 480,
   margin: 'auto',

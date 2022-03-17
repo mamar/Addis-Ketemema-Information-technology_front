@@ -1,18 +1,11 @@
-import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
-import { useFormik, Form, FormikProvider } from 'formik';
-import { useNavigate, useParams } from 'react-router-dom';
-
-// material
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+// material
+import { Stack, TextField } from '@mui/material';
 import axios from 'axios';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import PropTypes from 'prop-types';
+import { Form, FormikProvider, useFormik } from 'formik';
+import { useNavigate, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
 import { API_URL } from '../../../pages/Constant1';
-
 // ----------------------------------------------------------------------
 
 export default function AddSatisfaction() {

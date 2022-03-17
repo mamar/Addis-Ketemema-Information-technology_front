@@ -1,44 +1,30 @@
-import { filter } from 'lodash';
-import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
-import { useState, useEffect, useRef } from 'react';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
-import axios from 'axios';
+import { Icon } from '@iconify/react';
+import { LoadingButton } from '@mui/lab';
 // material
 import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
   Button,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
   TableContainer,
   TablePagination,
-  Menu,
-  MenuItem,
-  IconButton,
-  ListItemIcon,
-  ListItemText
+  TableRow,
+  Typography
 } from '@mui/material';
-// components
-import editFill from '@iconify/icons-eva/edit-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-import { LoadingButton } from '@mui/lab';
+import axios from 'axios';
+import { filter } from 'lodash';
+import { useEffect, useState } from 'react';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../../components/_dashboard/allRequest';
 import { API_URL } from '../Constant1';
-import { StandardForm } from '../../components/authentication/standard';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'service', label: 'የአገልግሎቱ አይነት', alignRight: false },
@@ -90,21 +76,11 @@ export default function ListOfStandard() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [standardList, SetstandardList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     axios.get(`${API_URL}/Standard/GetAllStandard`).then((Response) => {
       SetstandardList(Response.data);
     });
   }, []);
-  const request = [...Array(24)].map((_, index) => ({
-    service: standardList.service,
-    standardid: standardList.standardid,
-    measurement: standardList.measurement,
-    time: standardList.time,
-    price: standardList.price
-  }));
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

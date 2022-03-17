@@ -1,55 +1,37 @@
-import { filter } from 'lodash';
-import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
-import { useState, useEffect, useRef } from 'react';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink, useParams, Navigate } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker';
-import dateformat from 'dateformat';
-import { LoadingButton } from '@mui/lab';
-
-import axios from 'axios';
 // material
 import {
-  Card,
-  Table,
-  Stack,
-  TextField,
   Box,
-  Avatar,
   Button,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
   TableContainer,
   TablePagination,
-  Menu,
-  MenuItem,
-  IconButton,
-  ListItemIcon,
-  ListItemText
+  TableRow,
+  TextField,
+  Typography
 } from '@mui/material';
-// components
-import editFill from '@iconify/icons-eva/edit-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+import axios from 'axios';
+import dateformat from 'dateformat';
+import { filter } from 'lodash';
+import { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
-import {
-  UserListHead,
-  UserListToolbar,
-  UserMoreMenu
-} from '../../components/_dashboard/allRequest';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/allRequest';
 import { API_URL } from '../Constant1';
-import { StandardForm } from '../../components/authentication/standard';
+
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: 'service', label: 'የአገልግሎቱ አይነት', alignRight: false },
@@ -109,10 +91,7 @@ export default function StandardList() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [standardlist, Setstandardlist] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
-  const standDate = JSON.parse(JSON.stringify(useParams()));
   const [value, setValue] = useState([null, null]);
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     axios
       .get(
@@ -125,13 +104,6 @@ export default function StandardList() {
         Setstandardlist(Response.data);
       });
   }, []);
-  const request = [...Array(24)].map((_, index) => ({
-    service: standardlist.service,
-    measurement: standardlist.measurement,
-    time: standardlist.time,
-    price: standardlist.price
-  }));
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -283,11 +255,6 @@ export default function StandardList() {
                             <TableCell align="left">{row.standardAmh}</TableCell>
                             <TableCell align="left">{row.Actual}</TableCell>
                             <TableCell align="left">{row.price}</TableCell>
-                            <TableCell align="right">
-                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-                                <Icon icon={moreVerticalFill} width={20} height={20} />
-                              </IconButton>
-                            </TableCell>
                           </TableRow>
                         );
                       })}
