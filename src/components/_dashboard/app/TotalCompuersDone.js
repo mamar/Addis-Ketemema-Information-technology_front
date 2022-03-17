@@ -43,7 +43,7 @@ const TOTAL = 1723315;
 export default function TotalCompuersDone() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/CountComputer`).then((Response) => {
+    axios.get(`${API_URL}/Request/CountComputer`).then((Response) => {
       setcount(Response.data);
     });
   });

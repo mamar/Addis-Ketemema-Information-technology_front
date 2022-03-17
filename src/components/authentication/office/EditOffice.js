@@ -48,16 +48,15 @@ export default function EditOffice() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/AddOffice`, {
+        .post(`${API_URL}/Office/AddOffice`, {
           office_name: data.office_name,
           floor_no: data.floor_no,
           phone: data.phone
         })
         .then((Response) => {
-          console.log(Response);
+          alert('office Added Successfully');
+          window.location.reload();
         });
-      alert('office Added Successfully');
-      navigate('/dashboard', { replace: true });
     }
   });
 
@@ -115,7 +114,13 @@ export default function EditOffice() {
             helperText={touched.phone && errors.phone}
           />
 
-          <LoadingButton size="large" type="submit" variant="contained" loading={isSubmitting}>
+          <LoadingButton
+            size="medium"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+            style={{ backgroundColor: '#75077E' }}
+          >
             Add
           </LoadingButton>
         </Stack>

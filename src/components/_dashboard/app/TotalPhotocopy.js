@@ -44,7 +44,7 @@ const TOTAL = 234;
 export default function TotalPhotocopy() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/CountPhotocopy`).then((Response) => {
+    axios.get(`${API_URL}/Request/CountPhotocopy`).then((Response) => {
       setcount(Response.data);
     });
   }, []);

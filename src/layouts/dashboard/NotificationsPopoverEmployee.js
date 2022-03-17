@@ -48,7 +48,7 @@ export default function NotificationsPopoverEmployee() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    axios.get(`${API_URL}/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
+    axios.get(`${API_URL}/Request/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
     });
   }, []);
@@ -248,7 +248,13 @@ export default function NotificationsPopoverEmployee() {
         <Divider />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple component={RouterLink} to="/Satisfaction">
+          <Button
+            fullWidth
+            disableRipple
+            component={RouterLink}
+            to="/Satisfaction"
+            style={{ backgroundColor: '#75077E' }}
+          >
             View All
           </Button>
         </Box>

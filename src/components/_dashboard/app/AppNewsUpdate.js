@@ -39,7 +39,7 @@ export default function AppNewsUpdate() {
   const [isOpen, setIsOpen] = useState(false);
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const AssignTask = (taskid, username) => {
-    axios.put(`${API_URL}/AssignTask/${taskid}/${username}`).then((response) => {
+    axios.put(`${API_URL}/Request/AssignTask/${taskid}/${username}`).then((response) => {
       if (response.data.Message === 'Error') {
         alert('Server Error');
       }
@@ -50,7 +50,7 @@ export default function AppNewsUpdate() {
     });
   };
   useEffect(() => {
-    axios.get(`${API_URL}/GetNewRequest`).then((Response) => {
+    axios.get(`${API_URL}/Request/GetNewRequest`).then((Response) => {
       setNewRequest(Response.data);
     });
   });

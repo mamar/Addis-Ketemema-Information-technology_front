@@ -3,13 +3,12 @@ import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
 // layouts
-import AuthLayout from '../layouts/AuthLayout';
+import AuthLayout from '../../layouts/AuthLayout';
 // components
-import Page from '../components/Page';
-import { MHidden } from '../components/@material-extend';
-import AuthSocial from '../components/authentication/AuthSocial';
-import { Officeform } from '../components/authentication/office';
-import { API_URL } from './Constant1';
+import Page from '../../components/Page';
+import { MHidden } from '../../components/@material-extend';
+import ItStandardForm from '../../components/authentication/standard/ItStandardForm';
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -39,7 +38,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AddOffice() {
+export default function SendStandard() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   if (!users) {
     return <Navigate to="/login" />;
@@ -48,11 +47,8 @@ export default function AddOffice() {
     if (users.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
-    if (users.user[0].ROLES === 'IT') {
-      return <Navigate to="/AssignedRequest" />;
-    }
     return (
-      <RootStyle title="Register">
+      <RootStyle title="የባለሙያዉ ስታንዳረድ መሙያ">
         <AuthLayout>Information Technology</AuthLayout>
         <MHidden width="mdDown">
           <SectionStyle>
@@ -67,12 +63,12 @@ export default function AddOffice() {
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
               <Typography variant="h4" gutterBottom>
-                ፅ/ቤት መሙያ ቅፅ
+                የባለሙያዉ ስታንዳረድ መሙያ ቅፅ
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ስታንዳርዱን በትክክል ይሙሉ</Typography>
             </Box>
 
-            <Officeform />
+            <ItStandardForm />
           </ContentStyle>
         </Container>
       </RootStyle>

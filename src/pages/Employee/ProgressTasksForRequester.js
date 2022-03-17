@@ -137,12 +137,14 @@ export default function ProgressTasksForRequester() {
   const [isOpen, setIsOpen] = useState(false);
   const [satisfaction1, setsatisfaction] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/ProgressTasksForRequester/${users.user[0].username}`).then((Response) => {
-      SetRequestList(Response.data);
-    });
+    axios
+      .get(`${API_URL}/Request/ProgressTasksForRequester/${users.user[0].username}`)
+      .then((Response) => {
+        SetRequestList(Response.data);
+      });
   }, []);
   const finishTask = (taskid) => {
-    axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
+    axios.put(`${API_URL}/Request/finishTask/${taskid}`).then((response) => {
       if (response.data.Message === 'Error') {
         alert('Server Error');
         console.log(response);

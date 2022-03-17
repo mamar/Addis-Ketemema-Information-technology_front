@@ -41,7 +41,7 @@ export default function AnnounceForm() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/AddAnnounce`, {
+        .post(`${API_URL}/Announce/AddAnnounce`, {
           anounceName: data.anounceName
         })
         .then((Response) => {
@@ -90,7 +90,13 @@ export default function AnnounceForm() {
             error={Boolean(touched.anounceName && errors.anounceName)}
             helpertex={touched.anounceName && errors.anounceName}
           />
-          <LoadingButton size="large" type="submit" variant="contained" loading={isSubmitting}>
+          <LoadingButton
+            size="medium"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+            style={{ backgroundColor: '#75077E' }}
+          >
             Add
           </LoadingButton>
         </Stack>

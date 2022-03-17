@@ -38,7 +38,7 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 export default function TotalRequest() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/CountAllTask`).then((Response) => {
+    axios.get(`${API_URL}/Request/CountAllTask`).then((Response) => {
       setcount(Response.data);
     });
   }, []);

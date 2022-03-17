@@ -56,7 +56,7 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/Register`, {
+        .post(`${API_URL}/user/Register`, {
           office_id: data.office_id,
           username: data.username,
           ROLES: data.ROLES,
@@ -85,7 +85,7 @@ export default function RegisterForm() {
   });
   const [officelist, setofficelist] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/GetOffice`).then((Response) => {
+    axios.get(`${API_URL}/Office/GetOffice`).then((Response) => {
       setofficelist(Response.data);
     });
   }, []);
@@ -249,10 +249,11 @@ export default function RegisterForm() {
           />
           <LoadingButton
             fullWidth
-            size="large"
+            size="medium"
             type="submit"
             variant="contained"
             loading={isSubmitting}
+            style={{ backgroundColor: '#75077E' }}
           >
             Register
           </LoadingButton>

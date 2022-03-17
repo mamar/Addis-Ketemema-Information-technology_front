@@ -1,10 +1,11 @@
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
 // material
@@ -21,56 +22,32 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Menu,
+  MenuItem,
+  IconButton,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
+import editFill from '@iconify/icons-eva/edit-fill';
+import trash2Outline from '@iconify/icons-eva/trash-2-outline';
+import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+// material
 // components
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
-import { API_URL } from './Constant1';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import SearchNotFound from '../../components/SearchNotFound';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/allRequest';
+import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'office_name', label: 'የፅ/ቤቱ ስም', alignRight: false },
-  { id: 'user_fullname', label: 'ጠያቂዉ', alignRight: false },
-  { id: 'division', label: 'ስራ ሂደት', alignRight: false },
-  { id: 'floor_no', label: 'አድራሻ', alignRight: false },
-  { id: 'office_no', label: 'ቢሮ ቁፅር', alignRight: false },
+  { id: 'officename', label: 'የፅ/ቤቱ ስም', alignRight: false },
+  { id: 'floor_no', label: 'ቢሮ ቁጥር', alignRight: false },
   { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
-  { id: 'request_type', label: 'የአገልግሎቱ አይነት', alignRight: false },
-  { id: 'problem_desc', label: 'ስላጋጠመዉ አጭር መግለጫ', alignRight: false },
-  { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
-  { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
-  { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
-  { id: 'satisfaction', label: 'እርካታ', alignRight: false },
-  { id: 'comment', label: 'አስተያየት', alignRight: false },
-  { id: 'status', label: 'status', alignRight: false },
   { id: '' }
 ];
-const RootStyle = styled(Page)(({ theme }) => ({
-  [theme.breakpoints.up('md')]: {
-    display: 'flex'
-  }
-}));
 
-const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2)
-}));
-
-const ContentStyle = styled('div')(({ theme }) => ({
-  width: '100%',
-  margin: 'auto',
-  display: 'flex',
-  minHeight: '100vh',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  padding: theme.spacing(12, 0)
-}));
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
@@ -99,51 +76,44 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.user_fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.office_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
-export default function SolutionofferedRequest() {
+export default function Office() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('user_fullname');
+  const [orderBy, setOrderBy] = useState('office_name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [requestList, SetRequestList] = useState([]);
-  const users = JSON.parse(localStorage.getItem('userinfo'));
+  const [officelist, setofficelist] = useState([]);
+  const ref = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Delete
-  // eslint-disable-next-line camelcase
-  const deleteoffice = (office_id) => {
-    // eslint-disable-next-line camelcase
-    axios.delete(`${API_URL}/DeleteOffice/${office_id}`).then((response) => {
-      alert('Deleted Successfully');
+  const deleteoffice = (officeid) => {
+    axios.delete(`${API_URL}/Office/DeleteOffice/${officeid}`).then((response) => {
+      if (response.data.Message === 'error') {
+        alert('Server Error');
+        window.location.reload();
+      }
+      if (response.data.Message === 'success') {
+        alert('Deleted Successfully');
+        window.location.reload();
+      }
     });
   };
   useEffect(() => {
-    axios.get(`${API_URL}/finishedTasksbyUser/${users.user[0].username}`).then((Response) => {
-      SetRequestList(Response.data);
+    axios.get(`${API_URL}/Office/GetOffice`).then((Response) => {
+      setofficelist(Response.data);
     });
   }, []);
-  const request = [...Array(24)].map((_, index) => ({
-    request_id: requestList.request_id,
-    requesterusername: requestList.requesterusername,
-    office_name: requestList.office_name,
-    user_fullname: requestList.user_fullname,
-    division: requestList.division,
-    floor_no: requestList.floor_no,
-    office_no: requestList.office_no,
-    phone: requestList.phone,
-    request_type: requestList.request_type,
-    problem_desc: requestList.problem_desc,
-    Date: requestList.Date,
-    assignedDate: requestList.assignedDate,
-    finishedDate: requestList.finishedDate,
-    satisfaction: requestList.satisfaction,
-    comment: requestList.comment,
-    status: requestList.status
+  const office = [...Array(24)].map((_, index) => ({
+    office_id: officelist.office_id,
+    office_name: officelist.office_name,
+    floor_noo: officelist.floor_no,
+    phone: officelist.phone
   }));
 
   const handleRequestSort = (event, property) => {
@@ -154,7 +124,7 @@ export default function SolutionofferedRequest() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = requestList.map((n) => n.user_fullname);
+      const newSelecteds = officelist.map((n) => n.office_name);
       setSelected(newSelecteds);
       return;
     }
@@ -192,11 +162,12 @@ export default function SolutionofferedRequest() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requestList.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - officelist.length) : 0;
 
-  const filteredUsers = applySortFilter(requestList, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(officelist, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+  const users = JSON.parse(localStorage.getItem('userinfo'));
   if (!users) {
     return <Navigate to="/login" />;
   }
@@ -204,30 +175,33 @@ export default function SolutionofferedRequest() {
     if (users.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
+    if (users.user[0].ROLES === 'IT') {
+      return <Navigate to="/AssignedRequest" />;
+    }
     return (
-      <Page title="መፍትሄ የተሰጣቸዉ ስራዎች">
+      <Page title="ፅ/ቤት">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
-              ያለቁ ስራዎች
+              ፅ/ቤት
             </Typography>
             <Button
               variant="contained"
               component={RouterLink}
-              to="#"
+              to="/dashboard/addoffice"
               startIcon={<Icon icon={plusFill} />}
             >
-              <ReactHTMLTableToExcel
-                variant="contained"
-                startIcon={<Icon icon={plusFill} />}
-                table="solutionoffered"
-                filename="ያለቁ ስራዎች"
-                sheet="ያለቁ ስራዎች"
-                buttonText="Export excel"
-              />
+              ፅ/ቤት
             </Button>
+            <ReactHTMLTableToExcel
+              variant="contained"
+              startIcon={<Icon icon={plusFill} />}
+              table="office"
+              filename="ፅ/ቤት"
+              sheet="ፅ/ቤት"
+              buttonText="Export excel"
+            />
           </Stack>
-
           <Card>
             <UserListToolbar
               numSelected={selected.length}
@@ -237,12 +211,12 @@ export default function SolutionofferedRequest() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="solutionoffered" stickyheader="true" aria-label="sticky table">
+                <Table id="office" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={requestList.length}
+                    rowCount={officelist.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
@@ -251,13 +225,13 @@ export default function SolutionofferedRequest() {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const { fullname } = row;
-                        const isItemSelected = selected.indexOf(fullname) !== -1;
+                        const { officename } = row;
+                        const isItemSelected = selected.indexOf(officename) !== -1;
 
                         return (
                           <TableRow
                             hover
-                            key={row.request_id}
+                            key={row.office_id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}
@@ -266,25 +240,36 @@ export default function SolutionofferedRequest() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, fullname)}
+                                onChange={(event) => handleClick(event, officename)}
                               />
                             </TableCell>
                             <TableCell align="left">{row.office_name}</TableCell>
-                            <TableCell align="left">{row.user_fullname}</TableCell>
-                            <TableCell align="left">{row.division}</TableCell>
                             <TableCell align="left">{row.floor_no}</TableCell>
-                            <TableCell align="left">{row.office_no}</TableCell>
                             <TableCell align="left">{row.phone}</TableCell>
-                            <TableCell align="left">{row.request_type}</TableCell>
-                            <TableCell align="left">{row.problem_desc}</TableCell>
-                            <TableCell align="left">{row.Date}</TableCell>
-                            <TableCell align="left">{row.assignedDate}</TableCell>
-                            <TableCell align="left">{row.finishedDate}</TableCell>
-                            <TableCell align="left">{row.satisfaction}</TableCell>
-                            <TableCell align="left">{row.comment}</TableCell>
-                            <TableCell align="left">{row.status}</TableCell>
-                            <TableCell align="right">
-                              <UserMoreMenu />
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => deleteoffice(row.office_id)}
+                                style={{ backgroundColor: 'red' }}
+                              >
+                                Delete
+                              </LoadingButton>
+                            </TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                component={RouterLink}
+                                to={`/dashboard/UpdateOffice/${row.office_id}`}
+                                style={{ backgroundColor: '#75077E' }}
+                              >
+                                Edit
+                              </LoadingButton>
                             </TableCell>
                           </TableRow>
                         );
@@ -311,7 +296,7 @@ export default function SolutionofferedRequest() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={requestList.length}
+              count={officelist.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

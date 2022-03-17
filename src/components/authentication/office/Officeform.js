@@ -45,7 +45,7 @@ export default function Officeform() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/AddOffice`, {
+        .post(`${API_URL}/Office/AddOffice`, {
           office_name: data.office_name,
           floor_no: data.floor_no,
           phone: data.phone
@@ -112,7 +112,13 @@ export default function Officeform() {
             helperText={touched.phone && errors.phone}
           />
 
-          <LoadingButton size="large" type="submit" variant="contained" loading={isSubmitting}>
+          <LoadingButton
+            size="medium"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+            style={{ backgroundColor: '#75077E' }}
+          >
             Add
           </LoadingButton>
         </Stack>

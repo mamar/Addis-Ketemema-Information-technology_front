@@ -131,9 +131,11 @@ export default function NewRequestsForRequester() {
   const [isOpen, setIsOpen] = useState(false);
   const [satisfaction1, setsatisfaction] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/NewRequestsForRequester/${users.user[0].username}`).then((Response) => {
-      SetRequestList(Response.data);
-    });
+    axios
+      .get(`${API_URL}/Request/NewRequestsForRequester/${users.user[0].username}`)
+      .then((Response) => {
+        SetRequestList(Response.data);
+      });
   }, []);
   const request = [...Array(24)].map((_, index) => ({
     request_id: requestList.request_id,

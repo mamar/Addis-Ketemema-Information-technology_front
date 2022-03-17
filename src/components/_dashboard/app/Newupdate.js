@@ -63,7 +63,7 @@ function NewsItem({ news }) {
 export default function NewsUpdate() {
   const [newupdate, setnewupdate] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/GetNewRequest`).then((Response) => {
+    axios.get(`${API_URL}/Request/GetNewRequest`).then((Response) => {
       setnewupdate(Response.data);
     });
   });

@@ -141,7 +141,7 @@ export default function Satisfaction() {
   const [isOpen, setIsOpen] = useState(false);
   const [satisfaction1, setsatisfaction] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
+    axios.get(`${API_URL}/Request/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
       SetRequestList(Response.data);
     });
   }, []);

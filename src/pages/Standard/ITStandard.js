@@ -15,12 +15,12 @@ import moment from 'moment';
 import dateformat from 'dateformat';
 // material
 import { styled } from '@mui/material/styles';
-import Page from '../components/Page';
-import AuthLayout from '../layouts/AuthLayout';
+import Page from '../../components/Page';
+import AuthLayout from '../../layouts/AuthLayout';
 // components
-import { MHidden } from '../components/@material-extend';
-import UserSorage from '../components/authentication/userAuth/UserStorage';
-import { API_URL } from './Constant1';
+import { MHidden } from '../../components/@material-extend';
+import UserSorage from '../../components/authentication/userAuth/UserStorage';
+import { API_URL } from '../Constant1';
 
 // layouts
 // components

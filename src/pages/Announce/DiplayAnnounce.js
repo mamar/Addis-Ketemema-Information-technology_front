@@ -93,12 +93,12 @@ export default function DisplayAnnounce() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    axios.get(`${API_URL}/DisplayAnnounce`).then((Response) => {
+    axios.get(`${API_URL}/Announce/DisplayAnnounce`).then((Response) => {
       setAnnounceList(Response.data);
     });
   }, []);
   const EndAnnounce = (anounceid) => {
-    axios.put(`${API_URL}/EndAnnounce/${anounceid}`).then((Response) => {
+    axios.put(`${API_URL}/Announce/EndAnnounce/${anounceid}`).then((Response) => {
       if (Response.data.Message === 'Esuccess') {
         alert('Announcement Ended Succesffully');
         window.location.reload();
@@ -110,7 +110,7 @@ export default function DisplayAnnounce() {
     });
   };
   const DeletAnounce = (anouncid) => {
-    axios.delete(`${API_URL}/DeleteAnnounce/${anouncid}`).then((Response) => {
+    axios.delete(`${API_URL}/Announce/DeleteAnnounce/${anouncid}`).then((Response) => {
       if (Response.data.Message === 'Dsuccess') {
         alert('Announcement Delete Succesffully');
         window.location.reload();

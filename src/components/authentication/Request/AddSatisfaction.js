@@ -30,7 +30,7 @@ export default function AddSatisfaction() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .put(`${API_URL}/SendSatsfaction/${requestid.request_id}`, {
+        .put(`${API_URL}/Request/SendSatsfaction/${requestid.request_id}`, {
           satisfaction: data.satisfaction,
           comment: data.comment
         })
@@ -80,10 +80,11 @@ export default function AddSatisfaction() {
           />
           <LoadingButton
             fullWidth
-            size="large"
+            size="medium"
             type="submit"
             variant="contained"
             loading={isSubmitting}
+            style={{ backgroundColor: '#75077E' }}
           >
             ይላኩ
           </LoadingButton>

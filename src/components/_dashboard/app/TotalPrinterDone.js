@@ -43,7 +43,7 @@ const TOTAL = 234;
 export default function TotalPrinterDone() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/CountPrinter`).then((Response) => {
+    axios.get(`${API_URL}/Request/CountPrinter`).then((Response) => {
       setcount(Response.data);
     });
   }, []);

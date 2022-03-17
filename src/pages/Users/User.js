@@ -2,11 +2,10 @@ import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import { LoadingButton } from '@mui/lab';
 // material
 import {
   Card,
@@ -29,29 +28,29 @@ import {
   ListItemText
 } from '@mui/material';
 // components
+import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import editFill from '@iconify/icons-eva/edit-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
-import { API_URL } from './Constant1';
-import { StandardForm } from '../components/authentication/standard';
+import { LoadingButton } from '@mui/lab';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import SearchNotFound from '../../components/SearchNotFound';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_dashboard/user';
+import USERLIST from '../../_mocks_/user';
+import Register from './Register';
+import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
+
 const TABLE_HEAD = [
-  { id: 'office_name', label: 'የፅ/ቤቱ ስም', alignRight: false },
-  { id: 'user_fullname', label: 'የጠያቂዎ ስም', alignRight: false },
-  { id: 'division', label: 'የስራ ሂደት', alignRight: false },
-  { id: 'floor_no', label: 'አድራሻ', alignRight: false },
-  { id: 'office_no', label: 'ቢሮ ቁጥር', alignRight: false },
-  { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
-  { id: 'request_type', label: 'የጠያቂዉ ስም', alignRight: false },
-  { id: 'problem_desc', label: 'ስለችግሩ መግለጫ', alignRight: false },
-  { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
-  { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
-  { id: 'status', label: 'status', alignRight: false },
+  { id: 'userfullname', label: 'ሙሉስም', alignRight: false },
+  { id: 'Username', label: 'መለያ ኮድ', alignRight: false },
+  { id: 'gender', label: 'ፆታ', alignRight: false },
+  { id: 'Age', label: 'እድሜ', alignRight: false },
+  { id: 'Position', label: 'የስራ ሂደት', alignRight: false },
+  { id: 'Roles', label: 'ሚና', alignRight: false },
+  { id: 'officename', label: 'የፅ/ቤተ ስም', alignRight: false },
+  { id: 'status1', label: 'status', alignRight: false },
   { id: '' }
 ];
 
@@ -83,54 +82,71 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.office_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.user_fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
-export default function AssignedRequest() {
+
+export default function User() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('office_name');
+  const [orderBy, setOrderBy] = useState('user_fullname');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [requestList, SetRequestList] = useState([]);
-  const users = JSON.parse(localStorage.getItem('userinfo'));
+  const [userlist, SetuserList] = useState([]);
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => {
-    axios.get(`${API_URL}/GetProgressTask/${users.user[0].username}`).then((Response) => {
-      SetRequestList(Response.data);
-    });
-  }, []);
-  const finishTask = (taskid) => {
-    axios.put(`${API_URL}/finishTask/${taskid}`).then((response) => {
-      if (response.data.Message === 'Error') {
-        alert('Server Error');
+  const blockuser = (userid) => {
+    axios.put(`${API_URL}/user/blockuser/${userid}`).then((response) => {
+      if (response.data.Message === 'blocked') {
+        alert('user Blocked ');
         window.location.reload();
       }
-      if (response.data.Message === 'Success') {
-        console.log(response);
-        alert('Status Changed');
+      if (response.data.Message === 'allready blocked') {
+        alert('Warning allready blocked');
         window.location.reload();
       }
     });
   };
-  const request = [...Array(24)].map((_, index) => ({
-    request_id: requestList.request_id,
-    requesterusername: requestList.requesterusername,
-    office_name: requestList.office_name,
-    user_fullname: requestList.user_fullname,
-    division: requestList.division,
-    floor_no: requestList.floor_no,
-    office_no: requestList.office_no,
-    phone: requestList.phone,
-    request_type: requestList.request_type,
-    problem_desc: requestList.problem_desc,
-    Date: requestList.Date,
-    assignedDate: requestList.assignedDate,
-    status: requestList.status
+  const unblockuser = (userid) => {
+    axios.put(`${API_URL}/user/unblockuser/${userid}`).then((response) => {
+      if (response.data.Message === 'ublocked') {
+        alert('user Unblocked ');
+        window.location.reload();
+      }
+      if (response.data.Message === 'repition') {
+        alert('Warning allready unblocked');
+        window.location.reload();
+      }
+    });
+  };
+  const Deletuser = (userid) => {
+    axios.delete(`${API_URL}/user/Deleteusers/${userid}`).then((response) => {
+      alert('Deleted Successfully');
+      window.location.reload();
+    });
+  };
+  useEffect(() => {
+    axios.get(`${API_URL}/user/Getusers`).then((Response) => {
+      if (Response.data === 'error') {
+        alert('Server Error');
+      } else {
+        SetuserList(Response.data);
+      }
+    });
+  }, []);
+  const users = [...Array(24)].map((_, index) => ({
+    office_name: userlist.office_name,
+    userid: userlist.userid,
+    user_fullname: userlist.user_fullname,
+    username: userlist.username,
+    age: userlist.age,
+    Gender: userlist.age,
+    Position: userlist.Position,
+    ROLES: userlist.ROLES,
+    status: userlist.status
   }));
 
   const handleRequestSort = (event, property) => {
@@ -141,7 +157,7 @@ export default function AssignedRequest() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = requestList.map((n) => n.office_name);
+      const newSelecteds = userlist.map((n) => n.user_fullname);
       setSelected(newSelecteds);
       return;
     }
@@ -179,40 +195,45 @@ export default function AssignedRequest() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requestList.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userlist.length) : 0;
 
-  const filteredUsers = applySortFilter(requestList, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(userlist, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-  if (!users) {
+  const users1 = JSON.parse(localStorage.getItem('userinfo'));
+  if (!users1) {
     return <Navigate to="/login" />;
   }
-  if (users) {
-    if (users.user[0].ROLES === 'Employee') {
+  if (users1) {
+    if (users1.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
+    if (users1.user[0].ROLES === 'IT') {
+      return <Navigate to="/NewRequest" />;
+    }
     return (
-      <Page title="የተጀመሩ ስራዎች">
+      <Page title="Users">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
-              የተጀመሩ ስራዎች
+              የስራተኞችና የባለሙያዎች ሙሉ መረጃ
             </Typography>
             <Button
               variant="contained"
               component={RouterLink}
-              to="#"
+              to="/dashboard/Register"
               startIcon={<Icon icon={plusFill} />}
             >
-              <ReactHTMLTableToExcel
-                variant="contained"
-                startIcon={<Icon icon={plusFill} />}
-                table="Assigned"
-                filename="የተጀመሩ ስራዎች"
-                sheet="የተጀመሩ ስራዎች"
-                buttonText="Export excel"
-              />
+              Add New User
             </Button>
+            <ReactHTMLTableToExcel
+              variant="contained"
+              startIcon={<Icon icon={plusFill} />}
+              table="users"
+              filename="የባለሙያዎችና የሰራተኞች ሙሉ መረጃ"
+              sheet="የባለሙያዎችና የሰራተኞች ሙሉ መረጃ"
+              buttonText="Export excel"
+            />
           </Stack>
 
           <Card>
@@ -224,12 +245,12 @@ export default function AssignedRequest() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="Assigned" stickyheader="true" aria-label="sticky table">
+                <Table id="users" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={requestList.length}
+                    rowCount={userlist.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
@@ -238,13 +259,12 @@ export default function AssignedRequest() {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const { officename } = row;
-                        const isItemSelected = selected.indexOf(officename) !== -1;
+                        const isItemSelected = selected.indexOf(row.userid) !== -1;
 
                         return (
                           <TableRow
                             hover
-                            key={row.request_id}
+                            key={row.userid}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}
@@ -253,19 +273,16 @@ export default function AssignedRequest() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, officename)}
+                                onChange={(event) => handleClick(event, row.userid)}
                               />
                             </TableCell>
-                            <TableCell align="left">{row.office_name}</TableCell>
                             <TableCell align="left">{row.user_fullname}</TableCell>
-                            <TableCell align="left">{row.division}</TableCell>
-                            <TableCell align="left">{row.floor_no}</TableCell>
-                            <TableCell align="left">{row.office_no}</TableCell>
-                            <TableCell align="left">{row.phone}</TableCell>
-                            <TableCell align="left">{row.request_type}</TableCell>
-                            <TableCell align="left">{row.problem_desc}</TableCell>
-                            <TableCell align="left">{row.Date}</TableCell>
-                            <TableCell align="left">{row.assignedDate}</TableCell>
+                            <TableCell align="left">{row.username}</TableCell>
+                            <TableCell align="left">{row.Gender}</TableCell>
+                            <TableCell align="left">{row.Age}</TableCell>
+                            <TableCell align="left">{row.Position}</TableCell>
+                            <TableCell align="left">{row.ROLES}</TableCell>
+                            <TableCell align="left">{row.office_name}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
                             <TableCell align="left">
                               <LoadingButton
@@ -273,10 +290,10 @@ export default function AssignedRequest() {
                                 size="small"
                                 type="submit"
                                 variant="contained"
-                                onClick={() => finishTask(row.userid)}
+                                onClick={() => Deletuser(row.userid)}
                                 style={{ backgroundColor: 'red' }}
                               >
-                                ይጨርሱ
+                                Delete
                               </LoadingButton>
                             </TableCell>
                             <TableCell align="left">
@@ -285,11 +302,22 @@ export default function AssignedRequest() {
                                 size="small"
                                 type="submit"
                                 variant="contained"
-                                component={RouterLink}
-                                to={`/dashboard/StandardForm/${row.request_id}`}
+                                onClick={() => blockuser(row.userid)}
                                 style={{ backgroundColor: '#75077E' }}
                               >
-                                ሰታንዳርድ
+                                Block
+                              </LoadingButton>
+                            </TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => unblockuser(row.userid)}
+                                style={{ backgroundColor: '#08890E' }}
+                              >
+                                Unblock
                               </LoadingButton>
                             </TableCell>
                           </TableRow>
@@ -317,7 +345,7 @@ export default function AssignedRequest() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={requestList.length}
+              count={userlist.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

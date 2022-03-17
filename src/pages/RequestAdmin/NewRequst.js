@@ -1,22 +1,16 @@
-import { filter } from 'lodash';
+import { filter, result } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { styled } from '@mui/material/styles';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker';
-import dateformat from 'dateformat';
+import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 // material
 import {
   Card,
   Table,
-  TextField,
-  Box,
   Stack,
   Avatar,
   Button,
@@ -27,33 +21,39 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Menu,
+  MenuItem,
+  IconButton,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
+import editFill from '@iconify/icons-eva/edit-fill';
+import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-// material
 // components
-import Page from '../components/Page';
-import Scrollbar from '../components/Scrollbar';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
-import { API_URL } from './Constant1';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import SearchNotFound from '../../components/SearchNotFound';
+import {
+  UserListHead,
+  UserListToolbar,
+  UserMoreMenu
+} from '../../components/_dashboard/allRequest';
+import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'userfullname', label: 'የባለሙያዉ ስም', alignRight: false },
-  { id: 'Finished', label: 'ያለቁ ስራዎች', alignRight: false },
-  { id: 'Assigned', label: 'ያላለቁ ስራዎች', alignRight: false },
-  { id: 'ComputerFinishde', label: 'ኮምፒዩተር ያለቁ', alignRight: false },
-  { id: 'ComputerProgress', label: 'ኮምፒዩተር የተጀመሩ', alignRight: false },
-  { id: 'PrinterFinished', label: 'ፕሪነተር ያለቁ', alignRight: false },
-  { id: 'PrinterProgress', label: 'ፕሪንተር የተጀመሩ', alignRight: false },
-  { id: 'PhotoCopyFinished', label: 'ፎቶኮፒ ያለቁ', alignRight: false },
-  { id: 'PhotoCopyProgress', label: 'ፎቶኮፒ የተጀመሩ', alignRight: false },
-  { id: 'NetworkFinished', label: 'ኔትወርክ ያለቁ', alignRight: false },
-  { id: 'NetworkProgress', label: 'ኔትወርክ የተጀመሩ', alignRight: false },
-  { id: 'SoftwareFinished', label: 'ሶፍትዌር ያለቁ', alignRight: false },
-  { id: 'SoftwareProgress', label: 'ሶፍትዌር የተጀመሩ', alignRight: false },
-  { id: 'OtherFinished', label: 'ሌሎች ያለቁ', alignRight: false },
-  { id: 'OtherProgress', label: 'ሌሎች ያላለቁ', alignRight: false },
+  { id: 'office_name', label: 'ፅ/ቤት', alignRight: false },
+  { id: 'user_fullname', label: 'የጠያቂዉ ሙሉ ስም', alignRight: false },
+  { id: 'division', label: 'የስራ ሂደት', alignRight: false },
+  { id: 'floor_no', label: 'አድራሻ', alignRight: false },
+  { id: 'office_no', label: 'ቢሮ ቁጥር', alignRight: false },
+  { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
+  { id: 'request_type', label: 'የአገልግሎቱ አይነት', alignRight: false },
+  { id: 'problem_desc', label: 'የችግሩ መግለጫ', alignRight: false },
+  { Date: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { Date: 'status', label: 'status', alignRight: false },
   { id: '' }
 ];
 
@@ -85,45 +85,55 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.user_fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
-export default function Performance() {
+export default function NewRequest() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('user_fullname');
+  const [orderBy, setOrderBy] = useState('fullname');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [performancelist, setperformancelist] = useState([]);
-  const [value, setValue] = useState([null, null]);
+  const [requestList, SetRequestList] = useState([]);
+  const users = JSON.parse(localStorage.getItem('userinfo'));
+
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const tableRef = useRef(null);
-
-  /* const { onDownload } = useDownloadExcel({
-    currentTableRef: tableRef.current,
-    filename: 'አፈፃፀም',
-    sheet: 'አፈፃፀም'
-  }); */
   useEffect(() => {
-    axios
-      .get(
-        `${API_URL}/performance/${dateformat(value[0], 'dd-mm-yy')}/${dateformat(
-          value[1],
-          'dd-mm-yy'
-        )}`
-      )
-      .then((Response) => {
-        setperformancelist(Response.data);
-      });
+    axios.get(`${API_URL}/Request/GetNewRequest`).then((Response) => {
+      SetRequestList(Response.data);
+    });
   }, []);
-  const performance = [...Array(24)].map((_, index) => ({
-    user_fullname: performancelist.user_fullname,
-    Finished: performancelist.Finished,
-    Assigned: performancelist.Assigned
+  const AssignTask = (taskid, username) => {
+    axios.put(`${API_URL}/Request/AssignTask/${taskid}/${username}`).then((response) => {
+      if (response.data.Message === 'Error') {
+        alert('Server Error');
+        window.location.reload();
+      }
+      if (response.data.Message === 'Success') {
+        console.log(response);
+        alert('You take the task Successfully');
+        window.location.reload();
+      }
+    });
+  };
+
+  const request = [...Array(24)].map((_, index) => ({
+    request_id: requestList.request_id,
+    requesterusername: requestList.requesterusername,
+    office_name: requestList.office_name,
+    user_fullname: requestList.user_fullname,
+    division: requestList.division,
+    floor_no: requestList.floor_no,
+    office_no: requestList.office_no,
+    phone: requestList.phone,
+    request_type: requestList.request_type,
+    problem_desc: requestList.problem_desc,
+    Date: requestList.Date,
+    status: requestList.status
   }));
 
   const handleRequestSort = (event, property) => {
@@ -134,7 +144,7 @@ export default function Performance() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = performancelist.map((n) => n.user_fullname);
+      const newSelecteds = requestList.map((n) => n.user_fullname);
       setSelected(newSelecteds);
       return;
     }
@@ -172,12 +182,11 @@ export default function Performance() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - performancelist.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requestList.length) : 0;
 
-  const filteredUsers = applySortFilter(performancelist, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(requestList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-  const users = JSON.parse(localStorage.getItem('userinfo'));
   if (!users) {
     return <Navigate to="/login" />;
   }
@@ -185,65 +194,46 @@ export default function Performance() {
     if (users.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
-    if (users.user[0].ROLES === 'IT') {
-      return <Navigate to="/AssignedRequest" />;
-    }
 
     return (
-      <Page title="አፈጻጸም">
+      <Page title="አዲስ የተጠየቁ ስራዎች">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
-              የባለሙያዎች አፈፃፀም
+              አዲስ የተጠየቁ አገልግሎቶች
             </Typography>
             <Button
               variant="contained"
               component={RouterLink}
-              to="/dashboard/Performance"
+              to="#"
               startIcon={<Icon icon={plusFill} />}
             >
               <ReactHTMLTableToExcel
                 variant="contained"
                 startIcon={<Icon icon={plusFill} />}
-                table="performance"
-                filename="አፈፃፀም"
-                sheet="አፈፃፀም"
+                table="NewRequest"
+                filename="አዲስ የተጠየቁ ስራዎች"
+                sheet="አዲስ የተጠየቁ ስራዎች"
                 buttonText="Export excel"
               />
             </Button>
           </Stack>
+
           <Card>
             <UserListToolbar
               numSelected={selected.length}
               filterName={filterName}
               onFilterName={handleFilterByName}
             />
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <Stack spacing={3}>
-                <MobileDateRangePicker
-                  startText="From"
-                  value={value}
-                  onChange={(newValue) => {
-                    setValue(newValue);
-                  }}
-                  renderInput={(startProps, endProps) => (
-                    <>
-                      <TextField {...startProps} />
-                      <Box sx={{ mx: 2 }}> to </Box>
-                      <TextField {...endProps} />
-                    </>
-                  )}
-                />
-              </Stack>
-            </LocalizationProvider>
+
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="performance">
+                <Table id="NewRequest" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={performancelist.length}
+                    rowCount={requestList.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
@@ -252,13 +242,12 @@ export default function Performance() {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const { userfullname } = row;
-                        const isItemSelected = selected.indexOf(userfullname) !== -1;
+                        const isItemSelected = selected.indexOf(row.request_id) !== -1;
 
                         return (
                           <TableRow
                             hover
-                            key={userfullname}
+                            key={row.request_id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}
@@ -267,24 +256,31 @@ export default function Performance() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, userfullname)}
+                                onChange={(event) => handleClick(event, row.request_id)}
                               />
                             </TableCell>
+                            <TableCell align="left">{row.office_name}</TableCell>
                             <TableCell align="left">{row.user_fullname}</TableCell>
-                            <TableCell align="left">{row.Finished}</TableCell>
-                            <TableCell align="left">{row.Assigned}</TableCell>
-                            <TableCell align="left">{row.ComputerFinishde}</TableCell>
-                            <TableCell align="left">{row.ComputerProgress}</TableCell>
-                            <TableCell align="left">{row.PrinterFinished}</TableCell>
-                            <TableCell align="left">{row.PrinterProgress}</TableCell>
-                            <TableCell align="left">{row.PhotoCopyFinished}</TableCell>
-                            <TableCell align="left">{row.PhotoCopyProgress}</TableCell>
-                            <TableCell align="left">{row.NetworkFinished}</TableCell>
-                            <TableCell align="left">{row.NetworkProgress}</TableCell>
-                            <TableCell align="left">{row.SoftwareFinished}</TableCell>
-                            <TableCell align="left">{row.SoftwareProgress}</TableCell>
-                            <TableCell align="left">{row.OtherFinished}</TableCell>
-                            <TableCell align="left">{row.OtherProgress}</TableCell>
+                            <TableCell align="left">{row.division}</TableCell>
+                            <TableCell align="left">{row.floor_no}</TableCell>
+                            <TableCell align="left">{row.office_no}</TableCell>
+                            <TableCell align="left">{row.phone}</TableCell>
+                            <TableCell align="left">{row.request_type}</TableCell>
+                            <TableCell align="left">{row.problem_desc}</TableCell>
+                            <TableCell align="left">{row.Date}</TableCell>
+                            <TableCell align="left">{row.status}</TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => AssignTask(row.request_id, users.user[0].username)}
+                                style={{ backgroundColor: '#75077E' }}
+                              >
+                                Assign
+                              </LoadingButton>
+                            </TableCell>
                           </TableRow>
                         );
                       })}
@@ -310,7 +306,7 @@ export default function Performance() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={performancelist.length}
+              count={requestList.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

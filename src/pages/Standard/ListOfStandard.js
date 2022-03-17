@@ -93,7 +93,7 @@ export default function ListOfStandard() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    axios.get(`${API_URL}/GetAllStandard`).then((Response) => {
+    axios.get(`${API_URL}/Standard/GetAllStandard`).then((Response) => {
       SetstandardList(Response.data);
     });
   }, []);
@@ -246,7 +246,7 @@ export default function ListOfStandard() {
                                 type="submit"
                                 variant="contained"
                                 component={RouterLink}
-                                to="#"
+                                to={`/dashboard/UpdateStandard/${row.standardid}`}
                                 style={{ backgroundColor: '#75077E' }}
                               >
                                 Edit

@@ -3,14 +3,13 @@ import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
 // layouts
-import AuthLayout from '../layouts/AuthLayout';
+import AuthLayout from '../../layouts/AuthLayout';
 // components
-import Page from '../components/Page';
-import { MHidden } from '../components/@material-extend';
-import AuthSocial from '../components/authentication/AuthSocial';
-import { Officeform } from '../components/authentication/office';
-import { API_URL } from './Constant1';
-import Editprofileform from '../components/authentication/register/Editprofileform';
+import Page from '../../components/Page';
+import { MHidden } from '../../components/@material-extend';
+import AuthSocial from '../../components/authentication/AuthSocial';
+import { StandardForm } from '../../components/authentication/standard';
+import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -40,7 +39,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function EditProfileAdmin() {
+export default function AddStandard() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   if (!users) {
     return <Navigate to="/login" />;
@@ -49,9 +48,12 @@ export default function EditProfileAdmin() {
     if (users.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
+    if (users.user[0].ROLES === 'IT') {
+      return <Navigate to="/AssignedRequest" />;
+    }
     return (
-      <RootStyle title="Register">
-        <AuthLayout>Information Technology</AuthLayout>
+      <RootStyle title="ስታንዳርድ">
+        <AuthLayout />
         <MHidden width="mdDown">
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
@@ -65,12 +67,12 @@ export default function EditProfileAdmin() {
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
               <Typography variant="h4" gutterBottom>
-                መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
+                የስታንዳርድ መሙያ ቅፅ
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ስታንዳርዱን በትክክል ያስገቡ</Typography>
             </Box>
 
-            <Editprofileform />
+            <StandardForm />
           </ContentStyle>
         </Container>
       </RootStyle>

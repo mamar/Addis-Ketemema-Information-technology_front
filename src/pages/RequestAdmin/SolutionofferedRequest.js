@@ -3,9 +3,9 @@ import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
-
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { styled } from '@mui/material/styles';
 import axios from 'axios';
 // material
 import {
@@ -24,29 +24,57 @@ import {
   TablePagination
 } from '@mui/material';
 // components
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
-import { API_URL } from './Constant1';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import SearchNotFound from '../../components/SearchNotFound';
+import {
+  UserListHead,
+  UserListToolbar,
+  UserMoreMenu
+} from '../../components/_dashboard/allRequest';
+import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'requesterusername', label: 'የጠያቂዉ ስም', alignRight: false },
-  { id: 'workerusername', label: 'የባለሙያዉ ስም', alignRight: false },
-  { id: 'division', label: 'የስራ ሂደት', alignRight: false },
+  { id: 'office_name', label: 'የፅ/ቤቱ ስም', alignRight: false },
+  { id: 'user_fullname', label: 'ጠያቂዉ', alignRight: false },
+  { id: 'division', label: 'ስራ ሂደት', alignRight: false },
   { id: 'floor_no', label: 'አድራሻ', alignRight: false },
-  { id: 'office_no', label: 'ቢሮ ቁጥር', alignRight: false },
+  { id: 'office_no', label: 'ቢሮ ቁፅር', alignRight: false },
   { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
-  { id: 'request_type', label: 'የአግልገሎቱ አይነት', alignRight: false },
-  { id: 'problem_desc', label: 'የችግሩ መግለጫ', alignRight: false },
-  { id: 'requestDate', label: 'የተጠየቀበት ቀን', alignRight: false },
-  { id: 'AssignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
+  { id: 'request_type', label: 'የአገልግሎቱ አይነት', alignRight: false },
+  { id: 'problem_desc', label: 'ስላጋጠመዉ አጭር መግለጫ', alignRight: false },
+  { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
   { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
+  { id: 'satisfaction', label: 'እርካታ', alignRight: false },
+  { id: 'comment', label: 'አስተያየት', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
   { id: '' }
 ];
+const RootStyle = styled(Page)(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    display: 'flex'
+  }
+}));
 
+const SectionStyle = styled(Card)(({ theme }) => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  margin: theme.spacing(2, 0, 2, 2)
+}));
+
+const ContentStyle = styled('div')(({ theme }) => ({
+  width: '100%',
+  margin: 'auto',
+  display: 'flex',
+  minHeight: '100vh',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  padding: theme.spacing(12, 0)
+}));
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
@@ -75,38 +103,53 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.requesterusername.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.user_fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
-export default function AllRequest() {
+export default function SolutionofferedRequest() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('fullname');
+  const [orderBy, setOrderBy] = useState('user_fullname');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [requestList, SetRequestList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
-  useEffect(() => {
-    axios.get(`${API_URL}/GetAllRequest`).then((Response) => {
-      SetRequestList(Response.data);
+
+  // Delete
+  // eslint-disable-next-line camelcase
+  const deleteoffice = (office_id) => {
+    // eslint-disable-next-line camelcase
+    axios.delete(`${API_URL}/Request/DeleteOffice/${office_id}`).then((response) => {
+      alert('Deleted Successfully');
     });
+  };
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/Request/finishedTasksbyUser/${users.user[0].username}`)
+      .then((Response) => {
+        SetRequestList(Response.data);
+      });
   }, []);
   const request = [...Array(24)].map((_, index) => ({
+    request_id: requestList.request_id,
     requesterusername: requestList.requesterusername,
-    workerusername: requestList.workerusername,
+    office_name: requestList.office_name,
+    user_fullname: requestList.user_fullname,
     division: requestList.division,
     floor_no: requestList.floor_no,
+    office_no: requestList.office_no,
     phone: requestList.phone,
     request_type: requestList.request_type,
     problem_desc: requestList.problem_desc,
-    status: requestList.status,
+    Date: requestList.Date,
     assignedDate: requestList.assignedDate,
     finishedDate: requestList.finishedDate,
-    Date: requestList.Date,
-    request_id: requestList.request_id
+    satisfaction: requestList.satisfaction,
+    comment: requestList.comment,
+    status: requestList.status
   }));
 
   const handleRequestSort = (event, property) => {
@@ -117,7 +160,7 @@ export default function AllRequest() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = requestList.map((n) => n.requesterusername);
+      const newSelecteds = requestList.map((n) => n.user_fullname);
       setSelected(newSelecteds);
       return;
     }
@@ -167,15 +210,12 @@ export default function AllRequest() {
     if (users.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
-    if (users.user[0].ROLES === 'IT') {
-      return <Navigate to="dashboard/AssignedRequest" />;
-    }
     return (
-      <Page title="ሁሉም የተጠየቁ ስራዎች">
+      <Page title="መፍትሄ የተሰጣቸዉ ስራዎች">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="contained" gutterBottom>
-              ሁሉም የተጠየቁ አገልግሎቶች
+            <Typography variant="h4" gutterBottom>
+              ያለቁ ስራዎች
             </Typography>
             <Button
               variant="contained"
@@ -186,9 +226,9 @@ export default function AllRequest() {
               <ReactHTMLTableToExcel
                 variant="contained"
                 startIcon={<Icon icon={plusFill} />}
-                table="allRequest"
-                filename="የተጠየቁ አገልግሎቶች በሙሉ"
-                sheet="የተጠየቁ አገልግሎቶች በሙሉ"
+                table="solutionoffered"
+                filename="ያለቁ ስራዎች"
+                sheet="ያለቁ ስራዎች"
                 buttonText="Export excel"
               />
             </Button>
@@ -203,7 +243,7 @@ export default function AllRequest() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="allRequest" stickyheader="true" aria-label="sticky table">
+                <Table id="solutionoffered" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
@@ -217,7 +257,8 @@ export default function AllRequest() {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const isItemSelected = selected.indexOf(row.request_id) !== -1;
+                        const { fullname } = row;
+                        const isItemSelected = selected.indexOf(fullname) !== -1;
 
                         return (
                           <TableRow
@@ -231,11 +272,11 @@ export default function AllRequest() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, row.request_id)}
+                                onChange={(event) => handleClick(event, fullname)}
                               />
                             </TableCell>
-                            <TableCell align="left">{row.requesterusername}</TableCell>
-                            <TableCell align="left">{row.workerusername}</TableCell>
+                            <TableCell align="left">{row.office_name}</TableCell>
+                            <TableCell align="left">{row.user_fullname}</TableCell>
                             <TableCell align="left">{row.division}</TableCell>
                             <TableCell align="left">{row.floor_no}</TableCell>
                             <TableCell align="left">{row.office_no}</TableCell>
@@ -245,6 +286,8 @@ export default function AllRequest() {
                             <TableCell align="left">{row.Date}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
                             <TableCell align="left">{row.finishedDate}</TableCell>
+                            <TableCell align="left">{row.satisfaction}</TableCell>
+                            <TableCell align="left">{row.comment}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
                             <TableCell align="right">
                               <UserMoreMenu />

@@ -86,7 +86,7 @@ const NOTIFICATIONS = [
 export default function NotificationsPopover() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const AssignTask = (taskid, username) => {
-    axios.put(`${API_URL}/AssignTask/${taskid}/${username}`).then((response) => {
+    axios.put(`${API_URL}/Request/AssignTask/${taskid}/${username}`).then((response) => {
       if (response.data.Message === 'Error') {
         alert('Server Error');
       }
@@ -192,7 +192,6 @@ export default function NotificationsPopover() {
         />
 
         <LoadingButton
-          fullWidth
           size="small"
           type="submit"
           variant="contained"
@@ -209,7 +208,7 @@ export default function NotificationsPopover() {
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
   const [requestnotification, setNewRequest] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/GetNewRequest`).then((Response) => {
+    axios.get(`${API_URL}/Request/GetNewRequest`).then((Response) => {
       if (Response.data === 'error') {
         alert('Server Error');
       } else {
@@ -310,7 +309,13 @@ export default function NotificationsPopover() {
         <Divider />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple component={RouterLink} to="/dashboard/NewRequest">
+          <Button
+            fullWidth
+            disableRipple
+            component={RouterLink}
+            to="/dashboard/NewRequest"
+            style={{ backgroundColor: '#890839' }}
+          >
             View All
           </Button>
         </Box>

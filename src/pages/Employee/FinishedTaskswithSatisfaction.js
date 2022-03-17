@@ -140,7 +140,7 @@ export default function FinishedTaskswithSatisfaction() {
   const [satisfaction1, setsatisfaction] = useState([]);
   useEffect(() => {
     axios
-      .get(`${API_URL}/FinishedTasksWithSatisfaction/${users.user[0].username}`)
+      .get(`${API_URL}/Request/FinishedTasksWithSatisfaction/${users.user[0].username}`)
       .then((Response) => {
         SetRequestList(Response.data);
       });

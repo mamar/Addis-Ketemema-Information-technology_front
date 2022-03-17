@@ -43,7 +43,7 @@ const TOTAL = 234;
 export default function TotalNetwork() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/CountNetwork`).then((Response) => {
+    axios.get(`${API_URL}/Request/CountNetwork`).then((Response) => {
       setcount(Response.data);
     });
   });

@@ -47,7 +47,7 @@ export default function StandardForm() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/AddStandard`, {
+        .post(`${API_URL}/Standard/AddStandard`, {
           service: data.service,
           measurement: data.measurement,
           time: data.time,
@@ -130,7 +130,13 @@ export default function StandardForm() {
             helperText={touched.price && errors.price}
           />
 
-          <LoadingButton size="large" type="submit" variant="contained" loading={isSubmitting}>
+          <LoadingButton
+            size="medium"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+            style={{ backgroundColor: '#75077E' }}
+          >
             Add
           </LoadingButton>
         </Stack>

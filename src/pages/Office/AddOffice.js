@@ -3,13 +3,13 @@ import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
 // layouts
-import AuthLayout from '../layouts/AuthLayout';
+import AuthLayout from '../../layouts/AuthLayout';
 // components
-import Page from '../components/Page';
-import { MHidden } from '../components/@material-extend';
-import AuthSocial from '../components/authentication/AuthSocial';
-import { StandardForm } from '../components/authentication/standard';
-import { API_URL } from './Constant1';
+import Page from '../../components/Page';
+import { MHidden } from '../../components/@material-extend';
+import AuthSocial from '../../components/authentication/AuthSocial';
+import { Officeform } from '../../components/authentication/office';
+import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -39,7 +39,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AddStandard() {
+export default function AddOffice() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   if (!users) {
     return <Navigate to="/login" />;
@@ -52,8 +52,8 @@ export default function AddStandard() {
       return <Navigate to="/AssignedRequest" />;
     }
     return (
-      <RootStyle title="ስታንዳርድ">
-        <AuthLayout />
+      <RootStyle title="Register">
+        <AuthLayout>Information Technology</AuthLayout>
         <MHidden width="mdDown">
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
@@ -67,12 +67,12 @@ export default function AddStandard() {
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
               <Typography variant="h4" gutterBottom>
-                የስታንዳርድ መሙያ ቅፅ
+                ፅ/ቤት መሙያ ቅፅ
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ስታንዳርዱን በትክክል ያስገቡ</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>
             </Box>
 
-            <StandardForm />
+            <Officeform />
           </ContentStyle>
         </Container>
       </RootStyle>

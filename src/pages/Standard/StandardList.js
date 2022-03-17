@@ -1,17 +1,24 @@
-import { filter, result } from 'lodash';
+import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect, useRef } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { Link as RouterLink, useParams, Navigate } from 'react-router-dom';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import MobileDateRangePicker from '@mui/lab/MobileDateRangePicker';
+import dateformat from 'dateformat';
 import { LoadingButton } from '@mui/lab';
+
 import axios from 'axios';
 // material
 import {
   Card,
   Table,
   Stack,
+  TextField,
+  Box,
   Avatar,
   Button,
   Checkbox,
@@ -28,28 +35,35 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
+// components
 import editFill from '@iconify/icons-eva/edit-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-// components
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
-import { API_URL } from './Constant1';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import SearchNotFound from '../../components/SearchNotFound';
+import {
+  UserListHead,
+  UserListToolbar,
+  UserMoreMenu
+} from '../../components/_dashboard/allRequest';
+import { API_URL } from '../Constant1';
+import { StandardForm } from '../../components/authentication/standard';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'office_name', label: 'ፅ/ቤት', alignRight: false },
-  { id: 'user_fullname', label: 'የጠያቂዉ ሙሉ ስም', alignRight: false },
-  { id: 'division', label: 'የስራ ሂደት', alignRight: false },
-  { id: 'floor_no', label: 'አድራሻ', alignRight: false },
-  { id: 'office_no', label: 'ቢሮ ቁጥር', alignRight: false },
-  { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
-  { id: 'request_type', label: 'የአገልግሎቱ አይነት', alignRight: false },
-  { id: 'problem_desc', label: 'የችግሩ መግለጫ', alignRight: false },
-  { Date: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
-  { Date: 'status', label: 'status', alignRight: false },
+  { id: 'service', label: 'የአገልግሎቱ አይነት', alignRight: false },
+  { id: 'measurement', label: 'መለኪያ', alignRight: false },
+  { id: 'time', label: 'ጊዜ', alignRight: false },
+  { id: 'belowStandard', label: 'ከስታንዳረድ በታች የተሰሩ', alignRight: false },
+  { id: 'WithinStandard', label: 'በስታንዳረድ የተሰሩ', alignRight: false },
+  { id: 'AboveStandard', label: 'ከስታንዳረድ በላይ የተሰሩ', alignRight: false },
+  { id: 'Standard', label: 'Standard(%)', alignRight: false },
+  { id: 'Actual1', label: 'ጥራት(%)', alignRight: false },
+  { id: 'standardAmh', label: 'Stand.level', alignRight: false },
+  { id: 'Actual', label: 'እርካታ(%)', alignRight: false },
+  { id: 'price', label: 'ዋጋ', alignRight: false },
+  { id: 'meremera', label: 'ምርመራ', alignRight: false },
   { id: '' }
 ];
 
@@ -81,55 +95,41 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.office_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
-export default function NewRequest() {
+export default function StandardList() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('fullname');
+  const [orderBy, setOrderBy] = useState('service');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [requestList, SetRequestList] = useState([]);
+  const [standardlist, Setstandardlist] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
-
+  const standDate = JSON.parse(JSON.stringify(useParams()));
+  const [value, setValue] = useState([null, null]);
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    axios.get(`${API_URL}/GetNewRequest`).then((Response) => {
-      SetRequestList(Response.data);
-    });
+    axios
+      .get(
+        `${API_URL}/Standard/UserStandard/${users.user[0].username}/${dateformat(
+          value[0],
+          'dd-mm-yy'
+        )}/${dateformat(value[1], 'dd-mm-yy')}`
+      )
+      .then((Response) => {
+        Setstandardlist(Response.data);
+      });
   }, []);
-  const AssignTask = (taskid, username) => {
-    axios.put(`${API_URL}/AssignTask/${taskid}/${username}`).then((response) => {
-      if (response.data.Message === 'Error') {
-        alert('Server Error');
-        window.location.reload();
-      }
-      if (response.data.Message === 'Success') {
-        console.log(response);
-        alert('You take the task Successfully');
-        window.location.reload();
-      }
-    });
-  };
-
   const request = [...Array(24)].map((_, index) => ({
-    request_id: requestList.request_id,
-    requesterusername: requestList.requesterusername,
-    office_name: requestList.office_name,
-    user_fullname: requestList.user_fullname,
-    division: requestList.division,
-    floor_no: requestList.floor_no,
-    office_no: requestList.office_no,
-    phone: requestList.phone,
-    request_type: requestList.request_type,
-    problem_desc: requestList.problem_desc,
-    Date: requestList.Date,
-    status: requestList.status
+    service: standardlist.service,
+    measurement: standardlist.measurement,
+    time: standardlist.time,
+    price: standardlist.price
   }));
 
   const handleRequestSort = (event, property) => {
@@ -140,7 +140,7 @@ export default function NewRequest() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = requestList.map((n) => n.user_fullname);
+      const newSelecteds = standardlist.map((n) => n.service);
       setSelected(newSelecteds);
       return;
     }
@@ -178,9 +178,9 @@ export default function NewRequest() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requestList.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - standardlist.length) : 0;
 
-  const filteredUsers = applySortFilter(requestList, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(standardlist, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
   if (!users) {
@@ -190,13 +190,12 @@ export default function NewRequest() {
     if (users.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
-
     return (
-      <Page title="አዲስ የተጠየቁ ስራዎች">
+      <Page title="የተጀመሩ ስራዎች">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
-              አዲስ የተጠየቁ አገልግሎቶች
+              ስታንዳርድ
             </Typography>
             <Button
               variant="contained"
@@ -207,9 +206,9 @@ export default function NewRequest() {
               <ReactHTMLTableToExcel
                 variant="contained"
                 startIcon={<Icon icon={plusFill} />}
-                table="NewRequest"
-                filename="አዲስ የተጠየቁ ስራዎች"
-                sheet="አዲስ የተጠየቁ ስራዎች"
+                table="StandardList"
+                filename="የባለሙያ ስታንታርድ"
+                sheet="የባለሙያ ስታንታርድ"
                 buttonText="Export excel"
               />
             </Button>
@@ -221,15 +220,32 @@ export default function NewRequest() {
               filterName={filterName}
               onFilterName={handleFilterByName}
             />
-
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Stack spacing={3}>
+                <MobileDateRangePicker
+                  startText="From"
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                  renderInput={(startProps, endProps) => (
+                    <>
+                      <TextField {...startProps} />
+                      <Box sx={{ mx: 2 }}> to </Box>
+                      <TextField {...endProps} />
+                    </>
+                  )}
+                />
+              </Stack>
+            </LocalizationProvider>
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="NewRequest" stickyheader="true" aria-label="sticky table">
+                <Table id="StandardList" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={requestList.length}
+                    rowCount={standardlist.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
@@ -238,12 +254,13 @@ export default function NewRequest() {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const isItemSelected = selected.indexOf(row.request_id) !== -1;
+                        const { service } = row;
+                        const isItemSelected = selected.indexOf(service) !== -1;
 
                         return (
                           <TableRow
                             hover
-                            key={row.request_id}
+                            key={service}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}
@@ -252,30 +269,24 @@ export default function NewRequest() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, row.request_id)}
+                                onChange={(event) => handleClick(event, service)}
                               />
                             </TableCell>
-                            <TableCell align="left">{row.office_name}</TableCell>
-                            <TableCell align="left">{row.user_fullname}</TableCell>
-                            <TableCell align="left">{row.division}</TableCell>
-                            <TableCell align="left">{row.floor_no}</TableCell>
-                            <TableCell align="left">{row.office_no}</TableCell>
-                            <TableCell align="left">{row.phone}</TableCell>
-                            <TableCell align="left">{row.request_type}</TableCell>
-                            <TableCell align="left">{row.problem_desc}</TableCell>
-                            <TableCell align="left">{row.Date}</TableCell>
-                            <TableCell align="left">{row.status}</TableCell>
-                            <TableCell align="left">
-                              <LoadingButton
-                                fullWidth
-                                size="small"
-                                type="submit"
-                                variant="contained"
-                                onClick={() => AssignTask(row.request_id, users.user[0].username)}
-                                style={{ backgroundColor: '#75077E' }}
-                              >
-                                Assign
-                              </LoadingButton>
+                            <TableCell align="left">{row.service}</TableCell>
+                            <TableCell align="left">{row.measurement}</TableCell>
+                            <TableCell align="left">{row.time}</TableCell>
+                            <TableCell align="left">{row.belowStandard}</TableCell>
+                            <TableCell align="left">{row.WithinStandard}</TableCell>
+                            <TableCell align="left">{row.AboveStandard}</TableCell>
+                            <TableCell align="left">{row.Standard}</TableCell>
+                            <TableCell align="left">100</TableCell>
+                            <TableCell align="left">{row.standardAmh}</TableCell>
+                            <TableCell align="left">{row.Actual}</TableCell>
+                            <TableCell align="left">{row.price}</TableCell>
+                            <TableCell align="right">
+                              <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+                                <Icon icon={moreVerticalFill} width={20} height={20} />
+                              </IconButton>
                             </TableCell>
                           </TableRow>
                         );
@@ -300,9 +311,9 @@ export default function NewRequest() {
             </Scrollbar>
 
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[5, 10, 100]}
               component="div"
-              count={requestList.length}
+              count={standardlist.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

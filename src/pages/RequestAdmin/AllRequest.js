@@ -1,12 +1,11 @@
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
-import { useState, useEffect, useRef } from 'react';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
-import { LoadingButton } from '@mui/lab';
-import { styled } from '@mui/material/styles';
+
 import axios from 'axios';
 // material
 import {
@@ -22,30 +21,33 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
-  Menu,
-  MenuItem,
-  IconButton,
-  ListItemIcon,
-  ListItemText
+  TablePagination
 } from '@mui/material';
-import editFill from '@iconify/icons-eva/edit-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-// material
 // components
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/allRequest';
-import Officeform from '../components/authentication/office/Officeform';
-import { API_URL } from './Constant1';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import SearchNotFound from '../../components/SearchNotFound';
+import {
+  UserListHead,
+  UserListToolbar,
+  UserMoreMenu
+} from '../../components/_dashboard/allRequest';
+import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
-  { id: 'officename', label: 'የፅ/ቤቱ ስም', alignRight: false },
-  { id: 'floor_no', label: 'ቢሮ ቁጥር', alignRight: false },
+  { id: 'requesterusername', label: 'የጠያቂዉ ስም', alignRight: false },
+  { id: 'workerusername', label: 'የባለሙያዉ ስም', alignRight: false },
+  { id: 'division', label: 'የስራ ሂደት', alignRight: false },
+  { id: 'floor_no', label: 'አድራሻ', alignRight: false },
+  { id: 'office_no', label: 'ቢሮ ቁጥር', alignRight: false },
   { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
+  { id: 'request_type', label: 'የአግልገሎቱ አይነት', alignRight: false },
+  { id: 'problem_desc', label: 'የችግሩ መግለጫ', alignRight: false },
+  { id: 'requestDate', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { id: 'AssignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
+  { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
+  { id: 'status', label: 'status', alignRight: false },
   { id: '' }
 ];
 
@@ -77,37 +79,38 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.office_name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.requesterusername.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
 }
-export default function Office() {
+export default function AllRequest() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('office_name');
+  const [orderBy, setOrderBy] = useState('fullname');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [officelist, setofficelist] = useState([]);
-  const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const deleteoffice = (officeid) => {
-    axios.delete(`${API_URL}/DeleteOffice/${officeid}`).then((response) => {
-      alert('Deleted Successfully');
-    });
-  };
+  const [requestList, SetRequestList] = useState([]);
+  const users = JSON.parse(localStorage.getItem('userinfo'));
   useEffect(() => {
-    axios.get(`${API_URL}/GetOffice`).then((Response) => {
-      setofficelist(Response.data);
+    axios.get(`${API_URL}/Request/GetAllRequest`).then((Response) => {
+      SetRequestList(Response.data);
     });
   }, []);
-  const office = [...Array(24)].map((_, index) => ({
-    office_id: officelist.office_id,
-    office_name: officelist.office_name,
-    floor_noo: officelist.floor_no,
-    phone: officelist.phone
+  const request = [...Array(24)].map((_, index) => ({
+    requesterusername: requestList.requesterusername,
+    workerusername: requestList.workerusername,
+    division: requestList.division,
+    floor_no: requestList.floor_no,
+    phone: requestList.phone,
+    request_type: requestList.request_type,
+    problem_desc: requestList.problem_desc,
+    status: requestList.status,
+    assignedDate: requestList.assignedDate,
+    finishedDate: requestList.finishedDate,
+    Date: requestList.Date,
+    request_id: requestList.request_id
   }));
 
   const handleRequestSort = (event, property) => {
@@ -118,7 +121,7 @@ export default function Office() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = officelist.map((n) => n.office_name);
+      const newSelecteds = requestList.map((n) => n.requesterusername);
       setSelected(newSelecteds);
       return;
     }
@@ -156,12 +159,11 @@ export default function Office() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - officelist.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requestList.length) : 0;
 
-  const filteredUsers = applySortFilter(officelist, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(requestList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-  const users = JSON.parse(localStorage.getItem('userinfo'));
   if (!users) {
     return <Navigate to="/login" />;
   }
@@ -170,32 +172,32 @@ export default function Office() {
       return <Navigate to="/satisfaction" />;
     }
     if (users.user[0].ROLES === 'IT') {
-      return <Navigate to="/AssignedRequest" />;
+      return <Navigate to="dashboard/AssignedRequest" />;
     }
     return (
-      <Page title="ፅ/ቤት">
+      <Page title="ሁሉም የተጠየቁ ስራዎች">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="h4" gutterBottom>
-              ፅ/ቤት
+            <Typography variant="contained" gutterBottom>
+              ሁሉም የተጠየቁ አገልግሎቶች
             </Typography>
             <Button
               variant="contained"
               component={RouterLink}
-              to="/dashboard/addoffice"
+              to="#"
               startIcon={<Icon icon={plusFill} />}
             >
-              ፅ/ቤት
+              <ReactHTMLTableToExcel
+                variant="contained"
+                startIcon={<Icon icon={plusFill} />}
+                table="allRequest"
+                filename="የተጠየቁ አገልግሎቶች በሙሉ"
+                sheet="የተጠየቁ አገልግሎቶች በሙሉ"
+                buttonText="Export excel"
+              />
             </Button>
-            <ReactHTMLTableToExcel
-              variant="contained"
-              startIcon={<Icon icon={plusFill} />}
-              table="office"
-              filename="ፅ/ቤት"
-              sheet="ፅ/ቤት"
-              buttonText="Export excel"
-            />
           </Stack>
+
           <Card>
             <UserListToolbar
               numSelected={selected.length}
@@ -205,12 +207,12 @@ export default function Office() {
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
-                <Table id="office" stickyheader="true" aria-label="sticky table">
+                <Table id="allRequest" stickyheader="true" aria-label="sticky table">
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={officelist.length}
+                    rowCount={requestList.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
@@ -219,13 +221,12 @@ export default function Office() {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const { officename } = row;
-                        const isItemSelected = selected.indexOf(officename) !== -1;
+                        const isItemSelected = selected.indexOf(row.request_id) !== -1;
 
                         return (
                           <TableRow
                             hover
-                            key={row.office_id}
+                            key={row.request_id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}
@@ -234,36 +235,23 @@ export default function Office() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, officename)}
+                                onChange={(event) => handleClick(event, row.request_id)}
                               />
                             </TableCell>
-                            <TableCell align="left">{row.office_name}</TableCell>
+                            <TableCell align="left">{row.requesterusername}</TableCell>
+                            <TableCell align="left">{row.workerusername}</TableCell>
+                            <TableCell align="left">{row.division}</TableCell>
                             <TableCell align="left">{row.floor_no}</TableCell>
+                            <TableCell align="left">{row.office_no}</TableCell>
                             <TableCell align="left">{row.phone}</TableCell>
-                            <TableCell align="left">
-                              <LoadingButton
-                                fullWidth
-                                size="small"
-                                type="submit"
-                                variant="contained"
-                                onClick={() => deleteoffice(row.office_id)}
-                                style={{ backgroundColor: 'red' }}
-                              >
-                                Delete
-                              </LoadingButton>
-                            </TableCell>
-                            <TableCell align="left">
-                              <LoadingButton
-                                fullWidth
-                                size="small"
-                                type="submit"
-                                variant="contained"
-                                component={RouterLink}
-                                to="#"
-                                style={{ backgroundColor: '#75077E' }}
-                              >
-                                Edit
-                              </LoadingButton>
+                            <TableCell align="left">{row.request_type}</TableCell>
+                            <TableCell align="left">{row.problem_desc}</TableCell>
+                            <TableCell align="left">{row.Date}</TableCell>
+                            <TableCell align="left">{row.assignedDate}</TableCell>
+                            <TableCell align="left">{row.finishedDate}</TableCell>
+                            <TableCell align="left">{row.status}</TableCell>
+                            <TableCell align="right">
+                              <UserMoreMenu />
                             </TableCell>
                           </TableRow>
                         );
@@ -290,7 +278,7 @@ export default function Office() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={officelist.length}
+              count={requestList.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

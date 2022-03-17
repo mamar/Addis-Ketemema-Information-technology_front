@@ -23,7 +23,7 @@ export default function ItStandardForm() {
     standardid: Yup.string().required('required')
   });
   useEffect(() => {
-    axios.get(`${API_URL}/GetAllStandard`).then((Response) => {
+    axios.get(`${API_URL}/Standard/GetAllStandard`).then((Response) => {
       setStandardlist(Response.data);
     });
   }, []);
@@ -34,7 +34,7 @@ export default function ItStandardForm() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/ItStandardForm/${requestid.requestid}`, {
+        .post(`${API_URL}/Standard/ItStandardForm/${requestid.requestid}`, {
           standardid: data.standardid
         })
         .then((Response) => {

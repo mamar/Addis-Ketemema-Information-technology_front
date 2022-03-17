@@ -16,7 +16,7 @@ export default function RegisterForm() {
   const [officelist, setofficelist] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
   useEffect(() => {
-    axios.get(`${API_URL}/GetOffice`).then((Response) => {
+    axios.get(`${API_URL}/Office/GetOffice`).then((Response) => {
       setofficelist(Response.data);
     });
   }, []);
@@ -41,7 +41,7 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/AddRequest/${users.user[0].username}`, {
+        .post(`${API_URL}/Request/AddRequest/${users.user[0].username}`, {
           division: data.division,
           floor_no: data.floor_no,
           office_no: data.office_no,
@@ -159,6 +159,7 @@ export default function RegisterForm() {
             type="submit"
             variant="contained"
             loading={isSubmitting}
+            style={{ backgroundColor: '#75077E' }}
           >
             ይላኩ
           </LoadingButton>

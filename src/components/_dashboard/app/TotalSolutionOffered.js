@@ -41,7 +41,7 @@ const TOTAL = 1352831;
 export default function TotalSolutionOffered() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/CountSolutionOffered`).then((Response) => {
+    axios.get(`${API_URL}/Request/CountSolutionOffered`).then((Response) => {
       setcount(Response.data);
     });
   }, []);

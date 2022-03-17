@@ -49,7 +49,7 @@ export default function LoginForm() {
     validationSchema: LoginSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/Login`, {
+        .post(`${API_URL}/user/Login`, {
           username: data.username,
           password: data.password
         })
@@ -115,13 +115,14 @@ export default function LoginForm() {
             helperText={touched.password && errors.password}
           />
         </Stack>
-
+        <br />
         <LoadingButton
           fullWidth
           size="large"
           type="submit"
           variant="contained"
           loading={isSubmitting}
+          style={{ backgroundColor: '#75077E' }}
         >
           Login
         </LoadingButton>

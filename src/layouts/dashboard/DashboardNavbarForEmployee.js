@@ -49,7 +49,7 @@ DashboardNavbarForEmployee.propTypes = {
 export default function DashboardNavbarForEmployee({ onOpenSidebar }) {
   const [AnnounceList, setAnnounceList] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/DisplayAnnounceForEmployee`).then((Response) => {
+    axios.get(`${API_URL}/Announce/DisplayAnnounceForEmployee`).then((Response) => {
       setAnnounceList(Response.data);
     });
   }, []);

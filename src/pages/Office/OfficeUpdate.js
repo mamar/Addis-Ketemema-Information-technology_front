@@ -3,14 +3,13 @@ import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
 // layouts
-import AuthLayout from '../layouts/AuthLayout';
+import AuthLayout from '../../layouts/AuthLayout';
 // components
-import Page from '../components/Page';
-import { MHidden } from '../components/@material-extend';
-import AuthSocial from '../components/authentication/AuthSocial';
-import { API_URL } from './Constant1';
-import ItStandardForm from '../components/authentication/standard/ItStandardForm';
-
+import Page from '../../components/Page';
+import { MHidden } from '../../components/@material-extend';
+import AuthSocial from '../../components/authentication/AuthSocial';
+import { Officeform, EditOffice } from '../../components/authentication/office';
+import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -40,7 +39,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function SendStandard() {
+export default function AddOffice() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   if (!users) {
     return <Navigate to="/login" />;
@@ -49,8 +48,11 @@ export default function SendStandard() {
     if (users.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
+    if (users.user[0].ROLES === 'IT') {
+      return <Navigate to="/AssignedRequest" />;
+    }
     return (
-      <RootStyle title="የባለሙያዉ ስታንዳረድ መሙያ">
+      <RootStyle title="Register">
         <AuthLayout>Information Technology</AuthLayout>
         <MHidden width="mdDown">
           <SectionStyle>
@@ -65,12 +67,12 @@ export default function SendStandard() {
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
               <Typography variant="h4" gutterBottom>
-                የባለሙያዉ ስታንዳረድ መሙያ ቅፅ
+                ፅ/ቤት ማስተካከያ ቅፅ
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ስታንዳርዱን በትክክል ይሙሉ</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>
             </Box>
 
-            <ItStandardForm />
+            <EditOffice />
           </ContentStyle>
         </Container>
       </RootStyle>

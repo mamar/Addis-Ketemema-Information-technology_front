@@ -42,7 +42,7 @@ const TOTAL = 234;
 export default function TotalOthers() {
   const [countTask, setcount] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/CountOthers`).then((Response) => {
+    axios.get(`${API_URL}/Request/CountOthers`).then((Response) => {
       setcount(Response.data);
     });
   }, []);

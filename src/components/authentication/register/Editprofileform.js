@@ -43,7 +43,7 @@ export default function Editprofileform() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .patch(`${API_URL}/Updateusers/${users.user[0].username}`, {
+        .patch(`${API_URL}/user/Updateusers/${users.user[0].username}`, {
           office_id: data.office_id,
           user_fullname: data.user_fullname,
           Position: data.Position,
@@ -65,7 +65,7 @@ export default function Editprofileform() {
   });
   const [officelist, setofficelist] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/GetOffice`).then((Response) => {
+    axios.get(`${API_URL}/Office/GetOffice`).then((Response) => {
       setofficelist(Response.data);
     });
   }, []);
@@ -90,7 +90,9 @@ export default function Editprofileform() {
             helperText={touched.office_id && errors.office_id}
           >
             {officelist.map((value) => (
-              <MenuItem value={value.office_id}> {value.office_name}</MenuItem>
+              <MenuItem value={value.office_id} key={value.office_id}>
+                {value.office_name}
+              </MenuItem>
             ))}
           </Select>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
@@ -129,10 +131,11 @@ export default function Editprofileform() {
           />
           <LoadingButton
             fullWidth
-            size="large"
+            size="medium"
             type="submit"
             variant="contained"
             loading={isSubmitting}
+            style={{ backgroundColor: '#75077E' }}
           >
             Update
           </LoadingButton>
