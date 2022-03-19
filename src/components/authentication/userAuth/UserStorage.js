@@ -1,10 +1,3 @@
 const users = JSON.parse(localStorage.getItem('userinfo'));
-const UserStorage = () => {
-  if (users != null) {
-    return users.user[0].username;
-  }
-  if (users == null) {
-    return null;
-  }
-};
+const UserStorage = () => (users ? users.user[0].username : null);
 export default UserStorage;

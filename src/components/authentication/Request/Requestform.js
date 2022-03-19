@@ -32,7 +32,7 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .post(`${API_URL}/Request/AddRequest/${users.user[0].username}`, {
+        .post(`${API_URL}/Request/AddRequest/${users ? users.user[0].username : null}`, {
           division: data.division,
           floor_no: data.floor_no,
           office_no: data.office_no,

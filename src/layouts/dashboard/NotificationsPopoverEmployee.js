@@ -36,7 +36,9 @@ export default function NotificationsPopoverEmployee() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const [requestList, SetRequestList] = useState([]);
   useEffect(() => {
-    axios.get(`${API_URL}/Request/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
+    axios
+      .get(`${API_URL}/Request/GetRequestedTasks/${users ? users.user[0].username : null}`)
+      .then((Response) => {
       SetRequestList(Response.data);
     });
   }, []);

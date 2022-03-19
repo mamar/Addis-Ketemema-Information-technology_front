@@ -98,7 +98,9 @@ export default function FinishedTaskswithSatisfaction() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   useEffect(() => {
     axios
-      .get(`${API_URL}/Request/FinishedTasksWithSatisfaction/${users.user[0].username}`)
+      .get(
+        `${API_URL}/Request/FinishedTasksWithSatisfaction/${users ? users.user[0].username : null}`
+      )
       .then((Response) => {
         SetRequestList(Response.data);
       });

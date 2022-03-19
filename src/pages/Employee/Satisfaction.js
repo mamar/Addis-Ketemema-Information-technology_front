@@ -96,10 +96,20 @@ export default function Satisfaction() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [requestList, SetRequestList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
+  const usersidentify = () => {
+    if (users) {
+      return users.user[0].username;
+    }
+    if (!users) {
+      return null;
+    }
+  };
   useEffect(() => {
-    axios.get(`${API_URL}/Request/GetRequestedTasks/${users.user[0].username}`).then((Response) => {
-      SetRequestList(Response.data);
-    });
+    axios
+      .get(`${API_URL}/Request/GetRequestedTasks/${users ? users.user[0].username : null}`)
+      .then((Response) => {
+        SetRequestList(Response.data);
+      });
   }, []);
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

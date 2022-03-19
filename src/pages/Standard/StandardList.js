@@ -95,7 +95,7 @@ export default function StandardList() {
   useEffect(() => {
     axios
       .get(
-        `${API_URL}/Standard/UserStandard/${users.user[0].username}/${dateformat(
+        `${API_URL}/Standard/UserStandard/${users ? users.user[0].username : null}/${dateformat(
           value[0],
           'dd-mm-yy'
         )}/${dateformat(value[1], 'dd-mm-yy')}`

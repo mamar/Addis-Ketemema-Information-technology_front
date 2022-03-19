@@ -13,13 +13,15 @@ export default function Editprofileform() {
   const [userList, SetuserList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
   useEffect(() => {
-    axios.get(`${API_URL}/user/Getuserbyusername/${users.user[0].username}`).then((Response) => {
-      if (Response.data === 'error') {
-        alert('Server Error');
-      } else {
-        SetuserList(Response.data);
-      }
-    });
+    axios
+      .get(`${API_URL}/user/Getuserbyusername/${users ? users.user[0].username : null}`)
+      .then((Response) => {
+        if (Response.data === 'error') {
+          alert('Server Error');
+        } else {
+          SetuserList(Response.data);
+        }
+      });
   }, []);
   const RegisterSchema = Yup.object().shape({
     user_fullname: Yup.string()
@@ -38,7 +40,7 @@ export default function Editprofileform() {
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
-        .patch(`${API_URL}/user/Updateusers/${users.user[0].username}`, {
+        .patch(`${API_URL}/user/Updateusers/${users ? users.user[0].username : null}`, {
           user_fullname: data.user_fullname,
           Position: data.Position,
           Phone: data.Phone

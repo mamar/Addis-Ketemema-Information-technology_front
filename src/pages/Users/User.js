@@ -181,9 +181,6 @@ export default function User() {
     if (users1.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
-    if (users1.user[0].ROLES === 'IT') {
-      return <Navigate to="/NewRequest" />;
-    }
     return (
       <Page title="Users">
         <Container>
@@ -270,28 +267,29 @@ export default function User() {
                               </LoadingButton>
                             </TableCell>
                             <TableCell align="left">
-                              <LoadingButton
-                                fullWidth
-                                size="small"
-                                type="submit"
-                                variant="contained"
-                                onClick={() => blockuser(row.userid)}
-                                style={{ backgroundColor: '#75077E' }}
-                              >
-                                Block
-                              </LoadingButton>
-                            </TableCell>
-                            <TableCell align="left">
-                              <LoadingButton
-                                fullWidth
-                                size="small"
-                                type="submit"
-                                variant="contained"
-                                onClick={() => unblockuser(row.userid)}
-                                style={{ backgroundColor: '#08890E' }}
-                              >
-                                Unblock
-                              </LoadingButton>
+                              {row.status === 'unblock' ? (
+                                <LoadingButton
+                                  fullWidth
+                                  size="small"
+                                  type="submit"
+                                  variant="contained"
+                                  onClick={() => blockuser(row.userid)}
+                                  style={{ backgroundColor: '#75077E' }}
+                                >
+                                  Block
+                                </LoadingButton>
+                              ) : (
+                                <LoadingButton
+                                  fullWidth
+                                  size="small"
+                                  type="submit"
+                                  variant="contained"
+                                  onClick={() => unblockuser(row.userid)}
+                                  style={{ backgroundColor: '#08890E' }}
+                                >
+                                  Unblock
+                                </LoadingButton>
+                              )}
                             </TableCell>
                             <TableCell align="left">
                               <LoadingButton

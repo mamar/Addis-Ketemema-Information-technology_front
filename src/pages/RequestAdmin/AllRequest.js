@@ -154,7 +154,7 @@ export default function AllRequest() {
       return <Navigate to="/satisfaction" />;
     }
     if (users.user[0].ROLES === 'IT') {
-      return <Navigate to="dashboard/AssignedRequest" />;
+      return <Navigate to="/dashboard/AssignedRequest" />;
     }
     return (
       <Page title="ሁሉም የተጠየቁ ስራዎች">

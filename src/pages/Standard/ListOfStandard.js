@@ -140,7 +140,7 @@ export default function ListOfStandard() {
       return <Navigate to="/satisfaction" />;
     }
     if (users.user[0].ROLES === 'IT') {
-      return <Navigate to="/AssignedRequest" />;
+      return <Navigate to="/dashboard/AssignedRequest" />;
     }
 
     return (

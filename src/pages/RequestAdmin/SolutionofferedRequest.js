@@ -92,7 +92,7 @@ export default function SolutionofferedRequest() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   useEffect(() => {
     axios
-      .get(`${API_URL}/Request/finishedTasksbyUser/${users.user[0].username}`)
+      .get(`${API_URL}/Request/finishedTasksbyUser/${users ? users.user[0].username : null}`)
       .then((Response) => {
         SetRequestList(Response.data);
       });
