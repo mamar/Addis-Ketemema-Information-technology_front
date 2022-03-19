@@ -28,14 +28,20 @@ export default function Editprofileform() {
       .min(8, 'Too Short!')
       .max(50, 'Too Long!')
       .required('user_fullname required'),
-    Position: Yup.string().required(' required'),
-    Phone: Yup.string().required('required')
+    Position: Yup.string().nullable().notRequired(),
+    division: Yup.string().required(' required'),
+    floor_no: Yup.string().required(' required'),
+    office_no: Yup.string().nullable().notRequired().TypetypeError('must be a valid number'),
+    Phone: Yup.number().integer().required('required').typeError('must be a valid number')
   });
   const formik = useFormik({
     initialValues: {
       user_fullname: userList.user_fullname,
       Position: userList.Position,
-      Phone: userList.Phone
+      Phone: userList.Phone,
+      division: userList.division,
+      office_no: userList.office_no,
+      floor_no: userList.floor_no
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
@@ -43,6 +49,9 @@ export default function Editprofileform() {
         .patch(`${API_URL}/user/Updateusers/${users ? users.user[0].username : null}`, {
           user_fullname: data.user_fullname,
           Position: data.Position,
+          division: data.division,
+          office_no: data.office_no,
+          floor_no: data.floor_no,
           Phone: data.Phone
         })
         .then((Response) => {
@@ -90,6 +99,42 @@ export default function Editprofileform() {
               {...getFieldProps('Phone')}
               error={Boolean(touched.Phone && errors.Phone)}
               helperText={touched.Phone && errors.Phone}
+            />
+            <TextField
+              fullWidth
+              autoComplete="division"
+              type="text"
+              label="የስራ ሂደት "
+              placeholder="ስልክ ቁጥር"
+              defaultValue={row.division}
+              value={values.division}
+              {...getFieldProps('Phone')}
+              error={Boolean(touched.division && errors.division)}
+              helperText={touched.division && errors.division}
+            />
+            <TextField
+              fullWidth
+              autoComplete="floor_no"
+              type="number"
+              label="አድራሻ "
+              placeholder="አድራሻ"
+              defaultValue={row.floor_no}
+              value={values.floor_no}
+              {...getFieldProps('floor_no')}
+              error={Boolean(touched.floor_no && errors.floor_no)}
+              helperText={touched.floor_no && errors.floor_no}
+            />
+            <TextField
+              fullWidth
+              autoComplete="office_no"
+              type="number"
+              label="ቢሮ ቁጥር "
+              placeholder="ቢሮ ቁጥር"
+              defaultValue={row.office_no}
+              value={values.office_no}
+              {...getFieldProps('office_no')}
+              error={Boolean(touched.office_no && errors.office_no)}
+              helperText={touched.office_no && errors.office_no}
             />
             <TextField
               fullWidth

@@ -12,7 +12,7 @@ export default function AddSatisfaction() {
   const navigate = useNavigate();
   const requestid = JSON.parse(JSON.stringify(useParams()));
   const RegisterSchema = Yup.object().shape({
-    satisfaction: Yup.string().required('required'),
+    satisfaction: Yup.number().integer().required('required').typeError('must be a valid number'),
     comment: Yup.string().required('required')
   });
   const formik = useFormik({

@@ -36,6 +36,10 @@ const TABLE_HEAD = [
   { id: 'Position', label: 'የስራ ሂደት', alignRight: false },
   { id: 'Roles', label: 'ሚና', alignRight: false },
   { id: 'officename', label: 'የፅ/ቤተ ስም', alignRight: false },
+  { id: 'division', label: 'የስራ ሂደት', alignRight: false },
+  { id: 'floorno', label: 'አድራሻ', alignRight: false },
+  { id: 'officeno', label: 'ቢሮ ቁጥር', alignRight: false },
+
   { id: 'status1', label: 'status', alignRight: false },
   { id: '' }
 ];
@@ -253,6 +257,9 @@ export default function User() {
                             <TableCell align="left">{row.Position}</TableCell>
                             <TableCell align="left">{row.ROLES}</TableCell>
                             <TableCell align="left">{row.office_name}</TableCell>
+                            <TableCell align="left">{row.division}</TableCell>
+                            <TableCell align="left">{row.floor_no}</TableCell>
+                            <TableCell align="left">{row.office_no}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
                             <TableCell align="left">
                               <LoadingButton

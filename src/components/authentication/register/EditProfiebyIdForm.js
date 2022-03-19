@@ -34,10 +34,13 @@ export default function EditProfiebyIdForm() {
       .max(50, 'Too Long!')
       .required('user_fullname required'),
     Gender: Yup.string().required('Gender is required'),
-    Position: Yup.string().required('Position is required'),
+    Position: Yup.string().nullable().notRequired(),
     ROLES: Yup.string().required('Roles is required'),
-    Phone: Yup.string().required('Phone Number'),
-    office_id: Yup.string().required('Office name is Required')
+    Phone: Yup.number().integer().required('required').typeError('must be a valid number'),
+    office_id: Yup.string().required('Office name is Required'),
+    floor_no: Yup.string().required(' required'),
+    division: Yup.string().required(' required'),
+    office_no: Yup.string().nullable().notRequired().typeError('must be a valid number')
   });
   const formik = useFormik({
     initialValues: {
@@ -46,7 +49,10 @@ export default function EditProfiebyIdForm() {
       Phone: userList.Phone,
       Gender: userList.Gender,
       office_id: '',
-      ROLES: userList.ROLES
+      ROLES: userList.ROLES,
+      division: userList.division,
+      office_no: userList.office_no,
+      floor_no: userList.floor_no
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
@@ -57,7 +63,9 @@ export default function EditProfiebyIdForm() {
           Phone: data.Phone,
           Gender: data.Gender,
           ROLES: data.ROLES,
-          office_id: data.office_id
+          office_id: data.office_id,
+          office_no: data.office_no,
+          floor_no: data.floor_no
         })
         .then((Response) => {
           if (Response.data.Message === 'Error') {
@@ -145,6 +153,42 @@ export default function EditProfiebyIdForm() {
               />
               <TextField
                 fullWidth
+                autoComplete="division"
+                type="text"
+                label="የስራ ሂደት "
+                placeholder="ስልክ ቁጥር"
+                defaultValue={row.division}
+                value={values.division}
+                {...getFieldProps('division')}
+                error={Boolean(touched.division && errors.division)}
+                helperText={touched.division && errors.division}
+              />
+              <TextField
+                fullWidth
+                autoComplete="floor_no"
+                type="number"
+                label="አድራሻ "
+                placeholder="አድራሻ"
+                defaultValue={row.floor_no}
+                value={values.floor_no}
+                {...getFieldProps('floor_no')}
+                error={Boolean(touched.floor_no && errors.floor_no)}
+                helperText={touched.floor_no && errors.floor_no}
+              />
+              <TextField
+                fullWidth
+                autoComplete="office_no"
+                type="number"
+                label="ቢሮ ቁጥር "
+                placeholder="ቢሮ ቁጥር"
+                defaultValue={row.office_no}
+                value={values.office_no}
+                {...getFieldProps('office_no')}
+                error={Boolean(touched.office_no && errors.office_no)}
+                helperText={touched.office_no && errors.office_no}
+              />
+              <TextField
+                fullWidth
                 autoComplete="Position"
                 type="text"
                 label="Position "
@@ -185,7 +229,7 @@ export default function EditProfiebyIdForm() {
             loading={isSubmitting}
             style={{ backgroundColor: '#75077E' }}
           >
-            Register
+            Update
           </LoadingButton>
         </Stack>
       </Form>

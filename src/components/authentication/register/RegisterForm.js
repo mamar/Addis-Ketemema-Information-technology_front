@@ -18,21 +18,21 @@ import { API_URL } from '../../../pages/Constant1';
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const RegisterSchema = Yup.object().shape({
-    user_fullname: Yup.string()
-      .min(8, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('user_fullname required'),
-    username: Yup.string().required('username is required'),
-    password: Yup.string().required('Password is required'),
+    user_fullname: Yup.string().min(8, 'Too Short!').max(20, 'Too Long!').required(' required'),
+    username: Yup.string().required(' required'),
+    password: Yup.string().required('required'),
     passwordConfirmation: Yup.string()
       .required('please Confirm Passord')
       .oneOf([Yup.ref('password'), null], 'Passwords must match'),
-    age: Yup.string().required('age is required'),
-    Gender: Yup.string().required('Gender is required'),
-    Position: Yup.string().required('Position is required'),
-    ROLES: Yup.string().required('Roles is required'),
-    Phone: Yup.string().required('Phone Number'),
-    office_id: Yup.string().required('Office name is Required')
+    age: Yup.number().nullable().notRequired(),
+    Gender: Yup.string().required(' required'),
+    division: Yup.string().required(' required'),
+    floor_no: Yup.number().integer().required('required').typeError('must be a valid number'),
+    office_no: Yup.number().integer().nullable().notRequired().typeError('must be a valid number'),
+    Position: Yup.string().nullable().notRequired(),
+    ROLES: Yup.string().required('required'),
+    Phone: Yup.number().integer().required('required').typeError('must be a valid number'),
+    office_id: Yup.string().required('Required')
   });
   const formik = useFormik({
     initialValues: {
@@ -44,6 +44,9 @@ export default function RegisterForm() {
       user_fullname: '',
       age: '',
       Gender: '',
+      division: '',
+      floor_no: '',
+      office_no: '',
       Position: '',
       Phone: ''
     },
@@ -58,6 +61,9 @@ export default function RegisterForm() {
           user_fullname: data.user_fullname,
           age: data.age,
           Gender: data.Gender,
+          division: data.division,
+          floor_no: data.floor_no,
+          office_no: data.office_no,
           Position: data.Position,
           Phone: data.Phone
         })
@@ -96,8 +102,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="office_id"
             type="text"
-            label="office_id "
-            placeholder="office_id"
+            label="ቢሮ ቁጥር"
+            placeholder="ቢሮ ቁጥር"
             value={values.office_id}
             {...getFieldProps('office_id')}
             error={Boolean(touched.office_id && errors.office_id)}
@@ -112,8 +118,8 @@ export default function RegisterForm() {
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
-              label="Full Name"
-              placeholder="Full Name"
+              label="ሙሉ ስም"
+              placeholder="ሙሉ ስም"
               value={values.user_fullname}
               {...getFieldProps('user_fullname')}
               error={Boolean(touched.user_fullname && errors.user_fullname)}
@@ -127,8 +133,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="Gender"
             type="text"
-            label="Gender "
-            placeholder="Gender"
+            label="ፆታ "
+            placeholder="ፆታ"
             value={values.Gender}
             {...getFieldProps('Gender')}
             error={Boolean(touched.Gender && errors.Gender)}
@@ -139,10 +145,44 @@ export default function RegisterForm() {
           </Select>
           <TextField
             fullWidth
+            autoComplete="division"
+            type="text"
+            label="የስራ ሂደት "
+            placeholder="የስራ ሂደት"
+            value={values.division}
+            {...getFieldProps('division')}
+            error={Boolean(touched.division && errors.division)}
+            helperText={touched.division && errors.division}
+          />
+          <TextField
+            fullWidth
+            autoComplete="floor_no"
+            type="text"
+            label="አድራሻ "
+            placeholder="አድራሻ"
+            value={values.floor_no}
+            {...getFieldProps('floor_no')}
+            error={Boolean(touched.floor_no && errors.floor_no)}
+            helperText={touched.floor_no && errors.floor_no}
+          />
+          <TextField
+            fullWidth
+            autoComplete="office_no"
+            type="text"
+            label="ቢሮ ቁጥር "
+            placeholder="ቢሮ ቁጥር"
+            value={values.office_no}
+            {...getFieldProps('office_no')}
+            error={Boolean(touched.office_no && errors.office_no)}
+            helperText={touched.office_no && errors.office_no}
+          />
+
+          <TextField
+            fullWidth
             autoComplete="age"
             type="text"
-            label="age "
-            placeholder="age"
+            label="እድሜ "
+            placeholder="እድሜ"
             value={values.age}
             {...getFieldProps('age')}
             error={Boolean(touched.age && errors.age)}
@@ -152,8 +192,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="Phone Number"
             type="text"
-            label="Phone Number "
-            placeholder="Phone Number"
+            label="ቢሮ ቁጥር "
+            placeholder="ቢሮ ቁጥር"
             value={values.Phone}
             {...getFieldProps('Phone')}
             error={Boolean(touched.Phone && errors.Phone)}
@@ -163,8 +203,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="Position"
             type="text"
-            label="Position "
-            placeholder="Position"
+            label="የስራ መደብ "
+            placeholder="የስራ መደብ"
             value={values.Position}
             {...getFieldProps('Position')}
             error={Boolean(touched.Position && errors.Position)}

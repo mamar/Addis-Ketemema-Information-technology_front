@@ -27,7 +27,7 @@ export default function EditStandardForm() {
     service: Yup.string().required('required'),
     measurement: Yup.string().required(' required'),
     time: Yup.string().required('required'),
-    price: Yup.string().required('required')
+    price: Yup.number().integer().required('required').typeError('must be a valid number')
   });
   const formik = useFormik({
     initialValues: {

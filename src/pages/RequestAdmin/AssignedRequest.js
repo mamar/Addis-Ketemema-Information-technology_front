@@ -249,19 +249,20 @@ export default function AssignedRequest() {
                                 >
                                   ይጨርሱ
                                 </LoadingButton>
-                              ) : (
-                                <LoadingButton
-                                  fullWidth
-                                  size="small"
-                                  type="submit"
-                                  variant="contained"
-                                  component={RouterLink}
-                                  to={`/dashboard/StandardForm/${row.request_id}`}
-                                  style={{ backgroundColor: '#75077E' }}
-                                >
-                                  ሰታንዳርድ
-                                </LoadingButton>
-                              )}
+                              ) : null}
+                            </TableCell>
+                            <TableCell align="left">
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                component={RouterLink}
+                                to={`/dashboard/StandardForm/${row.request_id}`}
+                                style={{ backgroundColor: '#75077E' }}
+                              >
+                                ሰታንዳርድ
+                              </LoadingButton>
                             </TableCell>
                           </TableRow>
                         );

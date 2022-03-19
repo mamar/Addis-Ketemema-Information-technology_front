@@ -13,19 +13,11 @@ import { API_URL } from '../../../pages/Constant1';
 export default function RegisterForm() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const RegisterSchema = Yup.object().shape({
-    division: Yup.string().required('required'),
-    floor_no: Yup.string().required(' required'),
-    office_no: Yup.string().required('required'),
-    phone: Yup.string().required(' required'),
     request_type: Yup.string().required(' required'),
     problem_desc: Yup.string().required('required')
   });
   const formik = useFormik({
     initialValues: {
-      division: '',
-      floor_no: '',
-      office_no: '',
-      phone: '',
       request_type: '',
       problem_desc: ''
     },
@@ -33,10 +25,6 @@ export default function RegisterForm() {
     onSubmit: (data) => {
       axios
         .post(`${API_URL}/Request/AddRequest/${users ? users.user[0].username : null}`, {
-          division: data.division,
-          floor_no: data.floor_no,
-          office_no: data.office_no,
-          phone: data.phone,
           request_type: data.request_type,
           problem_desc: data.problem_desc
         })
@@ -66,51 +54,6 @@ export default function RegisterForm() {
         style={{ backgroundColor: '#f2f2f2' }}
       >
         <Stack spacing={3}>
-          <TextField
-            fullWidth
-            autoComplete="division"
-            type="text"
-            label="የስራ ሂደት * "
-            placeholder="የስራ ሂደት *"
-            value={values.division}
-            {...getFieldProps('division')}
-            error={Boolean(touched.division && errors.division)}
-            helperText={touched.division && errors.division}
-          />
-          <TextField
-            fullWidth
-            autoComplete="floor_no"
-            type="text"
-            label="አድራሻ * "
-            placeholder="አድራሻ *"
-            value={values.floor_no}
-            {...getFieldProps('floor_no')}
-            error={Boolean(touched.floor_no && errors.floor_no)}
-            helperText={touched.floor_no && errors.floor_no}
-          />
-
-          <TextField
-            fullWidth
-            autoComplete="office_no"
-            type="text"
-            label="ቢሮ ቁጥር "
-            placeholder="ቢሮ ቁጥር"
-            value={values.office_no}
-            {...getFieldProps('office_no')}
-            error={Boolean(touched.office_no && errors.office_no)}
-            helperText={touched.office_no && errors.office_no}
-          />
-          <TextField
-            fullWidth
-            autoComplete="phone"
-            type="text"
-            label="ስልክ ቁጥር *"
-            placeholder="ስልክ ቁጥር *"
-            value={values.phone}
-            {...getFieldProps('phone')}
-            error={Boolean(touched.phone && errors.phone)}
-            helperText={touched.phone && errors.phone}
-          />
           <InputLabel id="demo-simple-select-label">የአገልግሎት አይነት</InputLabel>
           <br />
           <Select
