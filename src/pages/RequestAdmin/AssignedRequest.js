@@ -39,6 +39,7 @@ const TABLE_HEAD = [
   { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
   { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
+  { id: 'checkstandard', label: 'stand. ብዛት ', alignRight: false },
   { id: '' }
 ];
 
@@ -85,9 +86,11 @@ export default function AssignedRequest() {
   const [requestList, SetRequestList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
   useEffect(() => {
-    axios.get(`${API_URL}/Request/GetProgressTask/${users.user[0].username}`).then((Response) => {
-      SetRequestList(Response.data);
-    });
+    axios
+      .get(`${API_URL}/Request/GetProgressTask/${users ? users.user[0].username : null}`)
+      .then((Response) => {
+        SetRequestList(Response.data);
+      });
   }, []);
   const finishTask = (taskid) => {
     axios.put(`${API_URL}/Request/finishTask/${taskid}`).then((response) => {
@@ -233,33 +236,32 @@ export default function AssignedRequest() {
                             <TableCell align="left">{row.problem_desc}</TableCell>
                             <TableCell align="left">{row.Date}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
+                            <TableCell align="left">{row.status}</TableCell>
+                            <TableCell align="left">{row.checkstandard}</TableCell>
                             <TableCell align="left">
-                              {row.status}
-                              {row.request_id}
-                            </TableCell>
-                            <TableCell align="left">
-                              <LoadingButton
-                                fullWidth
-                                size="small"
-                                variant="contained"
-                                onClick={() => finishTask(row.request_id)}
-                                style={{ backgroundColor: 'red' }}
-                              >
-                                ይጨርሱ
-                              </LoadingButton>
-                            </TableCell>
-                            <TableCell align="left">
-                              <LoadingButton
-                                fullWidth
-                                size="small"
-                                type="submit"
-                                variant="contained"
-                                component={RouterLink}
-                                to={`/dashboard/StandardForm/${row.request_id}`}
-                                style={{ backgroundColor: '#75077E' }}
-                              >
-                                ሰታንዳርድ
-                              </LoadingButton>
+                              {row.checkstandard >= 1 ? (
+                                <LoadingButton
+                                  fullWidth
+                                  size="small"
+                                  variant="contained"
+                                  onClick={() => finishTask(row.request_id)}
+                                  style={{ backgroundColor: 'red' }}
+                                >
+                                  ይጨርሱ
+                                </LoadingButton>
+                              ) : (
+                                <LoadingButton
+                                  fullWidth
+                                  size="small"
+                                  type="submit"
+                                  variant="contained"
+                                  component={RouterLink}
+                                  to={`/dashboard/StandardForm/${row.request_id}`}
+                                  style={{ backgroundColor: '#75077E' }}
+                                >
+                                  ሰታንዳርድ
+                                </LoadingButton>
+                              )}
                             </TableCell>
                           </TableRow>
                         );
