@@ -51,9 +51,8 @@ export default function AddAnnounce() {
     }
     return (
       <RootStyle title="ማሳሰቢያ">
-        <AuthLayout>Information Technology</AuthLayout>
         <MHidden width="mdDown">
-          <SectionStyle>
+          <SectionStyle style={{ backgroundColor: '#4DBFDE' }}>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
             </Typography>

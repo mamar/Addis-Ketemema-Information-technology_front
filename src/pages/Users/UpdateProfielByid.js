@@ -49,9 +49,8 @@ export default function UpdateProfielByid() {
     }
     return (
       <RootStyle title="መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ">
-        <AuthLayout>Information Technology</AuthLayout>
         <MHidden width="mdDown">
-          <SectionStyle>
+          <SectionStyle style={{ backgroundColor: '#4DBFDE' }}>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
             </Typography>
@@ -62,7 +61,7 @@ export default function UpdateProfielByid() {
         <Container>
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
-              <Typography variant="h4" gutterBottom>
+              <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
                 መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>

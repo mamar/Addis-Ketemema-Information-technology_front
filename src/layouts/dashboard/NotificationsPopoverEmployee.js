@@ -39,8 +39,8 @@ export default function NotificationsPopoverEmployee() {
     axios
       .get(`${API_URL}/Request/GetRequestedTasks/${users ? users.user[0].username : null}`)
       .then((Response) => {
-      SetRequestList(Response.data);
-    });
+        SetRequestList(Response.data);
+      });
   }, []);
   function renderContent(notification) {
     const title = (

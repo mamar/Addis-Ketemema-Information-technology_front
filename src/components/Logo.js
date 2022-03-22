@@ -1,13 +1,22 @@
-import PropTypes from 'prop-types';
-// material
-import { Box } from '@mui/material';
+import logo from './image/logo.PNG';
 
 // ----------------------------------------------------------------------
-
-Logo.propTypes = {
-  sx: PropTypes.object
-};
-
-export default function Logo({ sx }) {
-  return <Box component="img" src="/static/logo.svg" sx={{ width: 40, height: 40, ...sx }} />;
+export default function Logo() {
+  return (
+    <img
+      alt="Addis ERP"
+      src={logo}
+      style={
+        ({ backgroundColor: '#4DBFDE' },
+        {
+          width: 100,
+          height: 100,
+          borderRadius: 100 / 2,
+          overflow: 'hidden',
+          borderWidth: 7,
+          borderColor: 'red'
+        })
+      }
+    />
+  );
 }

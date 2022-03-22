@@ -1,8 +1,13 @@
 import { Card, Container, Stack, Typography } from '@mui/material';
 // material
 import { styled } from '@mui/material/styles';
+import { Link as RouterLink } from 'react-router-dom';
 import { MHidden } from '../../components/@material-extend';
 import { LoginForm } from '../../components/authentication/login';
+// components
+//
+import Logo from '../../components/Logo';
+
 // components
 import Page from '../../components/Page';
 
@@ -40,6 +45,7 @@ export default function Login() {
     <RootStyle title="Login">
       <MHidden width="mdDown">
         <SectionStyle style={{ backgroundColor: '#4DBFDE' }}>
+          <Logo />
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
             እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>

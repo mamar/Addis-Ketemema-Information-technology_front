@@ -1,5 +1,6 @@
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Icon } from '@iconify/react';
+import { LoadingButton } from '@mui/lab';
 // material
 import {
   Button,
@@ -20,15 +21,10 @@ import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
-// components
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
-import {
-  UserListHead,
-  UserListToolbar,
-  UserMoreMenu
-} from '../../components/_dashboard/allRequest';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/allRequest';
 import { API_URL } from '../Constant1';
 
 // ----------------------------------------------------------------------
@@ -42,6 +38,7 @@ const TABLE_HEAD = [
   { id: 'request_type', label: 'የአግልገሎቱ አይነት', alignRight: false },
   { id: 'problem_desc', label: 'የችግሩ መግለጫ', alignRight: false },
   { id: 'requestDate', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { id: 'Assignedby', label: 'Assigned by', alignRight: false },
   { id: 'AssignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
   { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
@@ -90,6 +87,18 @@ export default function AllRequest() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [requestList, SetRequestList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
+  const DeletTask = (taskid) => {
+    axios.delete(`${API_URL}/Request/DeleteRequest/${taskid}`).then((response) => {
+      if (response.data.Message === 'error') {
+        alert('Server Error');
+        window.location.reload();
+      }
+      if (response.data.Message === 'success') {
+        alert('Request Deleted Successfuly');
+        window.location.reload();
+      }
+    });
+  };
   useEffect(() => {
     axios.get(`${API_URL}/Request/GetAllRequest`).then((Response) => {
       SetRequestList(Response.data);
@@ -160,7 +169,7 @@ export default function AllRequest() {
       <Page title="ሁሉም የተጠየቁ ስራዎች">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="contained" gutterBottom>
+            <Typography variant="contained" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
               ሁሉም የተጠየቁ አገልግሎቶች
             </Typography>
             <Button
@@ -230,11 +239,24 @@ export default function AllRequest() {
                             <TableCell align="left">{row.request_type}</TableCell>
                             <TableCell align="left">{row.problem_desc}</TableCell>
                             <TableCell align="left">{row.Date}</TableCell>
+                            <TableCell align="left">{row.Assignedby}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
                             <TableCell align="left">{row.finishedDate}</TableCell>
-                            <TableCell align="left">{row.status}</TableCell>
+                            <TableCell align="left">
+                              {row.status}
+                              {row.request_id}
+                            </TableCell>
                             <TableCell align="right">
-                              <UserMoreMenu />
+                              <LoadingButton
+                                fullWidth
+                                size="small"
+                                type="submit"
+                                variant="contained"
+                                onClick={() => DeletTask(row.request_id)}
+                                style={{ backgroundColor: 'red' }}
+                              >
+                                Delete
+                              </LoadingButton>
                             </TableCell>
                           </TableRow>
                         );

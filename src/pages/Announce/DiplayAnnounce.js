@@ -173,7 +173,7 @@ export default function DisplayAnnounce() {
       <Page title=" የስታንዳረድ ዝርዝር">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
               የማሳሰቢያ ዝርዝር
             </Typography>
             <Button
@@ -245,16 +245,18 @@ export default function DisplayAnnounce() {
                               </LoadingButton>
                             </TableCell>
                             <TableCell align="left">
-                              <LoadingButton
-                                fullWidth
-                                size="small"
-                                type="submit"
-                                variant="contained"
-                                onClick={() => EndAnnounce(row.anouncid)}
-                                style={{ backgroundColor: '#75077E' }}
-                              >
-                                End
-                              </LoadingButton>
+                              {row.status === 'New' ? (
+                                <LoadingButton
+                                  fullWidth
+                                  size="small"
+                                  type="submit"
+                                  variant="contained"
+                                  onClick={() => EndAnnounce(row.anouncid)}
+                                  style={{ backgroundColor: '#75077E' }}
+                                >
+                                  End
+                                </LoadingButton>
+                              ) : null}
                             </TableCell>
                           </TableRow>
                         );

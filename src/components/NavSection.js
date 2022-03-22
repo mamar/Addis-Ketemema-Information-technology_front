@@ -171,7 +171,10 @@ export default function NavSection({ navConfig, ...other }) {
       <List disablePadding>
         <Divider style={{ backgroundColor: 'red' }} />
         {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} />
+          <>
+            <NavItem key={item.title} item={item} active={match} />
+            <Divider style={{ backgroundColor: '#553B44' }} />
+          </>
         ))}
         <Divider style={{ backgroundColor: 'red' }} />
       </List>

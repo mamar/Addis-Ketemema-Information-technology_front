@@ -15,18 +15,8 @@ const RootStyle = styled(Page)(({ theme }) => ({
     display: 'flex'
   }
 }));
-
-const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  maxWidth: 464,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2)
-}));
-
 const ContentStyle = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  maxwidth: 480,
   margin: 'auto',
   display: 'flex',
   minHeight: '100vh',
@@ -34,7 +24,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
   justifyContent: 'center',
   padding: theme.spacing(12, 0)
 }));
-
 // ----------------------------------------------------------------------
 
 export default function EditProfileAdmin() {
@@ -48,20 +37,10 @@ export default function EditProfileAdmin() {
     }
     return (
       <RootStyle title="Register">
-        <AuthLayout>Information Technology</AuthLayout>
-        <MHidden width="mdDown">
-          <SectionStyle>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
-            </Typography>
-            <img alt="register" src="/static/illustrations/illustration_register.png" />
-          </SectionStyle>
-        </MHidden>
-
         <Container>
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
-              <Typography variant="h4" gutterBottom>
+              <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
                 መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>

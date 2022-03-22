@@ -3,11 +3,12 @@ import { Box, Card, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
 import { MHidden } from '../../components/@material-extend';
-import { EditOffice } from '../../components/authentication/office';
+import { Assignuser } from '../../components/authentication/Request';
 // components
 import Page from '../../components/Page';
 // layouts
 import AuthLayout from '../../layouts/AuthLayout';
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -37,7 +38,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AddOffice() {
+export default function AssignTaskForUsers() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   if (!users) {
     return <Navigate to="/login" />;
@@ -46,15 +47,14 @@ export default function AddOffice() {
     if (users.user[0].ROLES === 'Employee') {
       return <Navigate to="/satisfaction" />;
     }
-    if (users.user[0].ROLES === 'IT') {
-      return <Navigate to="/dashboard/AssignedRequest" />;
-    }
     return (
-      <RootStyle title="ፅ/ቤት ማስተካከያ ቅፅ">
+      <RootStyle title="Register">
+        <AuthLayout>.</AuthLayout>
+
         <MHidden width="mdDown">
           <SectionStyle style={{ backgroundColor: '#4DBFDE' }}>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
+              Welcome to information Cummunication Technology
             </Typography>
             <img alt="register" src="/static/illustrations/illustration_register.png" />
           </SectionStyle>
@@ -64,12 +64,13 @@ export default function AddOffice() {
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
               <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
-                ፅ/ቤት ማስተካከያ ቅፅ
+                Assign user on here
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>
+                Please fill All the Mandatory Field
+              </Typography>
             </Box>
-
-            <EditOffice />
+            <Assignuser />
           </ContentStyle>
         </Container>
       </RootStyle>

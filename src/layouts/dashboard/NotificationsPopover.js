@@ -149,6 +149,18 @@ export default function NotificationsPopover() {
         >
           Assign
         </LoadingButton>
+        {users.user[0].ROLES === 'Admin' ? (
+          <LoadingButton
+            size="small"
+            type="submit"
+            variant="contained"
+            component={RouterLink}
+            to={`/dashboard/AssignTask/${notification.request_id}`}
+            style={{ backgroundColor: 'red' }}
+          >
+            Assign user
+          </LoadingButton>
+        ) : null}
       </ListItemButton>
     );
   }

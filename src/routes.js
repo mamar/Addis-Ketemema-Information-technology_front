@@ -33,7 +33,7 @@ import Login from './pages/Users/Login';
 import Register from './pages/Users/Register';
 import UpdateProfielByid from './pages/Users/UpdateProfielByid';
 import User from './pages/Users/User';
-
+import AssignTaskForUsers from './pages/RequestAdmin/AssignTaskForUsers';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -70,6 +70,7 @@ export default function Router() {
         // { path: 'OnProgressRequest', element: <OnProgressRequest /> }
         { path: 'SolutionofferedRequest', element: <SolutionofferedRequest /> },
         { path: 'Performance', element: <Performance /> },
+        { path: 'AssignTask/:requestid', element: <AssignTaskForUsers /> },
         // Standard Route
         { path: 'AddStandard', element: <AddStandard /> },
         { path: 'Standard/:startDate/:endDate', element: <StandardList /> },

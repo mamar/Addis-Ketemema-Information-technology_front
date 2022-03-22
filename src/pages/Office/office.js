@@ -161,7 +161,7 @@ export default function Office() {
       <Page title="ፅ/ቤት">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
               ፅ/ቤት
             </Typography>
             <Button

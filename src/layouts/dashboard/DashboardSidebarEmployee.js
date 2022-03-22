@@ -64,7 +64,7 @@ export default function DashboardSidebarEmployee({ isOpenSidebar, onCloseSidebar
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
-          <AccountStyle>
+          <AccountStyle style={{ backgroundColor: '#D9F4E6' }}>
             <Avatar alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>

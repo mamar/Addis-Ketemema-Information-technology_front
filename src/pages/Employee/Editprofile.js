@@ -48,24 +48,10 @@ export default function Editprofile() {
         <Container>
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
-              <Typography variant="h4" gutterBottom>
-                መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
-              </Typography>
+              <Typography variant="h4" gutterBottom />
             </Box>
 
             <Editprofileform />
-
-            <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-              By Editing, I agree to Minimal&nbsp;
-              <Link underline="always" sx={{ color: 'text.primary' }}>
-                Terms of Service
-              </Link>
-              &nbsp;and&nbsp;
-              <Link underline="always" sx={{ color: 'text.primary' }}>
-                Privacy Policy
-              </Link>
-              .
-            </Typography>
           </ContentStyle>
         </Container>
       </RootStyle>

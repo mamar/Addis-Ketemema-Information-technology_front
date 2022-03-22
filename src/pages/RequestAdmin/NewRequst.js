@@ -167,7 +167,7 @@ export default function NewRequest() {
       <Page title="አዲስ የተጠየቁ ስራዎች">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
               አዲስ የተጠየቁ አገልግሎቶች
             </Typography>
             <Button
@@ -257,7 +257,8 @@ export default function NewRequest() {
                                   size="small"
                                   type="submit"
                                   variant="contained"
-                                  onClick={() => AssignTask(row.request_id, users.user[0].username)}
+                                  component={RouterLink}
+                                  to={`/dashboard/AssignTask/${row.request_id}`}
                                   style={{ backgroundColor: '#75077E' }}
                                 >
                                   Assign user

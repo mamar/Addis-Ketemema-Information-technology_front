@@ -102,9 +102,9 @@ export default function Editprofileform() {
       <AuthLayout>.</AuthLayout>
 
       <MHidden width="mdDown">
-        <SectionStyle>
+        <SectionStyle style={{ backgroundColor: '#4DBFDE' }}>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Welcome to information Cummunication Technology .Please Fill All the Mandatory Fields
+            እንኳን ወደ ኢንፎርሜሽን ኮምኒኬሽን ቴክኖሎጂ በደህና መጡ
           </Typography>
           <img alt="register" src="/static/illustrations/illustration_register.png" />
         </SectionStyle>

@@ -63,6 +63,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
+          style={{ backgroundColor: '#96F8BA' }}
           placeholder="Search ..."
           startAdornment={
             <InputAdornment position="start">

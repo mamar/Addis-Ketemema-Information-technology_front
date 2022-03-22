@@ -47,7 +47,7 @@ export default function SendSatisfaction() {
         <Container>
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
-              <Typography variant="h4" gutterBottom>
+              <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
                 የእርካታ መሙያ ቅፅ
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>እባክዎ እርካታዉን በትክክል ይሙሉ</Typography>

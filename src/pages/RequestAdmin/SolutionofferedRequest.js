@@ -37,6 +37,7 @@ const TABLE_HEAD = [
   { id: 'request_type', label: 'የአገልግሎቱ አይነት', alignRight: false },
   { id: 'problem_desc', label: 'ስላጋጠመዉ አጭር መግለጫ', alignRight: false },
   { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { id: 'Assignedby', label: 'Assigned by', alignRight: false },
   { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
   { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'satisfaction', label: 'እርካታ', alignRight: false },
@@ -154,7 +155,7 @@ export default function SolutionofferedRequest() {
       <Page title="መፍትሄ የተሰጣቸዉ ስራዎች">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
               ያለቁ ስራዎች
             </Typography>
             <Button
@@ -225,6 +226,7 @@ export default function SolutionofferedRequest() {
                             <TableCell align="left">{row.request_type}</TableCell>
                             <TableCell align="left">{row.problem_desc}</TableCell>
                             <TableCell align="left">{row.Date}</TableCell>
+                            <TableCell align="left">{row.Assignedby}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
                             <TableCell align="left">{row.finishedDate}</TableCell>
                             <TableCell align="left">{row.satisfaction}</TableCell>

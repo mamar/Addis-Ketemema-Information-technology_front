@@ -37,6 +37,7 @@ const TABLE_HEAD = [
   { id: 'request_type', label: 'የጠያቂዉ ስም', alignRight: false },
   { id: 'problem_desc', label: 'ስለችግሩ መግለጫ', alignRight: false },
   { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
+  { id: 'Assignedby', label: 'Assigned by', alignRight: false },
   { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
   { id: 'checkstandard', label: 'stand. ብዛት ', alignRight: false },
@@ -169,7 +170,7 @@ export default function AssignedRequest() {
       <Page title="የተጀመሩ ስራዎች">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
               የተጀመሩ ስራዎች
             </Typography>
             <Button
@@ -239,6 +240,7 @@ export default function AssignedRequest() {
                             <TableCell align="left">{row.request_type}</TableCell>
                             <TableCell align="left">{row.problem_desc}</TableCell>
                             <TableCell align="left">{row.Date}</TableCell>
+                            <TableCell align="left">{row.Assignedby}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
                             <TableCell align="left">{row.checkstandard}</TableCell>

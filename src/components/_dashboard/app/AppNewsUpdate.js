@@ -81,6 +81,19 @@ export default function AppNewsUpdate() {
               >
                 Assign
               </LoadingButton>
+              {users.user[0].ROLES === 'Admin' ? (
+                <LoadingButton
+                  fullWidth
+                  size="small"
+                  type="submit"
+                  variant="contained"
+                  component={RouterLink}
+                  to={`/dashboard/AssignTask/${row.request_id}`}
+                  style={{ backgroundColor: '#75077E' }}
+                >
+                  Assign user
+                </LoadingButton>
+              ) : null}
             </Stack>
           ))}
         </Stack>

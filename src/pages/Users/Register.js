@@ -50,10 +50,8 @@ export default function Register() {
     }
     return (
       <RootStyle title="Register">
-        <AuthLayout>.</AuthLayout>
-
         <MHidden width="mdDown">
-          <SectionStyle>
+          <SectionStyle style={{ backgroundColor: '#4DBFDE' }}>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               Welcome to information Cummunication Technology
             </Typography>
@@ -64,8 +62,8 @@ export default function Register() {
         <Container>
           <ContentStyle>
             <Box sx={{ mb: 5 }}>
-              <Typography variant="h4" gutterBottom>
-                Register uses on here.
+              <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
+                Register users on here.
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
                 Please fill All the Mandatory Field
@@ -75,18 +73,6 @@ export default function Register() {
             <AuthSocial />
 
             <RegisterForm />
-
-            <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-              By registering, I agree to Minimal&nbsp;
-              <Link underline="always" sx={{ color: 'text.primary' }}>
-                Terms of Service
-              </Link>
-              &nbsp;and&nbsp;
-              <Link underline="always" sx={{ color: 'text.primary' }}>
-                Privacy Policy
-              </Link>
-              .
-            </Typography>
           </ContentStyle>
         </Container>
       </RootStyle>
