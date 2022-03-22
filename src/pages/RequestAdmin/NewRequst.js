@@ -39,6 +39,7 @@ const TABLE_HEAD = [
   { id: 'problem_desc', label: 'የችግሩ መግለጫ', alignRight: false },
   { Date: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
   { Date: 'status', label: 'status', alignRight: false },
+  { id: '' },
   { id: '' }
 ];
 
@@ -70,7 +71,7 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.user_fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -213,6 +214,7 @@ export default function NewRequest() {
 
                         return (
                           <TableRow
+                            style={{ backgroundColor: '#C7E4F9' }}
                             hover
                             key={row.request_id}
                             tabIndex={-1}
@@ -248,6 +250,20 @@ export default function NewRequest() {
                                 Assign
                               </LoadingButton>
                             </TableCell>
+                            {users.user[0].ROLES === 'Admin' ? (
+                              <TableCell align="left">
+                                <LoadingButton
+                                  fullWidth
+                                  size="small"
+                                  type="submit"
+                                  variant="contained"
+                                  onClick={() => AssignTask(row.request_id, users.user[0].username)}
+                                  style={{ backgroundColor: '#75077E' }}
+                                >
+                                  Assign user
+                                </LoadingButton>
+                              </TableCell>
+                            ) : null}
                           </TableRow>
                         );
                       })}

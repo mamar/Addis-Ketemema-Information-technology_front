@@ -40,6 +40,9 @@ const TABLE_HEAD = [
   { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
   { id: 'checkstandard', label: 'stand. ብዛት ', alignRight: false },
+  { id: 'satisfaction', label: 'እርካታ ', alignRight: false },
+  { id: 'Comment', label: 'አስተያት ', alignRight: false },
+  { id: '' },
   { id: '' }
 ];
 
@@ -213,6 +216,7 @@ export default function AssignedRequest() {
 
                         return (
                           <TableRow
+                            style={{ backgroundColor: '#C7E4F9' }}
                             hover
                             key={row.request_id}
                             tabIndex={-1}
@@ -238,6 +242,8 @@ export default function AssignedRequest() {
                             <TableCell align="left">{row.assignedDate}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
                             <TableCell align="left">{row.checkstandard}</TableCell>
+                            <TableCell align="left">{row.satisfaction}</TableCell>
+                            <TableCell align="left">{row.comment}</TableCell>
                             <TableCell align="left">
                               {row.checkstandard >= 1 ? (
                                 <LoadingButton

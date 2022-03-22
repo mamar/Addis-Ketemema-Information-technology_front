@@ -87,15 +87,15 @@ export default function EditProfiebyIdForm() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
-          <InputLabel id="demo-simple-select-label">Select Office</InputLabel>
+          <InputLabel id="demo-simple-select-label">ፅ/ቤት *</InputLabel>
           <br />
           <Select
             labelId="demo-simple-select-label"
             fullWidth
             autoComplete="office_id"
             type="text"
-            label="office_id "
-            placeholder="office_id"
+            label="ፅ/ቤት * "
+            placeholder="ፅ/ቤት *"
             value={values.office_id}
             {...getFieldProps('office_id')}
             error={Boolean(touched.office_id && errors.office_id)}
@@ -112,8 +112,8 @@ export default function EditProfiebyIdForm() {
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                 <TextField
                   fullWidth
-                  label="Full Name"
-                  placeholder="Full Name"
+                  label="ሙሉ ስም *"
+                  placeholder="ሙሉ ስም *"
                   defaultValue={row.user_fullname}
                   value={values.user_fullname}
                   {...getFieldProps('user_fullname')}

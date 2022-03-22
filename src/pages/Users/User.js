@@ -41,6 +41,8 @@ const TABLE_HEAD = [
   { id: 'officeno', label: 'ቢሮ ቁጥር', alignRight: false },
 
   { id: 'status1', label: 'status', alignRight: false },
+  { id: '' },
+  { id: '' },
   { id: '' }
 ];
 
@@ -237,6 +239,7 @@ export default function User() {
 
                         return (
                           <TableRow
+                            style={{ backgroundColor: '#C7E4F9' }}
                             hover
                             key={row.userid}
                             tabIndex={-1}

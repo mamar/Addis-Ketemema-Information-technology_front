@@ -68,7 +68,7 @@ export default function Register() {
                 Register uses on here.
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
-                Please fill Role Admin,Guest and Employee
+                Please fill All the Mandatory Field
               </Typography>
             </Box>
 
@@ -87,15 +87,6 @@ export default function Register() {
               </Link>
               .
             </Typography>
-
-            <MHidden width="smUp">
-              <Typography variant="subtitle2" sx={{ mt: 3, textAlign: 'center' }}>
-                Already have an account?&nbsp;
-                <Link to="/" component={RouterLink}>
-                  Login
-                </Link>
-              </Typography>
-            </MHidden>
           </ContentStyle>
         </Container>
       </RootStyle>

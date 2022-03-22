@@ -17,6 +17,7 @@ import { API_URL } from '../../../pages/Constant1';
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const users = JSON.parse(localStorage.getItem('userinfo'));
   const RegisterSchema = Yup.object().shape({
     user_fullname: Yup.string().min(8, 'Too Short!').max(20, 'Too Long!').required(' required'),
     username: Yup.string().required(' required'),
@@ -24,7 +25,7 @@ export default function RegisterForm() {
     passwordConfirmation: Yup.string()
       .required('please Confirm Passord')
       .oneOf([Yup.ref('password'), null], 'Passwords must match'),
-    age: Yup.number().nullable().notRequired(),
+    age: Yup.number().integer().nullable().notRequired().typeError('must be a valid number'),
     Gender: Yup.string().required(' required'),
     division: Yup.string().required(' required'),
     floor_no: Yup.number().integer().required('required').typeError('must be a valid number'),
@@ -76,7 +77,7 @@ export default function RegisterForm() {
             alert('Server Error');
             window.location.reload();
           }
-          if (Response.data.Message === 'success') {
+          if (Response.data.Message === 'sucess') {
             alert('user Added Successfully');
             window.location.reload();
           }
@@ -95,15 +96,15 @@ export default function RegisterForm() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
-          <InputLabel id="demo-simple-select-label">Select Office</InputLabel>
+          <InputLabel id="demo-simple-select-label">ፅ/ቤት *</InputLabel>
           <br />
           <Select
             labelId="demo-simple-select-label"
             fullWidth
             autoComplete="office_id"
             type="text"
-            label="ቢሮ ቁጥር"
-            placeholder="ቢሮ ቁጥር"
+            label="ፅ/ቤት *"
+            placeholder="ፅ/ቤት *"
             value={values.office_id}
             {...getFieldProps('office_id')}
             error={Boolean(touched.office_id && errors.office_id)}
@@ -118,23 +119,23 @@ export default function RegisterForm() {
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
-              label="ሙሉ ስም"
-              placeholder="ሙሉ ስም"
+              label="ሙሉ ስም *"
+              placeholder="ሙሉ ስም *"
               value={values.user_fullname}
               {...getFieldProps('user_fullname')}
               error={Boolean(touched.user_fullname && errors.user_fullname)}
               helperText={touched.user_fullname && errors.user_fullname}
             />
           </Stack>
-          <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+          <InputLabel id="demo-simple-select-label">ፆታ *</InputLabel>
           <br />
           <Select
             labelId="demo-simple-select-label"
             fullWidth
-            autoComplete="Gender"
+            autoComplete="Gender "
             type="text"
-            label="ፆታ "
-            placeholder="ፆታ"
+            label="ፆታ *"
+            placeholder="ፆታ *"
             value={values.Gender}
             {...getFieldProps('Gender')}
             error={Boolean(touched.Gender && errors.Gender)}
@@ -145,10 +146,10 @@ export default function RegisterForm() {
           </Select>
           <TextField
             fullWidth
-            autoComplete="division"
+            autoComplete="division "
             type="text"
-            label="የስራ ሂደት "
-            placeholder="የስራ ሂደት"
+            label="የስራ ሂደት * "
+            placeholder="የስራ ሂደት *"
             value={values.division}
             {...getFieldProps('division')}
             error={Boolean(touched.division && errors.division)}
@@ -158,8 +159,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="floor_no"
             type="text"
-            label="አድራሻ "
-            placeholder="አድራሻ"
+            label="አድራሻ * "
+            placeholder="አድራሻ *"
             value={values.floor_no}
             {...getFieldProps('floor_no')}
             error={Boolean(touched.floor_no && errors.floor_no)}
@@ -170,7 +171,7 @@ export default function RegisterForm() {
             autoComplete="office_no"
             type="text"
             label="ቢሮ ቁጥር "
-            placeholder="ቢሮ ቁጥር"
+            placeholder="ቢሮ ቁጥር "
             value={values.office_no}
             {...getFieldProps('office_no')}
             error={Boolean(touched.office_no && errors.office_no)}
@@ -182,7 +183,7 @@ export default function RegisterForm() {
             autoComplete="age"
             type="text"
             label="እድሜ "
-            placeholder="እድሜ"
+            placeholder="እድሜ "
             value={values.age}
             {...getFieldProps('age')}
             error={Boolean(touched.age && errors.age)}
@@ -192,8 +193,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="Phone Number"
             type="text"
-            label="ቢሮ ቁጥር "
-            placeholder="ቢሮ ቁጥር"
+            label="ስልክ ቁጥር *"
+            placeholder="ስልክ ቁጥር *"
             value={values.Phone}
             {...getFieldProps('Phone')}
             error={Boolean(touched.Phone && errors.Phone)}
@@ -204,27 +205,27 @@ export default function RegisterForm() {
             autoComplete="Position"
             type="text"
             label="የስራ መደብ "
-            placeholder="የስራ መደብ"
+            placeholder="የስራ መደብ "
             value={values.Position}
             {...getFieldProps('Position')}
             error={Boolean(touched.Position && errors.Position)}
             helperText={touched.Position && errors.Position}
           />
-          <InputLabel id="demo-simple-select-label">Roles</InputLabel>
+          <InputLabel id="demo-simple-select-label">Roles *</InputLabel>
           <br />
           <Select
             labelId="demo-simple-select-label"
             fullWidth
             autoComplete="ROLES"
             type="text"
-            label="ROLES "
-            placeholder="Roles"
+            label="ROLES *"
+            placeholder="Roles *"
             value={values.ROLES}
             {...getFieldProps('ROLES')}
             error={Boolean(touched.ROLES && errors.ROLES)}
             helperText={touched.ROLES && errors.ROLES}
           >
-            <MenuItem value="Admin">Admin</MenuItem>
+            {users.user[0].ROLES === 'Admin' ? <MenuItem value="Admin">Admin</MenuItem> : null}
             <MenuItem value="IT">IT</MenuItem>
             <MenuItem value="Employee">Employee</MenuItem>
           </Select>
@@ -233,8 +234,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="username"
             type="text"
-            label="Username "
-            placeholder="username"
+            label="Username * "
+            placeholder="username *"
             value={values.username}
             {...getFieldProps('username')}
             error={Boolean(touched.username && errors.username)}
@@ -245,8 +246,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
-            label="Password"
-            placeholder="Password"
+            label="Password *"
+            placeholder="Password *"
             value={values.password}
             {...getFieldProps('password')}
             InputProps={{
@@ -265,8 +266,8 @@ export default function RegisterForm() {
             fullWidth
             autoComplete="passwordConfirmation"
             type={showPassword ? 'text' : 'passwordConfirmation'}
-            label="passwordConfirmation"
-            placeholder="passwordConfirmation"
+            label="password Confirmation *"
+            placeholder="password Confirmation *"
             value={values.passwordConfirmation}
             {...getFieldProps('passwordConfirmation')}
             InputProps={{

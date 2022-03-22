@@ -207,6 +207,7 @@ export default function AllRequest() {
 
                         return (
                           <TableRow
+                            style={{ backgroundColor: '#C7E4F9' }}
                             hover
                             key={row.request_id}
                             tabIndex={-1}

@@ -238,6 +238,7 @@ export default function Performance() {
 
                         return (
                           <TableRow
+                            style={{ backgroundColor: '#C7E4F9' }}
                             hover
                             key={userfullname}
                             tabIndex={-1}

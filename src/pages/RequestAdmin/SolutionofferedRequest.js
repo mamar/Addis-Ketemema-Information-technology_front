@@ -24,11 +24,7 @@ import { Link as RouterLink, Navigate } from 'react-router-dom';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
-import {
-  UserListHead,
-  UserListToolbar,
-  UserMoreMenu
-} from '../../components/_dashboard/allRequest';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/allRequest';
 import { API_URL } from '../Constant1';
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
@@ -45,8 +41,7 @@ const TABLE_HEAD = [
   { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'satisfaction', label: 'እርካታ', alignRight: false },
   { id: 'comment', label: 'አስተያየት', alignRight: false },
-  { id: 'status', label: 'status', alignRight: false },
-  { id: '' }
+  { id: 'status', label: 'status', alignRight: false }
 ];
 // ----------------------------------------------------------------------
 
@@ -207,6 +202,7 @@ export default function SolutionofferedRequest() {
 
                         return (
                           <TableRow
+                            style={{ backgroundColor: '#C7E4F9' }}
                             hover
                             key={row.request_id}
                             tabIndex={-1}
@@ -234,9 +230,6 @@ export default function SolutionofferedRequest() {
                             <TableCell align="left">{row.satisfaction}</TableCell>
                             <TableCell align="left">{row.comment}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
-                            <TableCell align="right">
-                              <UserMoreMenu />
-                            </TableCell>
                           </TableRow>
                         );
                       })}

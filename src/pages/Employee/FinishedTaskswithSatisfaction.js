@@ -205,6 +205,7 @@ export default function FinishedTaskswithSatisfaction() {
                           const isItemSelected = selected.indexOf(status) !== -1;
                           return (
                             <TableRow
+                              style={{ backgroundColor: '#C7E4F9' }}
                               hover
                               key={row.request_id}
                               tabIndex={-1}

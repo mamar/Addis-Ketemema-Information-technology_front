@@ -30,7 +30,7 @@ export default function UserListHead({
 
   return (
     <TableHead>
-      <TableRow>
+      <TableRow style={{ backgroundColor: '#DEB3E7' }}>
         <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}

@@ -33,6 +33,7 @@ const TABLE_HEAD = [
   { id: 'officename', label: 'የፅ/ቤቱ ስም', alignRight: false },
   { id: 'floor_no', label: 'ቢሮ ቁጥር', alignRight: false },
   { id: 'phone', label: 'ስልክ ቁጥር', alignRight: false },
+  { id: '' },
   { id: '' }
 ];
 
@@ -178,6 +179,7 @@ export default function Office() {
               filename="ፅ/ቤት"
               sheet="ፅ/ቤት"
               buttonText="Export excel"
+              style={{ backgroundColor: 'red' }}
             />
           </Stack>
           <Card>
@@ -208,6 +210,7 @@ export default function Office() {
 
                         return (
                           <TableRow
+                            style={{ backgroundColor: '#C7E4F9' }}
                             hover
                             key={row.office_id}
                             tabIndex={-1}

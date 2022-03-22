@@ -231,6 +231,7 @@ export default function StandardList() {
 
                         return (
                           <TableRow
+                            style={{ backgroundColor: '#C7E4F9' }}
                             hover
                             key={service}
                             tabIndex={-1}
@@ -255,6 +256,7 @@ export default function StandardList() {
                             <TableCell align="left">{row.standardAmh}</TableCell>
                             <TableCell align="left">{row.Actual}</TableCell>
                             <TableCell align="left">{row.price}</TableCell>
+                            <TableCell align="left" />
                           </TableRow>
                         );
                       })}

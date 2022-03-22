@@ -31,6 +31,8 @@ const TABLE_HEAD = [
   { id: 'AnnounceName', label: 'ማሳሰቢያ', alignRight: false },
   { id: 'AnnounceDate', label: 'የተፃፈበት ቀን', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
+  { id: '' },
+  { id: '' },
   { id: '' }
 ];
 
@@ -211,6 +213,7 @@ export default function DisplayAnnounce() {
 
                         return (
                           <TableRow
+                            style={{ backgroundColor: '#C7E4F9' }}
                             hover
                             key={row.anouncid}
                             tabIndex={-1}

@@ -31,6 +31,7 @@ const TABLE_HEAD = [
   { id: 'measurement', label: 'መለኪያ', alignRight: false },
   { id: 'time', label: 'ጊዜ', alignRight: false },
   { id: 'price', label: 'ዋጋ', alignRight: false },
+  { id: '' },
   { id: '' }
 ];
 
@@ -187,6 +188,7 @@ export default function ListOfStandard() {
 
                         return (
                           <TableRow
+                            style={{ backgroundColor: '#C7E4F9' }}
                             hover
                             key={row.standardid}
                             tabIndex={-1}

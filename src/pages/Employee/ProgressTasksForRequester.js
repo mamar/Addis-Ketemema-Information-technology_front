@@ -35,8 +35,7 @@ const TABLE_HEAD = [
   { id: 'problem_desc', label: 'ያጋጠመዉ ችግር', alignRight: false },
   { id: 'Date', label: 'የተጠየቀበት ቀን', alignRight: false },
   { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
-  { id: 'Status', label: 'Status', alignRight: false },
-  { id: '' }
+  { id: 'Status', label: 'Status', alignRight: false }
 ];
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -197,9 +196,10 @@ export default function ProgressTasksForRequester() {
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => {
                           const { status } = row;
-                          const isItemSelected = selected.indexOf(status) !== -1;
+                          const isItemSelected = selected.indexOf(row.request_id) !== -1;
                           return (
                             <TableRow
+                              style={{ backgroundColor: '#C7E4F9' }}
                               hover
                               key={row.request_id}
                               tabIndex={-1}
@@ -210,7 +210,7 @@ export default function ProgressTasksForRequester() {
                               <TableCell padding="checkbox">
                                 <Checkbox
                                   checked={isItemSelected}
-                                  onChange={(event) => handleClick(event, status)}
+                                  onChange={(event) => handleClick(event, row.request_id)}
                                 />
                               </TableCell>
                               <TableCell align="left">{row.user_fullname}</TableCell>

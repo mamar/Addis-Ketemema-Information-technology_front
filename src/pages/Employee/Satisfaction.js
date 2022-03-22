@@ -96,14 +96,6 @@ export default function Satisfaction() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [requestList, SetRequestList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
-  const usersidentify = () => {
-    if (users) {
-      return users.user[0].username;
-    }
-    if (!users) {
-      return null;
-    }
-  };
   useEffect(() => {
     axios
       .get(`${API_URL}/Request/GetRequestedTasks/${users ? users.user[0].username : null}`)
@@ -210,6 +202,7 @@ export default function Satisfaction() {
                           const isItemSelected = selected.indexOf(status) !== -1;
                           return (
                             <TableRow
+                              style={{ backgroundColor: '#C7E4F9' }}
                               hover
                               key={row.request_id}
                               tabIndex={-1}
