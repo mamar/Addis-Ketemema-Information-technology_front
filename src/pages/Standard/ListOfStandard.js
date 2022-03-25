@@ -77,6 +77,18 @@ export default function ListOfStandard() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [standardList, SetstandardList] = useState([]);
   const users = JSON.parse(localStorage.getItem('userinfo'));
+  const DeletStandard = (standid) => {
+    axios.delete(`${API_URL}/Standard/DeleteStandard/${standid}`).then((Response) => {
+      if (Response.data.Message === 'success') {
+        alert('Standard Deleted Successfully');
+        window.location.reload();
+      }
+      if (Response.data.Message === 'error') {
+        alert('Server Error');
+        window.location.reload();
+      }
+    });
+  };
   useEffect(() => {
     axios.get(`${API_URL}/Standard/GetAllStandard`).then((Response) => {
       SetstandardList(Response.data);
@@ -213,6 +225,7 @@ export default function ListOfStandard() {
                                 type="submit"
                                 variant="contained"
                                 style={{ backgroundColor: 'red' }}
+                                onClick={() => DeletStandard(row.standardid)}
                               >
                                 Delete
                               </LoadingButton>

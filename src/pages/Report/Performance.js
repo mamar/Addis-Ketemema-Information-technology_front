@@ -209,9 +209,9 @@ export default function Performance() {
                   }}
                   renderInput={(startProps, endProps) => (
                     <>
-                      <TextField {...startProps} />
+                      <TextField {...startProps} style={{ backgroundColor: '#72B1F1' }} />
                       <Box sx={{ mx: 2 }}> to </Box>
-                      <TextField {...endProps} />
+                      <TextField {...endProps} style={{ backgroundColor: '#72B1F1' }} />
                     </>
                   )}
                 />

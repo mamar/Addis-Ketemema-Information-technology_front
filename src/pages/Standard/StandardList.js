@@ -167,7 +167,7 @@ export default function StandardList() {
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
-              ስታንዳርድ
+              ስታንዳርድ ማዉጫ
             </Typography>
             <Button
               variant="contained"
@@ -202,9 +202,9 @@ export default function StandardList() {
                   }}
                   renderInput={(startProps, endProps) => (
                     <>
-                      <TextField {...startProps} />
-                      <Box sx={{ mx: 2 }}> to </Box>
-                      <TextField {...endProps} />
+                      <TextField {...startProps} style={{ backgroundColor: '#72B1F1' }} />
+                      <Box sx={{ mx: 2 }}>to</Box>
+                      <TextField {...endProps} style={{ backgroundColor: '#72B1F1' }} />
                     </>
                   )}
                 />

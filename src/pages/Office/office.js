@@ -162,7 +162,7 @@ export default function Office() {
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
-              ፅ/ቤት
+              የፅ/ቤት ዝርዝር
             </Typography>
             <Button
               variant="contained"
