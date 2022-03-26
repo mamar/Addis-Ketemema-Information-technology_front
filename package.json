@@ -43,7 +43,7 @@
     "@iconify/icons-ic": "^1.1.10",
     "@iconify/react": "^3.0.1",
     "@material-ui/lab": "^4.0.0-alpha.60",
-    "@mui/icons-material": "^5.3.1",
+    "@mui/icons-material": "^5.5.1",
     "@mui/lab": "^5.0.0-alpha.47",
     "@mui/material": "^5.0.0",
     "@mui/utils": "^5.0.0",
@@ -98,5 +98,4 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.4.1"
   }
-
 }

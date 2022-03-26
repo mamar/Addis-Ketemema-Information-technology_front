@@ -2,6 +2,7 @@ import { Card, Container, Stack, Typography } from '@mui/material';
 // material
 import { styled } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
+import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 import { MHidden } from '../../components/@material-extend';
 import { LoginForm } from '../../components/authentication/login';
 // components
@@ -55,6 +56,15 @@ export default function Login() {
 
       <Container maxWidth="sm">
         <ContentStyle>
+          <VpnKeyOutlinedIcon
+            sx={{ mb: 4 }}
+            style={{
+              height: '100',
+              width: '100',
+              backgroundColor: '#a52a2a',
+              borderRadius: 100 / 2
+            }}
+          />
           <Stack sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom style={{ backgroundColor: '#4DBFDE' }}>
               Sign in to Information technology
