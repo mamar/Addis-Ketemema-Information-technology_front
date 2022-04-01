@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 // material
-import { Stack, TextField } from '@mui/material';
+import { Stack, TextareaAutosize, TextField } from '@mui/material';
 import axios from 'axios';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -60,8 +60,8 @@ export default function AddSatisfaction() {
             error={Boolean(touched.satisfaction && errors.satisfaction)}
             helperText={touched.satisfaction && errors.satisfaction}
           />
-          <TextField
-            fullWidth
+          <TextareaAutosize
+            style={{ height: 200, maxWidth: 480 }}
             autoComplete="comment"
             type="text"
             label="አስተያየት * "

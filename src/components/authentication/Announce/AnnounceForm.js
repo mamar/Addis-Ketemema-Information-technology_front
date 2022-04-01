@@ -60,6 +60,7 @@ export default function AnnounceForm() {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextareaAutosize
+            style={{ height: 200, maxWidth: 480 }}
             label="ማሳሰቢያ *"
             placeholder="ማሳሰቢያ *"
             value={values.anounceName}

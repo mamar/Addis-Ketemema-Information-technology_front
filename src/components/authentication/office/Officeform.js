@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 // material
-import { Box, Stack, TextField } from '@mui/material';
+import { Box, Stack, TextField, TextareaAutosize } from '@mui/material';
 import axios from 'axios';
 import { Form, FormikProvider, useFormik } from 'formik';
 import PropTypes from 'prop-types';
@@ -59,7 +59,8 @@ export default function Officeform() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
-          <TextField
+          <TextareaAutosize
+            style={{ height: 200, maxWidth: 480 }}
             label="የፅ/ቤቱ ስም *"
             placeholder="የፅ/ቤቱ ስም *"
             value={values.office_name}

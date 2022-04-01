@@ -1,40 +1,60 @@
 import { LoadingButton } from '@mui/lab';
+import { useState } from 'react';
 // material
-import { Stack, TextField } from '@mui/material';
+import { Stack, TextField, TextareaAutosize } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import stripJsonTrailingCommas from 'strip-json-trailing-commas';
+
 import Select from '@mui/material/Select';
+import MultiSelect from 'react-multiple-select-dropdown-lite';
+import 'react-multiple-select-dropdown-lite/dist/index.css';
 import axios from 'axios';
 import { Form, FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { API_URL } from '../../../pages/Constant1';
 // ----------------------------------------------------------------------
-
+const options = [
+  { label: 'ኮምፒዩተር', value: 'Computer' },
+  { label: 'ፕሪንተር', value: 'Printer' },
+  { label: 'ኔትወርክ', value: 'Network' },
+  { label: 'ሶፍትዌር', value: 'Software' },
+  { label: 'ፎቶኮፒ', value: 'Photocpy' },
+  { label: 'ሌላ', value: 'Others' }
+];
 export default function RegisterForm() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
+  const [request, setrequest] = useState('');
+  const isDisabled = true;
+  const enableRequired = !isDisabled;
+  const handleOnchange = (val) => {
+    setrequest(val);
+  };
   const RegisterSchema = Yup.object().shape({
-    request_type: Yup.string().required(' required'),
+    request_type: Yup.array().required('required'),
     problem_desc: Yup.string().required('required')
   });
   const formik = useFormik({
     initialValues: {
-      request_type: '',
+      request_type: [],
       problem_desc: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: (data) => {
       axios
         .post(`${API_URL}/Request/AddRequest/${users ? users.user[0].username : null}`, {
-          request_type: data.request_type,
+          request_type: request,
           problem_desc: data.problem_desc
         })
         .then((Response) => {
           if (Response.data.Message === 'Success') {
             alert('Request Successfully Send');
+            console.log(request);
             window.location.reload();
           }
           if (Response.data.Message === 'Error') {
             alert('Server error');
+            console.log(request);
             window.location.reload();
           }
         });
@@ -54,39 +74,32 @@ export default function RegisterForm() {
         style={{ backgroundColor: '#f2f2f2' }}
       >
         <Stack spacing={3}>
-          <InputLabel id="demo-simple-select-label">የአገልግሎት አይነት</InputLabel>
-          <br />
-          <Select
-            labelId="demo-simple-select-label"
-            fullWidth
-            autoComplete="request_type"
-            type="text"
-            label="የተጠየቀዉ የአገልግሎት አይነት *"
-            placeholder="የተጠየቀዉ የአገልግሎት አይነት *"
-            value={values.request_type}
-            {...getFieldProps('request_type')}
-            error={Boolean(touched.request_type && errors.request_type)}
-            helperText={touched.request_type && errors.request_type}
-          >
-            <MenuItem value="Computer">ኮምፒዩተር</MenuItem>
-            <MenuItem value="Printer">ፕሪንተር</MenuItem>
-            <MenuItem value="Photocopy">ፎቶኮፒ</MenuItem>
-            <MenuItem value="Network">ኔትወርክ</MenuItem>
-            <MenuItem value="Software">ሶፍትዌር</MenuItem>
-            <MenuItem value="Others">ሌላ</MenuItem>
-          </Select>
+          <MultiSelect
+            onChange={handleOnchange}
+            type="checkbox"
+            options={options}
+            required={enableRequired}
+            placeholder="የአገልግሎቱ አይነት*"
+            style={{ backgroundColor: '#CBCBF1' }}
+          />
+          <p style={{ backgroundColor: 'red' }}>
+            {Boolean(touched.request_type && errors.request_type)}
+            {touched.request_type && errors.request_type}
+          </p>
 
-          <TextField
-            fullWidth
+          <TextareaAutosize
+            style={{ height: 200, maxWidth: 480 }}
             autoComplete="problem_desc"
             type="text"
             label="ስላጋጠመዉ ችግር አጭር መግለጫ *"
             placeholder="ስላጋጠመዉ ችግር አጭር መግለጫ  *"
             value={values.problem_desc}
             {...getFieldProps('problem_desc')}
-            error={Boolean(touched.problem_desc && errors.problem_desc)}
-            helperText={touched.problem_desc && errors.problem_desc}
           />
+          <div tyle={{ backgroundColor: 'red' }}>
+            {Boolean(touched.problem_desc && errors.problem_desc)}
+            {touched.problem_desc && errors.problem_desc}
+          </div>
           <LoadingButton
             fullWidth
             size="large"
