@@ -43,7 +43,7 @@ export default function EditProfileAdmin() {
               <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
                 መረጃዎ የተሳሳተ ከሆነ እዚህ ጋ ይቀይሩ.
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>እባክዎ ፅ/ቤቶችን በትክክል ያስገቡ</Typography>
+              <Typography sx={{ color: 'text.secondary' }} />
             </Box>
 
             <Editprofileform />
