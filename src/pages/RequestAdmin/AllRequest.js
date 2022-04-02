@@ -40,7 +40,9 @@ const TABLE_HEAD = [
   { id: 'requestDate', label: 'የተጠየቀበት ቀን', alignRight: false },
   { id: 'Assignedby', label: 'Assigned by', alignRight: false },
   { id: 'AssignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
-  { id: 'finishedDate', label: 'ያለቀበት ቀን', alignRight: false },
+  { id: 'FinishedDate', label: 'ያለቀበጽ ቀን', alignRight: false },
+  { id: 'Satisfaction', label: 'እርካታ', alignRight: false },
+  { id: 'Comment', label: 'አስተያየት', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
   { id: '' }
 ];
@@ -71,10 +73,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(
-      array,
-      (_user) => _user.requesterusername.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
+    return filter(array, (_user) => _user.status.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -242,6 +241,8 @@ export default function AllRequest() {
                             <TableCell align="left">{row.Assignedby}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
                             <TableCell align="left">{row.finishedDate}</TableCell>
+                            <TableCell align="left">{row.satisfaction}</TableCell>
+                            <TableCell align="left">{row.comment}</TableCell>
                             <TableCell align="left">{row.status}</TableCell>
                             <TableCell align="right">
                               <LoadingButton
