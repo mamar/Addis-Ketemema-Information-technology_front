@@ -25,6 +25,7 @@ import { noCase } from 'change-case';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import ComputerIcon from '@mui/icons-material/Computer';
 import MenuPopover from '../../components/MenuPopover';
 // components
 import Scrollbar from '../../components/Scrollbar';
@@ -248,26 +249,33 @@ export default function NotificationsPopover() {
             }
           >
             {requestnotification.slice(0, 2).map((notification) => (
-              <NotificationItem key={notification.request_id} notification={notification} />
+              <>
+                <NotificationItem key={notification.request_id} notification={notification} />
+                <Divider style={{ backgroundColor: 'red' }} />
+              </>
             ))}
           </List>
 
           <List
             disablePadding
             subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
+              <ListSubheader
+                disableSticky
+                sx={{ py: 1, px: 2.5, typography: 'overline' }}
+                style={{ backgroundColor: '#890839' }}
+              >
                 Before that
               </ListSubheader>
             }
           >
             {requestnotification.slice(2, 5).map((notification) => (
-              <NotificationItem key={notification.request_id} notification={notification} />
+              <>
+                <NotificationItem key={notification.request_id} notification={notification} />
+                <Divider style={{ backgroundColor: 'red' }} />
+              </>
             ))}
           </List>
         </Scrollbar>
-
-        <Divider />
-
         <Box sx={{ p: 1 }}>
           <Button
             fullWidth

@@ -1,32 +1,59 @@
 import { LoadingButton } from '@mui/lab';
-import { useState } from 'react';
 // material
-import { Stack, TextField, TextareaAutosize } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import stripJsonTrailingCommas from 'strip-json-trailing-commas';
-
-import Select from '@mui/material/Select';
-import MultiSelect from 'react-multiple-select-dropdown-lite';
-import 'react-multiple-select-dropdown-lite/dist/index.css';
+import { Stack, TextareaAutosize, FormControl } from '@mui/material';
 import axios from 'axios';
 import { Form, FormikProvider, useFormik } from 'formik';
+import { useState } from 'react';
+import MultiSelect from 'react-multiple-select-dropdown-lite';
+import 'react-multiple-select-dropdown-lite/dist/index.css';
 import * as Yup from 'yup';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import Select from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
 import { API_URL } from '../../../pages/Constant1';
-// ----------------------------------------------------------------------
-const options = [
-  { label: 'ኮምፒዩተር', value: 'Computer' },
-  { label: 'ፕሪንተር', value: 'Printer' },
-  { label: 'ኔትወርክ', value: 'Network' },
-  { label: 'ሶፍትዌር', value: 'Software' },
-  { label: 'ፎቶኮፒ', value: 'Photocpy' },
-  { label: 'ሌላ', value: 'Others' }
-];
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+};
+/* const options = [
+  {
+    label: 'ኮምፒዩተር',
+    value: 'Computer',
+    style: { backgroundColor: '#8AEAF7 ' }
+  },
+  { label: 'ፕሪንተር', value: 'Printer', style: { backgroundColor: '#8AEAF7 ' } },
+  { label: 'ኔትወርክ', value: 'Network', style: { backgroundColor: '#8AEAF7 ' } },
+  { label: 'ሶፍትዌር', value: 'Software', style: { backgroundColor: '#8AEAF7 ' } },
+  { label: 'ፎቶኮፒ', value: 'Photocpy', style: { backgroundColor: '#8AEAF7 ' } },
+  { label: 'ሌላ', value: 'Others', style: { backgroundColor: '#8AEAF7 ' } }
+]; */
+const options = ['Printer', 'Computer', 'Network', 'Software', 'Photocpy', 'Others'];
+
 export default function RegisterForm() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const [request, setrequest] = useState('');
-  const isDisabled = true;
-  const enableRequired = !isDisabled;
+  const [personName, setPersonName] = useState([]);
+  const m = [];
+
+  const handleChange = (event) => {
+    const {
+      target: { value }
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      value
+    );
+  };
   const handleOnchange = (val) => {
     setrequest(val);
   };
@@ -43,7 +70,7 @@ export default function RegisterForm() {
     onSubmit: (data) => {
       axios
         .post(`${API_URL}/Request/AddRequest/${users ? users.user[0].username : null}`, {
-          request_type: request,
+          request_type: personName.toString(),
           problem_desc: data.problem_desc
         })
         .then((Response) => {
@@ -67,36 +94,38 @@ export default function RegisterForm() {
 
   return (
     <FormikProvider value={formik}>
-      <Form
-        autoComplete="off"
-        noValidate
-        onSubmit={handleSubmit}
-        style={{ backgroundColor: '#f2f2f2' }}
-      >
+      <Form autoComplete="off" onSubmit={handleSubmit} style={{ backgroundColor: '#f2f2f2' }}>
         <Stack spacing={3}>
-          <MultiSelect
-            onChange={handleOnchange}
-            type="checkbox"
-            options={options}
-            required={enableRequired}
-            placeholder="የአገልግሎቱ አይነት*"
-            style={{ backgroundColor: '#CBCBF1' }}
-          />
-          <p style={{ backgroundColor: 'red' }}>
-            {Boolean(touched.request_type && errors.request_type)}
-            {touched.request_type && errors.request_type}
-          </p>
-
+          <InputLabel id="demo-multiple-checkbox-label">የአገልግለቱ አይነት *</InputLabel>
+          <Select
+            labelId="demo-multiple-checkbox-label"
+            id="demo-multiple-checkbox"
+            required
+            multiple
+            value={personName}
+            onChange={handleChange}
+            input={<OutlinedInput label="የአገልግለቱ አይነት *" />}
+            renderValue={(selected) => selected.join(',')}
+            MenuProps={MenuProps}
+          >
+            {options.map((name) => (
+              <MenuItem key={name} value={name} style={{ backgroundColor: '#8AEAF7' }}>
+                <Checkbox checked={personName.indexOf(name) > -1} />
+                <ListItemText primary={name} style={{ backgroundColor: '#C8D5F4 ' }} />
+              </MenuItem>
+            ))}
+          </Select>
           <TextareaAutosize
             style={{ height: 200, maxWidth: 480 }}
             autoComplete="problem_desc"
             type="text"
+            required
             label="ስላጋጠመዉ ችግር አጭር መግለጫ *"
             placeholder="ስላጋጠመዉ ችግር አጭር መግለጫ  *"
             value={values.problem_desc}
             {...getFieldProps('problem_desc')}
           />
-          <div tyle={{ backgroundColor: 'red' }}>
+          <div tyle={{ backgroundColor: 'red' }} fullWidth>
             {Boolean(touched.problem_desc && errors.problem_desc)}
             {touched.problem_desc && errors.problem_desc}
           </div>

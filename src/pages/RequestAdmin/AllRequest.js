@@ -242,10 +242,7 @@ export default function AllRequest() {
                             <TableCell align="left">{row.Assignedby}</TableCell>
                             <TableCell align="left">{row.assignedDate}</TableCell>
                             <TableCell align="left">{row.finishedDate}</TableCell>
-                            <TableCell align="left">
-                              {row.status}
-                              {row.request_id}
-                            </TableCell>
+                            <TableCell align="left">{row.status}</TableCell>
                             <TableCell align="right">
                               <LoadingButton
                                 fullWidth

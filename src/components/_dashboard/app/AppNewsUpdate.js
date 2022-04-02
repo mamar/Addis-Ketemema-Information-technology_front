@@ -99,13 +99,14 @@ export default function AppNewsUpdate() {
         </Stack>
       </Scrollbar>
       <Divider />
-      <Box sx={{ p: 2, textAlign: 'right' }}>
+      <Box sx={{ p: 2, textAlign: 'right' }} style={{ backgroundColor: '#CEBBF3 ' }}>
         <Button
           to="/dashboard/NewRequest"
           size="small"
           color="inherit"
           component={RouterLink}
           endIcon={<Icon icon={arrowIosForwardFill} />}
+          style={{ backgroundColor: '#CEBBF3 ' }}
         >
           View all
         </Button>
