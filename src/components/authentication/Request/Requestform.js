@@ -25,7 +25,7 @@ const MenuProps = {
     }
   }
 };
-/* const options = [
+const options = [
   {
     label: 'ኮምፒዩተር',
     value: 'Computer',
@@ -36,14 +36,13 @@ const MenuProps = {
   { label: 'ሶፍትዌር', value: 'Software', style: { backgroundColor: '#8AEAF7 ' } },
   { label: 'ፎቶኮፒ', value: 'Photocpy', style: { backgroundColor: '#8AEAF7 ' } },
   { label: 'ሌላ', value: 'Others', style: { backgroundColor: '#8AEAF7 ' } }
-]; */
-const options = ['Printer', 'Computer', 'Network', 'Software', 'Photocpy', 'Others'];
-
+];
+/* const options = ['Printer', 'Computer', 'Network', 'Software', 'Photocpy', 'Others'];
+ */
 export default function RegisterForm() {
   const users = JSON.parse(localStorage.getItem('userinfo'));
   const [request, setrequest] = useState('');
   const [personName, setPersonName] = useState([]);
-  const m = [];
 
   const handleChange = (event) => {
     const {
@@ -51,7 +50,7 @@ export default function RegisterForm() {
     } = event;
     setPersonName(
       // On autofill we get a stringified value.
-      value
+      typeof value === 'string' ? value.split(',') : value
     );
   };
   const handleOnchange = (val) => {
@@ -109,9 +108,9 @@ export default function RegisterForm() {
             MenuProps={MenuProps}
           >
             {options.map((name) => (
-              <MenuItem key={name} value={name} style={{ backgroundColor: '#8AEAF7' }}>
-                <Checkbox checked={personName.indexOf(name) > -1} />
-                <ListItemText primary={name} style={{ backgroundColor: '#C8D5F4 ' }} />
+              <MenuItem key={name.value} value={name.value} style={{ backgroundColor: '#8AEAF7' }}>
+                <Checkbox checked={personName.indexOf(name.value) > -1} />
+                <ListItemText primary={name.label} style={{ backgroundColor: '#C8D5F4 ' }} />
               </MenuItem>
             ))}
           </Select>
