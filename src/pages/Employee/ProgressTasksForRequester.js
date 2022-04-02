@@ -37,11 +37,13 @@ const TABLE_HEAD = [
   { id: 'assignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
   { id: 'Status', label: 'Status', alignRight: false }
 ];
+
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex'
   }
 }));
+
 const ContentStyle = styled('div')(({ theme }) => ({
   width: '100%',
   margin: 'auto',
@@ -161,17 +163,15 @@ export default function ProgressTasksForRequester() {
         <EmployeAuth>
           <DashboardNavbarForEmployee />
         </EmployeAuth>
-
         <DashboardSidebarEmployee />
-
         <Container>
           <ContentStyle>
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
               <Typography variant="h4" gutterBottom style={{ backgroundColor: '#CD92EA' }}>
                 እባክዎ Search ማድረጊያዉን status ለመፈለግ ይጠቀሙ
               </Typography>
-              &nbsp;
             </Stack>
+
             <Card>
               <UserListToolbar
                 numSelected={selected.length}
@@ -196,7 +196,7 @@ export default function ProgressTasksForRequester() {
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => {
                           const { status } = row;
-                          const isItemSelected = selected.indexOf(row.request_id) !== -1;
+                          const isItemSelected = selected.indexOf(status) !== -1;
                           return (
                             <TableRow
                               style={{ backgroundColor: '#C7E4F9' }}
@@ -210,7 +210,7 @@ export default function ProgressTasksForRequester() {
                               <TableCell padding="checkbox">
                                 <Checkbox
                                   checked={isItemSelected}
-                                  onChange={(event) => handleClick(event, row.request_id)}
+                                  onChange={(event) => handleClick(event, status)}
                                 />
                               </TableCell>
                               <TableCell align="left">{row.user_fullname}</TableCell>
