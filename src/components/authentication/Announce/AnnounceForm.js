@@ -57,12 +57,13 @@ export default function AnnounceForm() {
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="off" onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextareaAutosize
             style={{ height: 200, maxWidth: 480 }}
             label="ማሳሰቢያ *"
             placeholder="ማሳሰቢያ *"
+            required
             value={values.anounceName}
             {...getFieldProps('anounceName')}
             error={Boolean(touched.anounceName && errors.anounceName)}

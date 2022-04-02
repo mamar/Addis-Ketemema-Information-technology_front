@@ -46,7 +46,7 @@ export default function AddSatisfaction() {
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="off" onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextField
             labelId="demo-simple-select-label"
@@ -64,6 +64,7 @@ export default function AddSatisfaction() {
             style={{ height: 200, maxWidth: 480 }}
             autoComplete="comment"
             type="text"
+            required
             label="አስተያየት * "
             placeholder="አስተያየት *"
             value={values.comment}

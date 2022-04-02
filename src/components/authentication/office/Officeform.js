@@ -15,8 +15,8 @@ import { API_URL } from '../../../pages/Constant1';
 export default function Officeform() {
   const RegisterSchema = Yup.object().shape({
     office_name: Yup.string().min(8, 'Too Short!').max(50, 'Too Long!').required('required'),
-    floor_no: Yup.string().required(' required'),
-    phone: Yup.string().required('required')
+    floor_no: Yup.number().integer().required('required').typeError('must be a valid number'),
+    phone: Yup.number().integer().required('required').typeError('must be a valid number')
   });
   const formik = useFormik({
     initialValues: {
@@ -57,11 +57,12 @@ export default function Officeform() {
   const { errors, values, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="off" onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextareaAutosize
             style={{ height: 200, maxWidth: 480 }}
             label="የፅ/ቤቱ ስም *"
+            required
             placeholder="የፅ/ቤቱ ስም *"
             value={values.office_name}
             {...getFieldProps('office_name')}

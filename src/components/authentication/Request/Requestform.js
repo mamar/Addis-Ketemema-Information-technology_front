@@ -124,10 +124,6 @@ export default function RegisterForm() {
             value={values.problem_desc}
             {...getFieldProps('problem_desc')}
           />
-          <div tyle={{ backgroundColor: 'red' }} fullWidth>
-            {Boolean(touched.problem_desc && errors.problem_desc)}
-            {touched.problem_desc && errors.problem_desc}
-          </div>
           <LoadingButton
             fullWidth
             size="large"
