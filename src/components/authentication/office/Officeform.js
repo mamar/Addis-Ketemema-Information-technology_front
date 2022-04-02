@@ -66,9 +66,12 @@ export default function Officeform() {
             placeholder="የፅ/ቤቱ ስም *"
             value={values.office_name}
             {...getFieldProps('office_name')}
-            error={Boolean(touched.office_name && errors.office_name)}
-            helperText={touched.office_name && errors.office_name}
           />
+          <p style={{ backgroundColor: 'red' }}>
+            {' '}
+            {Boolean(touched.office_name && errors.office_name)}
+            {touched.office_name && errors.office_name}
+          </p>
           <TextField
             autoComplete="floor_no"
             type="text"

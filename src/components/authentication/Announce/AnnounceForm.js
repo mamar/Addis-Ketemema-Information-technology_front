@@ -14,7 +14,7 @@ import { API_URL } from '../../../pages/Constant1';
 
 export default function AnnounceForm() {
   const RegisterSchema = Yup.object().shape({
-    anounceName: Yup.string().min(8, 'Too Short!').max(50, 'Too Long!').required('required')
+    anounceName: Yup.string().min(8, 'Too Short!').max(500, 'Too Long!').required('required')
   });
   const formik = useFormik({
     initialValues: {
@@ -69,6 +69,11 @@ export default function AnnounceForm() {
             error={Boolean(touched.anounceName && errors.anounceName)}
             helpertex={touched.anounceName && errors.anounceName}
           />
+          <p style={{ backgroundColor: 'red' }}>
+            {' '}
+            {Boolean(touched.anounceName && errors.anounceName)}
+            {touched.anounceName && errors.anounceName}
+          </p>
           <LoadingButton
             size="medium"
             type="submit"
