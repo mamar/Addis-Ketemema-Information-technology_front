@@ -40,7 +40,7 @@ const TABLE_HEAD = [
   { id: 'requestDate', label: 'የተጠየቀበት ቀን', alignRight: false },
   { id: 'Assignedby', label: 'Assigned by', alignRight: false },
   { id: 'AssignedDate', label: 'የተጀመረበት ቀን', alignRight: false },
-  { id: 'FinishedDate', label: 'ያለቀበጽ ቀን', alignRight: false },
+  { id: 'FinishedDate', label: 'ያለቀበት ቀን', alignRight: false },
   { id: 'Satisfaction', label: 'እርካታ', alignRight: false },
   { id: 'Comment', label: 'አስተያየት', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
