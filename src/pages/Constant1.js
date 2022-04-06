@@ -1,1 +1,1 @@
-export const API_URL = 'http://addis.local:900';
+export const API_URL = 'https://addis-erpp-backend.herokuapp.com';
