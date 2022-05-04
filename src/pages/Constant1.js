@@ -1,1 +1,1 @@
-export const API_URL = 'http://addis.local:900';
+export const API_URL = 'http://10.23.67.47:81';
